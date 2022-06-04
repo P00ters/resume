@@ -757,7 +757,7 @@ class CRender:
 		
 		return html
 
-	def jobs_jobs_htmlify(self, jobs, 'jobs'):
+	def jobs_jobs_htmlify(self, jobs):
 		html = self.org_htmlify(jobs['this']['org'], jobs['next']['org'], jobs['last']['org'], 'jobs', jobs['next']['id'], jobs['last']['id'])
 		html += '''
 						<div class="card" style="position:relative;width:70%;left:15%;top:-25px;z-index:0;">
@@ -884,7 +884,7 @@ class CRender:
 					</a>
 					'''
 			
-					<br>
+		html += ''' <br>
 					<div style="position:relative;width:100%;z-index=1;">
 						
 						
