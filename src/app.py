@@ -197,7 +197,7 @@ def org_by_id(org_id):
 	html = cr.render_html_head('/orgs/'+org_id)
 	html += cr.render_header(contact_dict['name'], session['name'], '/orgs', '/orgs/' + org_id, session)
 	
-	html += cr.org_htmlify(this_org['this'], this_org['next'], this_org['last'])
+	html += cr.org_htmlify(this_org['this'], this_org['next'], this_org['last'], 'orgs', None, None)
 	html += '''	</div>
 			</div>
 			</body></html>'''
