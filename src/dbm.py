@@ -129,46 +129,46 @@ class DBM:
 			self.execute_d(query, data)
 			
 		query = """INSERT INTO 'Skills'
-					('id', 'name', 'exposure', 'soft_or_hard', 'reference', 'icon', 'category', 'created_by') VALUES
-					(?, ?, ?, ?, ?, ?, ?, ?);"""
+					('id', 'name', 'exposure', 'soft_or_hard', 'reference', 'icon', 'category', 'created_by', desc, desc_long) VALUES
+					(?, ?, ?, ?, ?, ?, ?, ?, ?, ?);"""
 					
 		skilldata = 	[
-							["Programming", 7, 1, "https://en.wikipedia.org/wiki/Computer_programming", "static/programming-ico.png", "Programming/Scripting Languages"],
-							["Scripting", 7, 1, "https://www.geeksforgeeks.org/introduction-to-scripting-languages/", "static/scripting-ico.png", "Programming/Scripting Languages"],
-							["C", 7, 1, "https://en.wikipedia.org/wiki/C_(programming_language)", "static/c-ico.png", "Programming/Scripting Languages"],
+							["Programming", 7, 1, "https://en.wikipedia.org/wiki/Computer_programming", "static/programming-ico.png", "Programming/Scripting Languages", "", ""],
+							["Scripting", 7, 1, "https://www.geeksforgeeks.org/introduction-to-scripting-languages/", "static/scripting-ico.png", "Programming/Scripting Languages", "", ""],
+							["C", 7, 1, "https://en.wikipedia.org/wiki/C_(programming_language)", "static/c-ico.png", "Programming/Scripting Languages", "", ""],
 							["C#", 9, 1, "https://en.wikipedia.org/wiki/C_Sharp_(programming_language)",
-							"static/csharp-ico.png", "Programming/Scripting Languages"],
+							"static/csharp-ico.png", "Programming/Scripting Languages", "", ""],
 							["Java", 8, 1, "https://en.wikipedia.org/wiki/Java_%28programming_language%29",
-							"static/java-ico.png", "Programming/Scripting Languages"],
-							["Python", 9, 1, "https://en.wikipedia.org/wiki/Python_(programming_language)", "static/python-ico.png", "Programming/Scripting Languages"],
-							["SQL", 7, 1, "https://en.wikipedia.org/wiki/SQL", "static/sql-ico.png", "Programming/Scripting Languages"],
-							["Powershell", 8, 1, "https://en.wikipedia.org/wiki/PowerShell", "static/powershell-ico.png", "Programming/Scripting Languages"],
-							["C++", 5, 1, "https://en.wikipedia.org/wiki/C++", "static/cpp-ico.png", "Programming/Scripting Languages"],
-							["JavaScript", 6, 1, "https://en.wikipedia.org/wiki/JavaScript", "static/js-ico.png", "Programming/Scripting Languages"],
-							["PHP", 5, 1, "https://en.wikipedia.org/wiki/PHP", "static/php-ico.png", "Programming/Scripting Languages"],
-							["HTML", 6, 1, "https://en.wikipedia.org/wiki/HTML", "static/html-ico.png", "Programming/Scripting Languages"],
-							["CSS", 6, 1, "https://en.wikipedia.org/wiki/CSS", "static/css-ico.png", "Programming/Scripting Languages"],
-							["LaTeX", 5, 1, "https://en.wikipedia.org/wiki/LaTeX", "static/latex-ico.png", "Programming/Scripting Languages"],
-							["Ruby", 3, 1, "https://en.wikipedia.org/wiki/Ruby_(programming_language)", "static/ruby-ico.png", "Programming/Scripting Languages"],
-							["Go", 4, 1, "https://en.wikipedia.org/wiki/Go_(programming_language)", "static/go-ico.png", "Programming/Scripting Languages"],
-							["Rust", 2, 1, "https://en.wikipedia.org/wiki/Rust_(programming_language)#:~:text=Rust%20is%20a%20multi-paradigm%20programming%20language%20designed%20for,without%20garbage%20collection%2C%20and%20reference%20counting%20is%20optional.", "static/rust-ico.png", "Programming/Scripting Languages"],
-							["Bash", 4, 1, "https://en.wikipedia.org/wiki/Bash_(Unix_shell)", "static/bash-ico.png", "Programming/Scripting Languages"],
-							[".NET", 6, 1, "https://en.wikipedia.org/wiki/.NET_Framework", "static/dotnet-ico.png", "Frameworks"],
-							["Bootstrap", 5, 1, "https://en.wikipedia.org/wiki/Bootstrap_(front-end_framework)", "static/bootstrap-ico.png", "Frameworks"],
-							["Selenium", 7, 1, "https://en.wikipedia.org/wiki/Selenium_(software)", "static/selenium-ico.png", "Frameworks"],
-							["Ruby on Rails", 2, 1, "https://en.wikipedia.org/wiki/Ruby_on_Rails", "static/rails-ico.png", "Frameworks"],
-							["Django", 3, 1, "https://en.wikipedia.org/wiki/Django_(web_framework)", "static/django-ico.png", "Frameworks"],
-							["JQuery", 3, 1, "https://en.wikipedia.org/wiki/JQuery", "static/jquery-ico.png", "Frameworks"],
-							["Unity Engine", 5, 1, "https://en.wikipedia.org/wiki/Unity_(game_engine)", "static/unity-ico.png", "Frameworks"],
-							["Keras", 2, 1, "https://en.wikipedia.org/wiki/Keras", "static/keras-ico.png", "Frameworks"],
-							["Data Structures", 7, 1, "https://en.wikipedia.org/wiki/Data_structure", "static/datastructures-ico.png", "Theoretical Knowledge"],
-							["Algorithm Analysis", 7, 1, "https://en.wikipedia.org/wiki/Analysis_of_algorithms", "static/aa-ico.png", "Theoretical Knowledge"]
+							"static/java-ico.png", "Programming/Scripting Languages", "", ""],
+							["Python", 9, 1, "https://en.wikipedia.org/wiki/Python_(programming_language)", "static/python-ico.png", "Programming/Scripting Languages", "", ""],
+							["SQL", 7, 1, "https://en.wikipedia.org/wiki/SQL", "static/sql-ico.png", "Programming/Scripting Languages", "", ""],
+							["Powershell", 8, 1, "https://en.wikipedia.org/wiki/PowerShell", "static/powershell-ico.png", "Programming/Scripting Languages", "", ""],
+							["C++", 5, 1, "https://en.wikipedia.org/wiki/C++", "static/cpp-ico.png", "Programming/Scripting Languages", "", ""],
+							["JavaScript", 6, 1, "https://en.wikipedia.org/wiki/JavaScript", "static/js-ico.png", "Programming/Scripting Languages", "", ""],
+							["PHP", 5, 1, "https://en.wikipedia.org/wiki/PHP", "static/php-ico.png", "Programming/Scripting Languages", "", ""],
+							["HTML", 6, 1, "https://en.wikipedia.org/wiki/HTML", "static/html-ico.png", "Programming/Scripting Languages", "", ""],
+							["CSS", 6, 1, "https://en.wikipedia.org/wiki/CSS", "static/css-ico.png", "Programming/Scripting Languages", "", ""],
+							["LaTeX", 5, 1, "https://en.wikipedia.org/wiki/LaTeX", "static/latex-ico.png", "Programming/Scripting Languages", "", ""],
+							["Ruby", 3, 1, "https://en.wikipedia.org/wiki/Ruby_(programming_language)", "static/ruby-ico.png", "Programming/Scripting Languages", "", ""],
+							["Go", 4, 1, "https://en.wikipedia.org/wiki/Go_(programming_language)", "static/go-ico.png", "Programming/Scripting Languages", "", ""],
+							["Rust", 2, 1, "https://en.wikipedia.org/wiki/Rust_(programming_language)#:~:text=Rust%20is%20a%20multi-paradigm%20programming%20language%20designed%20for,without%20garbage%20collection%2C%20and%20reference%20counting%20is%20optional.", "static/rust-ico.png", "Programming/Scripting Languages", "", ""],
+							["Bash", 4, 1, "https://en.wikipedia.org/wiki/Bash_(Unix_shell)", "static/bash-ico.png", "Programming/Scripting Languages", "", ""],
+							[".NET", 6, 1, "https://en.wikipedia.org/wiki/.NET_Framework", "static/dotnet-ico.png", "Frameworks", "", ""],
+							["Bootstrap", 5, 1, "https://en.wikipedia.org/wiki/Bootstrap_(front-end_framework)", "static/bootstrap-ico.png", "Frameworks", "", ""],
+							["Selenium", 7, 1, "https://en.wikipedia.org/wiki/Selenium_(software)", "static/selenium-ico.png", "Frameworks", "", ""],
+							["Ruby on Rails", 2, 1, "https://en.wikipedia.org/wiki/Ruby_on_Rails", "static/rails-ico.png", "Frameworks", "", ""],
+							["Django", 3, 1, "https://en.wikipedia.org/wiki/Django_(web_framework)", "static/django-ico.png", "Frameworks", "", ""],
+							["JQuery", 3, 1, "https://en.wikipedia.org/wiki/JQuery", "static/jquery-ico.png", "Frameworks", "", ""],
+							["Unity Engine", 5, 1, "https://en.wikipedia.org/wiki/Unity_(game_engine)", "static/unity-ico.png", "Frameworks", "", ""],
+							["Keras", 2, 1, "https://en.wikipedia.org/wiki/Keras", "static/keras-ico.png", "Frameworks", "", ""],
+							["Data Structures", 7, 1, "https://en.wikipedia.org/wiki/Data_structure", "static/datastructures-ico.png", "Theoretical Knowledge", "", ""],
+							["Algorithm Analysis", 7, 1, "https://en.wikipedia.org/wiki/Analysis_of_algorithms", "static/aa-ico.png", "Theoretical Knowledge", "", ""]
 						]
 						
 		for i in range(len(skilldata)):
 			id = self.genid()
 			skilldata[i].append(id)
-			data = (id, skilldata[i][0], skilldata[i][1], skilldata[i][2], skilldata[i][3], self.imgtobin(skilldata[i][4]), skilldata[i][5], cb)
+			data = (id, skilldata[i][0], skilldata[i][1], skilldata[i][2], skilldata[i][3], self.imgtobin(skilldata[i][4]), skilldata[i][5], cb, skilldata[i][6], skilldata[i][7])
 			self.execute_d(query, data)
 
 		query = """INSERT INTO 'Orgs'

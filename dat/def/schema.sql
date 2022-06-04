@@ -19,7 +19,7 @@ CREATE TABLE Jobs
 	FOREIGN KEY(created_by) REFERENCES Accounts(id));
 CREATE TABLE Skills
 	(id TEXT PRIMARY KEY, name TEXT NOT NULL UNIQUE, exposure INTEGER NOT NULL, 
-	soft_or_hard INTEGER NOT NULL, reference TEXT, icon BLOB, category TEXT NOT NULL, 
+	soft_or_hard INTEGER NOT NULL, reference TEXT, icon BLOB, category TEXT NOT NULL, desc TEXT NOT NULL, desc_long TEXT NOT NULL,
 	created_by TEXT NOT NULL, 
 	FOREIGN KEY(created_by) REFERENCES Accounts(id));
 CREATE TABLE Contact
