@@ -757,8 +757,8 @@ class CRender:
 		
 		return html
 
-	def jobs_jobs_htmlify(self, jobs):
-		html = self.org_htmlify(jobs['this']['org'], jobs['next']['org'], jobs['last']['org'])
+	def jobs_jobs_htmlify(self, jobs, 'jobs'):
+		html = self.org_htmlify(jobs['this']['org'], jobs['next']['org'], jobs['last']['org'], 'jobs', jobs['next']['id'], jobs['last']['id'])
 		html += '''
 						<div class="card" style="position:relative;width:70%;left:15%;top:-25px;z-index:0;">
 							<div class="card-header">
@@ -804,7 +804,7 @@ class CRender:
 		return html
 
 	def edus_edus_htmlify(self, edus):
-		html = self.org_htmlify(edus['this']['org'], edus['next']['org'], edus['last']['org'])
+		html = self.org_htmlify(edus['this']['org'], edus['next']['org'], edus['last']['org'], 'edus', edus['next']['id'], edus['last']['id'])
 		html += '''
 						<div class="card" style="position:relative;width:70%;left:15%;top:-25px;z-index:0;">
 							<div class="card-header">
@@ -847,7 +847,7 @@ class CRender:
 
 		return html
 
-	def org_htmlify(self, org, next, last):
+	def org_htmlify(self, org, next, last, t, next_id, last_id):
 		logo = "data:image/png;base64,"
 		logo += org['logo'].decode('utf-8')
 		head = "data:image/png;base64,"
@@ -855,12 +855,35 @@ class CRender:
 
 		html = '''<div class="jumbotron">
 					<img src="'''+head+'''" style="position:relative;width:70%;left:15%;z-index:0;max-height:25%;"/>
+					'''
+		if t == 'orgs':
+			html += '''
 					<a href="/orgs/'''+next['id']+'''">
 						<img src="/static/r-arr.png" width="75" height="75" style="position:relative;left:17.5%;"/>
 					</a>
 					<a href="/orgs/'''+last['id']+'''">
 						<img src="/static/l-arr.png" width="75" height="75" style="position:relative;left:-67.5%;"/>
 					</a>
+					'''
+		elif t == 'jobs':
+			html += '''
+					<a href="/jobs/'''+next_id+'''">
+						<img src="/static/r-arr.png" width="75" height="75" style="position:relative;left:17.5%;"/>
+					</a>
+					<a href="/jobs/'''+last_id+'''">
+						<img src="/static/l-arr.png" width="75" height="75" style="position:relative;left:-67.5%;"/>
+					</a>
+					'''
+		elif t == 'edus':
+			html += '''
+					<a href="/edus/'''+next_id+'''">
+						<img src="/static/r-arr.png" width="75" height="75" style="position:relative;left:17.5%;"/>
+					</a>
+					<a href="/edus/'''+last_id+'''">
+						<img src="/static/l-arr.png" width="75" height="75" style="position:relative;left:-67.5%;"/>
+					</a>
+					'''
+			
 					<br>
 					<div style="position:relative;width:100%;z-index=1;">
 						
