@@ -70,6 +70,14 @@ def reauthenticate():
 			session['gid'] = None
 		
 	session['auth_key'] = get_sesh_key(session['gid'])
+	app.config['PERMANENT_SESSION_LIFETIME'] = datetime.timedelta(days=7)
+	session.permanent = True
+	
+	platform = request.user_agent.platform
+	if platform == 'iphone' or platform == 'android':
+		session['mobile'] = True
+	else:
+		session['mobile'] = False
 	
 	r = request.args.get('r')
 	if r != None:
@@ -89,71 +97,12 @@ def home():
 	
 	html = cr.render_html_head('/home')
 	html += cr.render_header(contact_dict['name'], session['name'], '/', '/home', session)
-	html += '''
-				<div style="background-color:#c6bc24;position:relative;width:100%;">
-					<h1 style="position:absolute;left:50%;top:30%;color:white;font-size:55px;">'''+contact_dict['name']+'''</h1>
-					
-					<div style="position:absolute;left:50%;top:55%;z-index:2;">
-						<img src="/static/Addr.png" width="35" height=35" style="display:inline;" />
-						<h4 style="display:inline;position:relative;top:5px;left:5px;">
-							<a href="'''+contact_dict['address']['uri']+'''" style="color:white;">'''+contact_dict['address']['name']+'''</a>
-						</h4>
-					</div>
-					
-					<div style="position:absolute;left:50%;top:67.5%;z-index:2;">
-						<img src="/static/Phone.png" width="35" height=35" style="display:inline;" />
-						<h4 style="display:inline;padding-left:5px;position:relative;top:5px;">
-						<a href="'''+cr.telelink(contact_dict['phone1'])+'''" style="color:white;">'''+cr.teleformat(contact_dict['phone1'])+'''</a></h4>
-						<img src="/static/Phone.png" width="35" height=35" style="display:inline;position:relative;left:50px;" />
-						<h4 style="display:inline;padding-left:5px;position:relative;left:50px;top:5px;">
-						<a href="'''+cr.telelink(contact_dict['phone2'])+'''" style="color:white;">'''+cr.teleformat(contact_dict['phone2'])+'''</a></h4>
-					</div>
-					
-					<div style="position:absolute;left:50%;top:80%;z-index:2;">
-						<img src="/static/Mail.png" width="35" height=35" style="display:inline;" />
-						<h4 style="display:inline;position:relative;top:5px;left:5px;">
-							<a href="mailto:'''+contact_dict['email']+'''" style="color:white;">'''+contact_dict['email']+'''</a>
-						</h4>
-					</div>
-						
-					<img src="/static/HeaderAnim.gif" style="position:relative;width:100%;"/>
-					
-				</div>
-				<br>
-
-				<div class="row" style="overflow:hidden;">
-					<div class="col-sm-5" style="padding-left:40px;">
-						<h2 class="mb-4">Objective</h2>
-							<div class="card w-75">
-								<div class="card-body">
-									'''+contact_dict['objective']+'''
-								</div>
-							</div>
-						<br>
-						<h2 class="mb-4">Education</h2>'''
-	for edu in edus_dict:
-		html += cr.home_edu_htmlify(edu)
-	html+=			'''
-					<span style="display:inline-block;border-left:1px solid #ccc;height:100%;position:relative;top:-100%;left:90%;"></span>
-					</div>
-					
-					<div class="col-sm-7">
-						<div class="row">
-							<div class="col-sm-8">
-								<h2 class="mb-4">Experience</h2>
-							</div>
-							<div class="col-sm-1">'''
-	if session.get('auth_key') != cr.auth_keys['Readers']:
-		html +=				'''<button type="button" class="btn btn-secondary btn-lg btn-block">+</button>'''
-	html +=					'''</div>
-						</div>'''
-	for job in jobs_dict:
-		html += cr.home_job_htmlify(job)
-				
-	html +=		'''</div>
-				</div>
-			</body>
-		</html>'''
+	
+	
+	html += cr.home_home_htmlify(contact_dict, edus_dict, jobs_dict, session)
+	
+	
+	
 	return html
 
 @app.route('/jobs/<string:job_id>')

@@ -662,6 +662,144 @@ class CRender:
 		HTML Conversion Methods
 	"""
 	
+	def home_home_htmlify(self, contact_dict, edus_dict, jobs_dict, session):
+		html = ""
+		if not session['mobile']:
+			html += '''
+				<div style="background-color:#c6bc24;position:relative;width:100%;">
+					<h1 style="position:absolute;left:50%;top:30%;color:white;font-size:55px;">'''+contact_dict['name']+'''</h1>
+					
+					<div style="position:absolute;left:50%;top:55%;z-index:2;">
+						<img src="/static/Addr.png" width="35" height=35" style="display:inline;" />
+						<h4 style="display:inline;position:relative;top:5px;left:5px;">
+							<a href="'''+contact_dict['address']['uri']+'''" style="color:white;">'''+contact_dict['address']['name']+'''</a>
+						</h4>
+					</div>
+					
+					<div style="position:absolute;left:50%;top:67.5%;z-index:2;">
+						<img src="/static/Phone.png" width="35" height=35" style="display:inline;" />
+						<h4 style="display:inline;padding-left:5px;position:relative;top:5px;">
+						<a href="'''+self.telelink(contact_dict['phone1'])+'''" style="color:white;">'''+self.teleformat(contact_dict['phone1'])+'''</a></h4>
+						<img src="/static/Phone.png" width="35" height=35" style="display:inline;position:relative;left:50px;" />
+						<h4 style="display:inline;padding-left:5px;position:relative;left:50px;top:5px;">
+						<a href="'''+self.telelink(contact_dict['phone2'])+'''" style="color:white;">'''+self.teleformat(contact_dict['phone2'])+'''</a></h4>
+					</div>
+					
+					<div style="position:absolute;left:50%;top:80%;z-index:2;">
+						<img src="/static/Mail.png" width="35" height=35" style="display:inline;" />
+						<h4 style="display:inline;position:relative;top:5px;left:5px;">
+							<a href="mailto:'''+contact_dict['email']+'''" style="color:white;">'''+contact_dict['email']+'''</a>
+						</h4>
+					</div>
+						
+					<img src="/static/HeaderAnim.gif" style="position:relative;width:100%;"/>
+					
+				</div>
+				<br>'''
+			html +='''	<div class="row" style="overflow:hidden;">
+					<div class="col-sm-5" style="padding-left:40px;">
+						<h2 class="mb-4">Objective</h2>
+							<div class="card w-75">
+								<div class="card-body">
+									'''+contact_dict['objective']+'''
+								</div>
+							</div>
+						<br>
+						<h2 class="mb-4">Education</h2>'''
+			for edu in edus_dict:
+				html += self.home_edu_htmlify(edu)
+			html+=			'''
+					<span style="display:inline-block;border-left:1px solid #ccc;height:100%;position:relative;top:-100%;left:90%;"></span>
+					</div>
+					
+					<div class="col-sm-7">
+						<div class="row">
+							<div class="col-sm-8">
+								<h2 class="mb-4">Experience</h2>
+							</div>
+							<div class="col-sm-1">'''
+			if session.get('auth_key') != self.auth_keys['Readers']:
+				html +=	'''<button type="button" class="btn btn-secondary btn-lg btn-block">+</button>'''
+			html +=					'''</div>
+								</div>'''
+			for job in jobs_dict:
+				html += self.home_job_htmlify(job)
+				
+			html +=		'''</div>
+						</div>
+					</body>
+				</html>'''
+			
+		else:
+			html += '''
+				<div style="background-color:#c6bc24;position:relative;width:100%;">					
+					<img src="/static/HeaderAnim.gif" style="position:relative;width:100%;"/>	
+				</div>
+				<div class="row" style="overflow:hidden;">
+					<div class="col-sm-5" style="padding-left:40px;">
+						<div class="card">
+							<div class="card-header">
+								<h2>Contact Information</h2>
+							</div>
+							<div class="card-body">
+								<ul class="list-group list-group-flush">
+									<li class="list-group-item">
+										<h5>'''+contact_dict['name']+'''</h5>
+									</li>
+									<li class="list-group-item">
+										<div class="col-sm-4">
+											<a href="'''+self.telelink(contact_dict['phone1'])+'''">'''+self.teleformat(contact_dict['phone1'])+'''</a>
+										</div>
+										<div class="col-sm-4">
+											<a href="'''+self.telelink(contact_dict['phone2'])+'''">'''+self.teleformat(contact_dict['phone2'])+'''</a>
+										</div>
+										<div class="col-sm-4">
+											<a href="mailto:'''+contact_dict['email']+'''">'''+contact_dict['email']+'''</a>
+										</div>
+									</li>
+									<li class="list-group-item">
+										<a href="'''+contact_dict['address']['uri']+'''" style="color:white;">'''+contact_dict['address']['name']+'''</a>
+									</li>
+								</ul>
+							</div>
+					</div>
+				</div>
+				<br>'''
+			html +='''	<div class="row" style="overflow:hidden;">
+					<div class="col-sm-5" style="padding-left:20px;">
+						<h2 class="mb-4">Objective</h2>
+							<div class="card w-75">
+								<div class="card-body">
+									'''+contact_dict['objective']+'''
+								</div>
+							</div>
+						<br>
+						<h2 class="mb-4">Education</h2>'''
+			for edu in edus_dict:
+				html += self.home_edu_htmlify(edu)
+			html+=			'''
+					<span style="display:inline-block;border-left:1px solid #ccc;height:100%;position:relative;top:-100%;left:90%;"></span>
+					</div>
+					
+					<div class="row">
+						<div class="col-sm-8">
+							<h2 class="mb-4">Experience</h2>
+						</div>
+						<div class="col-sm-1">'''
+			if session.get('auth_key') != self.auth_keys['Readers']:
+				html +=	'''<button type="button" class="btn btn-secondary btn-lg btn-block">+</button>'''
+			html +=					'''</div>
+								</div>'''
+			for job in jobs_dict:
+				html += self.home_job_htmlify(job)
+				
+			html +=		'''</div>
+					</body>
+				</html>'''
+		
+		return html
+			
+	
 	def home_job_htmlify(self, job):
 		src = "data:image/png;base64,"
 		src += job['org']['logo'].decode('utf-8')

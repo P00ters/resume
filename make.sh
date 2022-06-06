@@ -5,4 +5,5 @@ python3 -m virtualenv venv
 chmod +x venv/bin/activate
 source venv/bin/activate
 python3 -m pip install flask
+python -m pip install Flask-Mobility
 deactivate
