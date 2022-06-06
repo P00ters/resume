@@ -337,7 +337,7 @@ class CRender:
 							'skills': row[13],
 						}
 						
-				skills = row[7].split(',')
+				skills = row[13].split(',')
 				if len(skills) > 0:
 					query = 'SELECT id, name, exposure, soft_or_hard, reference, icon, category FROM Skills WHERE '
 					for i in range(len(skills)):
@@ -345,6 +345,7 @@ class CRender:
 							query += 'id="' + skills[i] + '" OR '
 						else:
 							query += 'id="' + skills[i] + '";'
+					print(query)
 					result = self.dbm.execute(query)
 					if result != None:
 						result = self.dbm.cur.fetchall()
@@ -1283,6 +1284,30 @@ class CRender:
 											<p>Complete population of pre-existing resume data into data store for any missing data.</p>
 											<div style="padding-left:10px;position:relative;top:3px;">
 												<span class="badge badge-pill badge-info">In Progress</span>
+											</div>
+										</div>
+										<div class="row" style="padding-left:45px;">
+											<p>Add all hard skills.</p>
+											<div style="padding-left:10px;position:relative;top:3px;">
+												<span class="badge badge-pill badge-success">Completed</span>
+											</div>
+										</div>
+										<div class="row" style="padding-left:45px;">
+											<p>Add all soft skills.</p>
+											<div style="padding-left:10px;position:relative;top:3px;">
+												<span class="badge badge-pill badge-info">In Progress</span>
+											</div>
+										</div>
+										<div class="row" style="padding-left:45px;">
+											<p>Add skill commentary.</p>
+											<div style="padding-left:10px;position:relative;top:3px;">
+												<span class="badge badge-pill badge-warning">Up Next</span>
+											</div>
+										</div>
+										<div class="row" style="padding-left:45px;">
+											<p>Add long descriptions to education and work experience.</p>
+											<div style="padding-left:10px;position:relative;top:3px;">
+												<span class="badge badge-pill badge-warning">Up Next</span>
 											</div>
 										</div>
 										<div class="row" style="padding-left:15px;">
