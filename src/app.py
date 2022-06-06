@@ -140,7 +140,7 @@ def home():
 					<div class="col-sm-7">
 						<div class="row">
 							<div class="col-sm-8">
-								<h2 class="mb-4">Work Experience</h2>
+								<h2 class="mb-4">Experience</h2>
 							</div>
 							<div class="col-sm-1">'''
 	if session.get('auth_key') != cr.auth_keys['Readers']:

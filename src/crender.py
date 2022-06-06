@@ -3,6 +3,7 @@ import base64
 import binascii
 import codecs
 import hashlib
+import random
 import sqlite3
 import uuid
 import datetime
@@ -622,7 +623,38 @@ class CRender:
 						'desc_long': row[8]
 					}
 				this_skill['similar'].append(s)
+		random.shuffle(this_skill['similar'])
 				
+		query1 = '''SELECT Jobs.id, Jobs.title, Orgs.id, Orgs.name, Orgs.logo, Jobs.skill_ids
+					FROM Jobs, Orgs
+					WHERE Jobs.org_id = Orgs.id;'''
+		query2 = '''SELECT Education.id, Education.degree, Orgs.id, Orgs.name, Orgs.logo, Education.skill_ids
+					FROM Education, Orgs
+					WHERE Education.org = Orgs.id;'''
+		
+		appears_in = [[], []]
+		result = self.dbm.execute(query1)
+		if result != None:
+			result = self.dbm.cur.fetchall()
+			if len(result) > 0:
+				for row1 in result:
+					skilllist = row1[5]
+					skills = skilllist.split(',')
+					if id in skills:
+						this = { 'id': row1[0], 'title': row1[1], 'org': { 'id': row1[2], 'name': row1[3], 'logo': row1[4] } }
+						appears_in[0].append(this)
+		result = self.dbm.execute(query2)
+		if result != None:
+			result = self.dbm.cur.fetchall()
+			if len(result) > 0:
+				for row2 in result:
+					skilllist = row2[5]
+					skills = skilllist.split(',')
+					if id in skills:
+						this = {'id': row2[0], 'degree': row2[1], 'org': { 'id': row2[2], 'name': row2[3], 'logo': row2[4] } }
+						appears_in[1].append(this)
+		
+		this_skill['appears_in'] = appears_in
 		this_skill['similar'] = this_skill['similar'][-6:]
 		return this_skill
 
@@ -1085,6 +1117,47 @@ class CRender:
 						'''	
 		html += 							'''</div>
 											</li>
+											<li class="list-group-item">
+												<div class="row">
+													<h5>Exposed In</h5>
+												</div>'''
+		if (len(skill['appears_in'][0]) == 0 and len(skill['appears_in'][1]) == 0):										
+			html += '<div class="row"><i>No appearances in education or work experiences</i></div>'
+		else:
+			if len(skill['appears_in'][0]) > 0:
+				html += '<div class="row"><div class="col-sm-12"><h6>Work Experiences</h6></div></div><div class="row">'
+				for s in skill['appears_in'][0]:
+					img = "data:image/png;base64," + s['org']['logo'].decode('utf-8')
+					html += '''
+									<div class="col-sm-6">
+										<span style="display:inline;">
+											<a href="/jobs/'''+s['id']+'''">
+												<img src="'''+img+'''" width="25" height="25" />
+												'''+s['org']['name']+''' - 
+												'''+s['title']+'''
+											</a>
+										</span>
+									</div>
+								'''
+				html += '</div>'
+			if len(skill['appears_in'][1]) > 0:
+				html += '<div class="row"><div class="col-sm-12"><h6>Education</h6></div></div><div class="row">'
+				for s in skill['appears_in'][1]:
+					img = "data:image/png;base64," + s['org']['logo'].decode('utf-8')
+					html += '''
+									<div class="col-sm-6">
+										<span style="display:inline;">
+											<a href="/edus/'''+s['id']+'''">
+												<img src="'''+img+'''" width="25" height="25" />
+												'''+s['org']['name']+''' - 
+												'''+s['degree']+'''
+											</a>
+										</span>
+									</div>
+								'''
+				html += '</div>'
+		html += '''
+											</li>
 										</ul>
 									</div>
 								</div>
@@ -1295,7 +1368,7 @@ class CRender:
 										<div class="row" style="padding-left:45px;">
 											<p>Add all soft skills.</p>
 											<div style="padding-left:10px;position:relative;top:3px;">
-												<span class="badge badge-pill badge-info">In Progress</span>
+												<span class="badge badge-pill badge-success">Completed</span>
 											</div>
 										</div>
 										<div class="row" style="padding-left:45px;">
@@ -1307,7 +1380,7 @@ class CRender:
 										<div class="row" style="padding-left:45px;">
 											<p>Add long descriptions to education and work experience.</p>
 											<div style="padding-left:10px;position:relative;top:3px;">
-												<span class="badge badge-pill badge-warning">Up Next</span>
+												<span class="badge badge-pill badge-info">In Progress</span>
 											</div>
 										</div>
 										<div class="row" style="padding-left:15px;">
@@ -1318,6 +1391,12 @@ class CRender:
 										</div>
 										<div class="row" style="padding-left:15px;">
 											<p>Extend compatibility by implementing independent view controllers for mobile platforms.</p>
+											<div style="padding-left:10px;position:relative;top:3px;">
+												<span class="badge badge-pill badge-info">In Progress</span>
+											</div>
+										</div>
+										<div class="row" style="padding-left:15px;">
+											<p>Implement Jenkins pipelines for new feature additions once base functions are established.</p>
 											<div style="padding-left:10px;position:relative;top:3px;">
 												<span class="badge badge-pill badge-warning">Up Next</span>
 											</div>
