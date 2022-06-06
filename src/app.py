@@ -19,7 +19,7 @@ def get_keys():
 		keys = {}
 		for row in result:
 			keys[row[1]] = row[2]
-		return keys				
+		return keys
 	else:
 		exit('Unable to load authorizations table.')
 
@@ -54,7 +54,7 @@ def reauthenticate():
 	if (session.get('username') == None):
 		session['username'] = 'guest'
 		session['name'] = 'Guest'
-		
+
 		query = 'SELECT id, group_id FROM Accounts WHERE username="guest";'
 		result = dbm.execute(query)
 		if result != None:
@@ -68,24 +68,25 @@ def reauthenticate():
 		else:
 			session['uid'] = None
 			session['gid'] = None
-		
+
 	session['auth_key'] = get_sesh_key(session['gid'])
 	app.config['PERMANENT_SESSION_LIFETIME'] = datetime.timedelta(days=7)
 	session.permanent = True
-	
-	platform = request.user_agent.platform
-	if platform == 'iphone' or platform == 'android':
+
+	platform = request.user_agent
+	print(request.user_agent)
+	if 'iPhone' in str(platform) or 'android' in str(platform):
 		session['mobile'] = True
 	else:
 		session['mobile'] = False
-	
+
 	r = request.args.get('r')
 	if r != None:
 		r = r.replace('_', '/')
 		return redirect(r)
 	else:
 		return redirect('/home')
-	
+
 @app.route('/home')
 def home():
 	if session.get('username') == None:
@@ -94,15 +95,15 @@ def home():
 	contact_dict = cr.home_contact_query()
 	jobs_dict = cr.home_jobs_query()
 	edus_dict = cr.home_edu_query()
-	
-	html = cr.render_html_head('/home')
+
+	html = cr.render_html_head('/home', session['mobile'])
 	html += cr.render_header(contact_dict['name'], session['name'], '/', '/home', session)
-	
-	
+
+
 	html += cr.home_home_htmlify(contact_dict, edus_dict, jobs_dict, session)
-	
-	
-	
+
+
+
 	return html
 
 @app.route('/jobs/<string:job_id>')
@@ -113,10 +114,10 @@ def job_by_id(job_id):
 	this_job = cr.jobs_jobs_query(job_id)
 	contact_dict = cr.home_contact_query()
 
-	html = cr.render_html_head('/jobs/'+job_id)
+	html = cr.render_html_head('/jobs/'+job_id, session['mobile'])
 	html += cr.render_header(contact_dict['name'], session['name'], '/jobs', '/jobs/' + job_id, session)
-	
-	html += cr.jobs_jobs_htmlify(this_job)
+
+	html += cr.jobs_jobs_htmlify(this_job, session['mobile'])
 	html += "</body></html>"
 	return html
 
@@ -127,11 +128,11 @@ def edu_by_id(edu_id):
 
 	this_edu = cr.edus_edus_query(edu_id)
 	contact_dict = cr.home_contact_query()
-	
-	html = cr.render_html_head('/edus/'+edu_id)
+
+	html = cr.render_html_head('/edus/'+edu_id, session['mobile'])
 	html += cr.render_header(contact_dict['name'], session['name'], '/edus', '/edus/' + edu_id, session)
-	
-	html += cr.edus_edus_htmlify(this_edu)
+
+	html += cr.edus_edus_htmlify(this_edu, session['mobile'])
 	html += "</body></html>"
 	return html
 
@@ -139,33 +140,33 @@ def edu_by_id(edu_id):
 def org_by_id(org_id):
 	if session.get('username') == None:
 		return redirect('/reauth?r=_orgs_' + org_id)
-		
+
 	this_org = cr.orgs_orgs_query(org_id)
 	contact_dict = cr.home_contact_query()
-	
-	html = cr.render_html_head('/orgs/'+org_id)
+
+	html = cr.render_html_head('/orgs/'+org_id, session['mobile'])
 	html += cr.render_header(contact_dict['name'], session['name'], '/orgs', '/orgs/' + org_id, session)
-	
-	html += cr.org_htmlify(this_org['this'], this_org['next'], this_org['last'], 'orgs', None, None)
+
+	html += cr.org_htmlify(this_org['this'], this_org['next'], this_org['last'], 'orgs', None, None, session['mobile'])
 	html += '''	</div>
 			</div>
 			</body></html>'''
-	
+
 	return html
 
 @app.route('/skills/<string:skill_id>')
 def skill_by_id(skill_id):
 	if session.get('username') == None:
 		return redirect('/reauth?r=_skills_' + skill_id)
-		
+
 	this_skill = cr.skills_skills_query(skill_id)
 	contact_dict = cr.home_contact_query()
-	
-	html = cr.render_html_head('/skills/'+skill_id)
+
+	html = cr.render_html_head('/skills/'+skill_id, session['mobile'])
 	html += cr.render_header(contact_dict['name'], session['name'], '/skills', '/skills/' + skill_id, session)
-	
-	html += cr.skills_skills_htmlify(this_skill)
-	
+
+	html += cr.skills_skills_htmlify(this_skill, session['mobile'])
+
 	return html
 
 @app.route('/jobs')
@@ -190,31 +191,31 @@ def orgs_general():
 def skills_general():
 	if session.get('username') == None:
 		return redirect('/reauth?r=_skills')
-		
+
 	all_skills = cr.skills_skills_general_query()
 	contact_dict = cr.home_contact_query()
-	
-	html = cr.render_html_head('/skills')
+
+	html = cr.render_html_head('/skills', session['mobile'])
 	html += cr.render_header(contact_dict['name'], session['name'], '/skills', '/skills', session)
-	
+
 	html += cr.skills_general_htmlify(all_skills)
-	
+
 	return html
 
 @app.route('/about')
 def about():
 	if session.get('username') == None:
 		return redirect('/reauth?r=_about')
-	
+
 	contact_dict = cr.home_contact_query()
 
-	html = cr.render_html_head('/about')
+	html = cr.render_html_head('/about', session['mobile'])
 	html += cr.render_header(contact_dict['name'], session['name'], '/about', '/about', session)
 	html += cr.render_about(session)
 	html += '''
 			</body>
 		</html>'''
-	
+
 	return html
 
 @app.route('/login', methods=['POST'])
@@ -222,9 +223,9 @@ def login():
 	username = request.form['username']
 	raw = request.form['password']
 	r = request.form['redirect']
-	
+
 	if username != session.get('username'):
-		query = '''SELECT 	Accounts.id, Accounts.username, Accounts.password, 
+		query = '''SELECT 	Accounts.id, Accounts.username, Accounts.password,
 							Accounts.salt, Accounts.name, Accounts.group_id, Groups.auth_key
 					FROM	Accounts, Groups
 					WHERE	Accounts.group_id = Groups.id AND Accounts.username="'''+username+'''";'''
@@ -234,7 +235,7 @@ def login():
 			if len(result) > 0:
 				row = result[0]
 				data = { 'a_id': row[0], 'username': row[1], 'password': row[2], 'salt': row[3], 'name': row[4], 'g_id': row[5], 'auth_key': row[6] }
-				
+
 				from_raw = hashlib.sha512((raw+ data['salt']).encode('utf-8')).hexdigest()
 				if from_raw == data['password']:
 					session['username'] = data['username']
@@ -242,7 +243,7 @@ def login():
 					session['uid'] = data['a_id']
 					session['gid'] = data['g_id']
 					session['auth_key'] = data['auth_key']
-		
+
 	return redirect(r)
 
 @app.route('/logout', methods=['GET'])
@@ -252,7 +253,7 @@ def logout():
 
 	session['username'] = 'guest'
 	session['name'] = 'Guest'
-	
+
 	query = 'SELECT id, group_id FROM Accounts WHERE username="guest";'
 	result = dbm.execute(query)
 	if result != None:
@@ -266,11 +267,11 @@ def logout():
 	else:
 		session['uid'] = None
 		session['gid'] = None
-		
+
 	session['auth_key'] = get_sesh_key(session['gid'])
 	return redirect(r)
 
 
 
 if __name__ == '__main__':
-	app.run(host='127.0.0.1',port='80',debug=True)
+	app.run(host='resume.tomesser.biz',port='80',debug=True)
