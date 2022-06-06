@@ -206,7 +206,7 @@ class CRender:
 						
 				skills = row[7].split(',')
 				if len(skills) > 0:
-					query = 'SELECT id, name, exposure, soft_or_hard, reference, icon, category FROM Skills WHERE '
+					query = 'SELECT id, name FROM Skills WHERE '
 					for i in range(len(skills)):
 						if i != len(skills) - 1:
 							query += 'id="' + skills[i] + '" OR '
@@ -219,12 +219,7 @@ class CRender:
 						for i in range(len(result)):
 							s = {
 									'id': result[i][0], 
-									'name': result[i][1], 
-									'exposure': result[i][2],
-									'soft_or_hard': result[i][3],
-									'reference': result[i][4],
-									'icon': result[i][5],
-									'category': result[i][6]
+									'name': result[i][1]
 								}
 							skills_list.append(s)
 						job['skills'] = skills_list
@@ -489,7 +484,7 @@ class CRender:
 						query = 'SELECT id, name, exposure, soft_or_hard, reference, icon, category FROM Skills WHERE '
 						for i in range(len(skills)):
 							if i != len(skills) - 1:
-								query += 'id="' + skills[i] + '" '
+								query += 'id="' + skills[i] + '" OR '
 							else:
 								query += 'id="' + skills[i] + '";'
 						result = self.dbm.execute(query)
@@ -1022,7 +1017,7 @@ class CRender:
 												</div><br>
 												<div class="row">
 													<div class="col-sm-6">
-														<h6>Comments:</h6>
+														<h6>Comments</h6>
 													</div>
 													<div class="col-sm-6">
 														<h6>Exposure</h6>
