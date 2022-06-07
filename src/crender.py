@@ -13,6 +13,7 @@ from dbm import DBM
 
 g_api = "AIzaSyAQmRwQrAmnbDOU_d0ILUMlT2l9OAldR00"
 
+
 class CRender:
 	def __init__ (self, dbm, auth_keys):
 		self.dbm = dbm
@@ -658,6 +659,44 @@ class CRender:
 		this_skill['similar'] = this_skill['similar'][-6:]
 		return this_skill
 
+	def skills_for_add_query(self):
+		query = "SELECT id, name FROM Skills;"
+		result = self.dbm.execute(query)
+		if result != None:
+			result = self.dbm.cur.fetchall()
+			all_skills = []
+			if len(result) > 0:
+				for row in result:
+					s = {
+						'id': row[0],
+						'name': row[1],
+					}
+					all_skills.append(s)
+				return all_skills
+			else:
+				return []
+		else:
+			return []
+
+	def orgs_for_add_query(self):
+		query = "SELECT id, name FROM Orgs;"
+		result = self.dbm.execute(query)
+		if result != None:
+			result = self.dbm.cur.fetchall()
+			all_orgs = []
+			if len(result) > 0:
+				for row in result:
+					o = {
+						'id': row[0],
+						'name': row[1]
+					}
+					all_orgs.append(o)
+				return all_orgs
+			else:
+				return []
+		else:
+			return []
+
 	"""
 		HTML Conversion Methods
 	"""
@@ -705,7 +744,16 @@ class CRender:
 								</div>
 							</div>
 						<br>
-						<h2 class="mb-4">Education</h2>'''
+						<div class="row" style="width:75%;">
+							<div class="col">
+								<h2 class="mb-4">Education</h2>
+							</div>
+							<div class="col">'''
+			if session.get('auth_key') != self.auth_keys['Readers']:
+				html +=	'''<a href="javascript:void(0)" data-toggle="modal" data-target="#addEduModal"><button style="position:relative;width:50px;margin-left:auto;margin-right:0;" type="button" class="btn btn-success btn-lg btn-block">+</button></a>'''
+			html +=					'''</div>
+						</div>
+								'''
 			for edu in edus_dict:
 				html += self.home_edu_htmlify(edu, False)
 			html+=			'''
@@ -713,13 +761,13 @@ class CRender:
 					</div>
 
 					<div class="col-sm-7">
-						<div class="row">
-							<div class="col-sm-8">
+						<div class="row" style="width:75%;">
+							<div class="col">
 								<h2 class="mb-4">Experience</h2>
 							</div>
-							<div class="col-sm-1">'''
+							<div class="col">'''
 			if session.get('auth_key') != self.auth_keys['Readers']:
-				html +=	'''<button type="button" class="btn btn-secondary btn-lg btn-block">+</button>'''
+				html +=	'''<a href="javascript:void(0)" data-toggle="modal" data-target="#addJobModal"><button type="button" style="position:relative;width:50px;margin-left:auto;margin-right:0;" class="btn btn-success btn-lg btn-block">+</button></a>'''
 			html +=					'''</div>
 								</div>'''
 			for job in jobs_dict:
@@ -795,21 +843,38 @@ class CRender:
 							</div>
 					<div class="card w-100">
 						<div class="card-header">
-							<h4 style="padding-left:20px;">Experience</h4>
-						</div>
-					</div>
-						<div class="col-sm-1">'''
+							<div style="position:relative; width:100%; height:100%; margin-bottom:35px;">
+								<div style="position:absolute;left:0%;width:85%; height:100%;">
+									<h4 style="padding-left:20px; height:100%;">Experience</h4>
+								</div>
+								<div style="position:absolute;left:85%;width:15%;top:-7.5px;">
+										'''
 			if session.get('auth_key') != self.auth_keys['Readers']:
-				html +=	'''<button type="button" class="btn btn-secondary btn-lg btn-block">+</button>'''
-			html += '''</div>'''
+				html +=	'''			<a href="javascript:void(0)" data-toggle="modal" data-target="#addJobModal"><button type="button" class="btn btn-success btn-lg btn-block">+</button></a>'''
+			html += '''			</div>
+							</div>
+						</div>
+					</div>'''
+
 
 			for job in jobs_dict:
 				html += self.home_job_htmlify(job, True)
-			html += '''		<div class="card w-100">
-								<div class="card-header">
-									<h4 style="padding-left:20px;">Education</h4>
-								</div>
-							</div>'''
+			html += '''<div class="card w-100">
+							<div class="card-header">
+								<div style="position:relative; width:100%; height:100%; margin-bottom:35px;">
+									<div style="position:absolute;left:0%;width:85%; height:100%;">
+										<h4 style="padding-left:20px; height:100%;">Education</h4>
+									</div>
+								<div style="position:absolute;left:85%;width:15%;top:-7.5px;">
+										'''
+			if session.get('auth_key') != self.auth_keys['Readers']:
+				html +=	'''			<a href="javascript:void(0)"><button type="button" class="btn btn-success btn-lg btn-block">+</button></a>'''
+			html += '''			</div>
+							</div>
+						</div>
+					</div>'''
+
+
 			for edu in edus_dict:
 				html += self.home_edu_htmlify(edu, True)
 			html+=			'''
@@ -1044,8 +1109,7 @@ class CRender:
 	def jobs_jobs_htmlify(self, jobs, mobile):
 		if not mobile:
 			html = self.org_htmlify(jobs['this']['org'], jobs['next']['org'], jobs['last']['org'], 'jobs', jobs['next']['id'], jobs['last']['id'], mobile)
-			html += '''
-							<div class="card" style="position:relative;width:70%;left:15%;top:-25px;z-index:0;">
+			html += '''		<div class="card" style="position:relative;width:70%;left:15%;top:-25px;z-index:0;">
 								<div class="card-header">
 									<div class="row">
 										<div class="col-sm-7">
@@ -1087,7 +1151,20 @@ class CRender:
 			'''
 		else:
 			html = self.org_htmlify(jobs['this']['org'], jobs['next']['org'], jobs['last']['org'], 'jobs', jobs['next']['id'], jobs['last']['id'], mobile)
-			html += '''
+			html += '''		<div class="card">
+								<div class="card-body">
+									<div class="row">
+										<div class="col-sm-12">
+											<div style="position:relative;width:50%;left:0%;display:inline;">
+												<a href="/jobs/'''+jobs['last']['id']+'''" style="text-align:left;">< Last Job</a>
+											</div>
+											<div style="position:relative;width:50%;left:50%;display:inline;">
+												<a href="/jobs/'''+jobs['next']['id']+'''" style="text-align:right;position:relative;width:50%;">Next Job ></a>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
 							<div class="card">
 								<div class="card-header">
 									<div class="row">
@@ -1175,7 +1252,20 @@ class CRender:
 			'''
 		else:
 			html = self.org_htmlify(edus['this']['org'], edus['next']['org'], edus['last']['org'], 'edus', edus['next']['id'], edus['last']['id'], mobile)
-			html += '''
+			html += '''		<div class="card">
+								<div class="card-body">
+									<div class="row">
+										<div class="col-sm-12">
+											<div style="position:relative;width:50%;left:0%;display:inline;">
+												<a href="/edus/'''+edus['last']['id']+'''" style="text-align:left;">< Last Edu</a>
+											</div>
+											<div style="position:relative;width:50%;left:50%;display:inline;">
+												<a href="/edus/'''+edus['next']['id']+'''" style="text-align:right;position:relative;width:50%;">Next Edu ></a>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
 							<div class="card">
 								<div class="card-header">
 									<div class="row">
@@ -1283,7 +1373,7 @@ class CRender:
 										</div>
 										<div class="col-sm-4">
 											<iframe
-												width="325"
+												width="290"
 												height="200"
 												frameborder="0" style="border:0"
 												referrerpolicy="no-referrer-when-downgrade"
@@ -1346,76 +1436,143 @@ class CRender:
 							'''
 		return html
 
-	def skills_general_htmlify(self, all_skills):
-
-
-		html = '''
-				<div class="jumbotron">
-					<div class="row">
-						<div class="col-sm-6 mx-auto">
-							<h1 style="text-align:center;">Skills</h1>
-						</div>
-					</div>
-					<br>
-					<div class="row">
-						<div class="col-sm-10 mx-auto">
-							<div class="card w-100">
-								<div class="card-header">
-									<h4>Technical Skills</h4>
-								</div>
-								<div class="card-body">
-									<div class="row">'''
-		for s in all_skills:
-			if s['soft_or_hard'] == 1:
-				src = "data:image/png;base64,"
-				src += s['icon'].decode('utf-8')
-
-				html += '''<div class="col-sm-2">
-								<a href="/skills/'''+s['id']+'''">
-									<span style="display:inline;">
-										<img src="'''+src+'''" width="25" height="25" />
-										<span class="badge badge-pill badge-dark">'''+s['name']+'''</span>
-									</span>
-								</a>
-							</div>
-						'''
-
-		html += '''					</div>
-								</div>
+	def skills_general_htmlify(self, all_skills, mobile):
+		if not mobile:
+			html = '''
+					<div class="jumbotron">
+						<div class="row">
+							<div class="col-sm-6 mx-auto">
+								<h1 style="text-align:center;">Skills</h1>
 							</div>
 						</div>
-					</div>
-					<br>
-					<div class="row">
-						<div class="col-sm-10 mx-auto">
-							<div class="card w-100">
-								<div class="card-header">
-									<h4>Soft Skills</h4>
+						<br>
+						<div class="row">
+							<div class="col-sm-10 mx-auto">
+								<div class="card w-100">
+									<div class="card-header">
+										<h4>Technical Skills</h4>
+									</div>
+									<div class="card-body">
+										<div class="row">'''
+			for s in all_skills:
+				if s['soft_or_hard'] == 1:
+					src = "data:image/png;base64,"
+					src += s['icon'].decode('utf-8')
+
+					html += '''<div class="col-sm-2">
+									<a href="/skills/'''+s['id']+'''">
+										<span style="display:inline;">
+											<img src="'''+src+'''" width="25" height="25" />
+											<span class="badge badge-pill badge-dark">'''+s['name']+'''</span>
+										</span>
+									</a>
 								</div>
-								<div class="card-body">
-									<div class="row">'''
-		for s in all_skills:
-			if s['soft_or_hard'] == 0:
-				src = "data:image/png;base64,"
-				src += s['icon'].decode('utf-8')
+							'''
 
-				html += '''<div class="col-sm-2">
-								<a href="/skills/'''+s['id']+'''">
-									<span style="display:inline;">
-										<img src="'''+src+'''" width="25" height="25" />
-										<span class="badge badge-pill badge-dark">'''+s['name']+'''</span>
-									</span>
-								</a>
-							</div>
-						'''
-
-		html += '''					</div>
+			html += '''					</div>
+									</div>
 								</div>
 							</div>
 						</div>
+						<br>
+						<div class="row">
+							<div class="col-sm-10 mx-auto">
+								<div class="card w-100">
+									<div class="card-header">
+										<h4>Soft Skills</h4>
+									</div>
+									<div class="card-body">
+										<div class="row">'''
+			for s in all_skills:
+				if s['soft_or_hard'] == 0:
+					src = "data:image/png;base64,"
+					src += s['icon'].decode('utf-8')
+
+					html += '''<div class="col-sm-2">
+									<a href="/skills/'''+s['id']+'''">
+										<span style="display:inline;">
+											<img src="'''+src+'''" width="25" height="25" />
+											<span class="badge badge-pill badge-dark">'''+s['name']+'''</span>
+										</span>
+									</a>
+								</div>
+							'''
+
+			html += '''					</div>
+									</div>
+								</div>
+							</div>
+						</div>
 					</div>
-				</div>
-		'''
+			'''
+		else:
+			html = '''
+					<div class="jumbotron">
+						<div class="row">
+							<div class="col-sm-6 mx-auto">
+								<h1 style="text-align:center;">Skills</h1>
+							</div>
+						</div>
+						<br>
+						<div class="row">
+							<div class="col-sm-10 mx-auto">
+								<div class="card w-100">
+									<div class="card-header">
+										<h4>Technical Skills</h4>
+									</div>
+									<div class="card-body">
+										<div class="row">'''
+			for s in all_skills:
+				if s['soft_or_hard'] == 1:
+					src = "data:image/png;base64,"
+					src += s['icon'].decode('utf-8')
+
+					html += '''<div class="col-sm-4">
+									<a href="/skills/'''+s['id']+'''">
+										<span style="display:inline;">
+											<img src="'''+src+'''" width="25" height="25" />
+											<span class="badge badge-pill badge-dark">'''+s['name']+'''</span>
+										</span>
+									</a>
+								</div>
+							'''
+
+			html += '''					</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<br>
+						<div class="row">
+							<div class="col-sm-10 mx-auto">
+								<div class="card w-100">
+									<div class="card-header">
+										<h4>Soft Skills</h4>
+									</div>
+									<div class="card-body">
+										<div class="row">'''
+			for s in all_skills:
+				if s['soft_or_hard'] == 0:
+					src = "data:image/png;base64,"
+					src += s['icon'].decode('utf-8')
+
+					html += '''<div class="col-sm-4">
+									<a href="/skills/'''+s['id']+'''">
+										<span style="display:inline;">
+											<img src="'''+src+'''" width="25" height="25" />
+											<span class="badge badge-pill badge-dark">'''+s['name']+'''</span>
+										</span>
+									</a>
+								</div>
+							'''
+
+			html += '''					</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+			'''
 
 		return html
 
@@ -1633,7 +1790,7 @@ class CRender:
 			for s in skill['similar']:
 				src = "data:image/png;base64,"
 				src += s['icon'].decode('utf-8')
-				html += '''<div class="col-sm-2">
+				html += '''<div class="col-sm-6">
 									<a href="/skills/'''+s['id']+'''">
 										<span style="display:inline;">
 											<img src="'''+src+'''" width="25" height="25" />
@@ -1768,7 +1925,7 @@ class CRender:
 										<li class="nav-item dropdown">
 											<a class="nav-link dropdown-toggle" href="#" id="dropdown03" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Welcome, ''' + user + '''</a>
 											<div class="dropdown-menu", aria-labelledby="dropdown03">
-												<a class="dropdown-item" href="javascript:void(0)" onclick="show_login_form()">Login</a>'''
+												<a class="dropdown-item" href="javascript:void(0)" data-toggle="modal" data-target="#loginModal">Login</a>'''
 			if s['auth_key'] == self.auth_keys['Contributors'] or s['auth_key'] == self.auth_keys['Owners']:
 				html +=						'''<a class="dropdown-item" href="/logout?r='''+redirect.replace('/','_')+'''">Logout</a>'''
 			html += '''
@@ -1837,6 +1994,19 @@ class CRender:
 
 			html += '''
 									</div>
+									<div style="position:absolute;width:35%;left:62%;">
+										<ul class="navbar-nav mr-auto" style="width:100%;">
+											<li class="nav-item dropdown" style="width:100%;">
+												<a class="nav-link dropdown-toggle" href="javascript:void(0)" id="dropdown03" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="text-align:right;position:relative;width:100%;">Welcome, ''' + user + '''</a>
+												<div class="dropdown-menu", aria-labelledby="dropdown03">
+													<a class="dropdown-item" href="javascript:void(0)" data-toggle="modal" data-target="#loginModal">Login</a>'''
+			if s['auth_key'] == self.auth_keys['Contributors'] or s['auth_key'] == self.auth_keys['Owners']:
+				html +=						'''<a class="dropdown-item" href="/logout?r='''+redirect.replace('/','_')+'''">Logout</a>'''
+			html += '''
+												</div>
+											</li>
+										</ul>
+									</div>
 								</div>
 							</div>
 						</nav>
@@ -1845,8 +2015,9 @@ class CRender:
 		return html
 
 	def render_html_head(self, redirect, mobile):
+		now = datetime.datetime.now()
 		if not mobile:
-			return '''
+			html = '''
 				<html style="margin:0; max-width:100vw; overflow-x:hidden;">
 					<head>
 						<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -1855,40 +2026,206 @@ class CRender:
 						<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 						<script src="/static/js/lib.js"></script>
 						<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-						<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+						<link rel="stylesheet" href="/static/css/lib.css">
 					</head>
 					<body style="margin:0; max-width:100vw; overflow-x:hidden;">
-					<div id="login_form" style="border-radius:10%;background-color:#343a40;position:absolute;width:10%;height:20%;left:80%;top:50px;z-index:-1;opacity:0;">
-						<div class="row" style="position:relative;top:5px;">
-							<div class="col-sm-6" style="text-align:left;">
-								<a href="#" style="padding-left:20px;color:white" data-toggle="tooltip" title="Go ahead and log in as a member to make changes to content (don't worry, the content can be reset)">?</a>
-							</div>
-							<div class="col-sm-6" style="text-align:right;">
-								<a style="color:white;padding-right:20px;" onclick="hide_login_form()" href="javascript:void(0)">close</a><br><br>
-							</div>
+						<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true" style="position:fixed; top:20%; width:20%; left:40%;">
+						  <div class="modal-dialog" role="document">
+						    <div class="modal-content">
+						      <div class="modal-header">
+						        <h5 class="modal-title" id="loginModalLabel">Login</h5>
+
+						        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						          <span aria-hidden="true">&times;</span>
+						        </button>
+						      </div>
+							  <form action='/login' method='post'>
+							      <div class="modal-body">
+								  			<a href="#" style="padding-left:25px;color:black" data-toggle="tooltip" title="Go ahead and log in as a member to make changes to content (don't worry, the content can be reset)">What's this?</a><br><br>
+										<div class="row">
+											<div class="col-sm-10 mx-auto">
+												<input type="text" name="username" id="username" value="member"></input><br><br>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-sm-10 mx-auto">
+												<input type="password" name="password" id="password" value="member"></input>
+											</div>
+										</div>
+										<input type="hidden" name="redirect" id="redirect" value="'''+redirect+'''"></input>
+										<div class="row">
+											<div class="col-sm-10 mx-auto">
+												<input type="submit" value="Submit" style="display:none">
+											</div>
+										</div>
+							      </div>
+							      <div class="modal-footer">
+							        <input type="submit" class="btn btn-primary" value="Submit"></button>
+							      </div>
+							   </form>
+						    </div>
+						  </div>
 						</div>
-						<form action='/login' method='post'>
-							<div class="row">
-								<div class="col-sm-10 mx-auto">
-									<input type="text" name="username" id="username" value="member"></input><br><br>
+
+						<div class="modal fade" id="addJobModal" tabindex="-1" role="dialog" aria-labelledby="addJobModal" aria-hidden="true" style="position:fixed; width:50%; left:25%; top:15%;" >
+						  <div class="modal-dialog" role="document">
+							<div class="modal-content" style="position:absolute; width:150%; left:-25%;">
+							  <div class="modal-header">
+								<h5 class="modal-title" id="addJobModal">New Work Experience</h5>
+
+								<button type="button" class="close" data-dismiss="modal" data-toggle="modal" aria-label="Close">
+								  <span aria-hidden="true">&times;</span>
+								</button>
+							  </div>
+							  <form action='/create/job' method='post' id="create_job">
+								  <div class="modal-body">
+										<div class="row">
+											<div class="col-sm-6 mx-auto">
+												<label for="title">Title</label><br>
+												<input id="title" type="text" name="title" placeholder="Job title"></input><br><br>
+											</div>
+											<div class="col-sm-6 mx-auto">
+												<label for="present">Present Job</label><br>
+												<input id="present" type="checkbox" name="present" ></input><br><br>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-sm-6">
+												<label for="date_start">Start Date</label><br>
+												<input id="date_start" type="date" name="date_start" value="'''+now.strftime("%Y-%m-%d")+'''"></input><br><br>
+											</div>
+											<div class="col-sm-6">
+												<label for="date_stop">Stop Date</label><br>
+												<input id="date_stop" type="date" name="date_stop" value="'''+now.strftime("%Y-%m-%d")+'''"></input><br><br>
+											</div>
+										</div>
+
+										<div class="row">
+											<div class="col-sm-6 mx-auto">
+												<label for="desc_short">Short Description</label><br>
+												<textarea name="desc_short" form="create_job" placeholder="Short description of job." style="width:95%;height:100px;"></textarea>
+											</div>
+											<div class="col-sm-6 mx-auto">
+												<label for="desc_long">Long Description</label><br>
+												<textarea name="desc_long" form="create_job" placeholder="Long description of job." style="width:95%;height:100px;"></textarea>
+											</div>
+										</div><br>
+										<div class="row">
+											<div class="col-sm-6 mx-auto">
+												<label for="skill_selector">Select Skills <i>(CTRL + Click for multiple)</i></label><br>'''
+			all_skills = self.skills_for_add_query()
+			html += '''								<select style="min-width:80%;" size="6" id="skill_selector" name="skill_selector" multiple>'''
+			for s in all_skills:
+				html +=	'''								<option value="'''+s['id']+'''">'''+s['name']+'''</option>'''
+			html+= '''								</select>
+												</div>
+
+
+													<div class="col-sm-6 mx-auto">
+														<label for="org_select">Select Organization</label><br>'''
+			all_orgs = self.orgs_for_add_query()
+			html += '''									<select style="min-width:80%;" size="6" id="org_selector" name="org_selector">'''
+			for o in all_orgs:
+				html += '''									<option value="'''+o['id']+'''">'''+o['name']+'''</option>'''
+			html += '''									</select>
+													</div>
+											</div>
+											<input type="hidden" name="redirect" id="redirect" value="'''+redirect+'''"></input>
+											<div class="row">
+												<div class="col-sm-10 mx-auto">
+													<input type="submit" value="Submit" style="display:none">
+												</div>
+											</div>
+									  </div>
+									  <div class="modal-footer">
+										<button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close">
+										  <span aria-hidden="true">Cancel</span>
+										</button>
+										<input type="submit" class="btn btn-primary" value="Save & Exit"></button>
+									  </div>
+								   </form>
 								</div>
+							  </div>
 							</div>
-							<div class="row">
-								<div class="col-sm-10 mx-auto">
-									<input type="password" name="password" id="password" value="member"></input>
+
+
+							<div class="modal fade" id="addEduModal" tabindex="-1" role="dialog" aria-labelledby="addJobModal" aria-hidden="true" style="position:fixed; width:50%; left:25%; top:15%;" >
+							  <div class="modal-dialog" role="document">
+								<div class="modal-content" style="position:absolute; width:150%; left:-25%;">
+								  <div class="modal-header">
+									<h5 class="modal-title" id="addJobModal">New Education</h5>
+
+									<button type="button" class="close" data-dismiss="modal" data-toggle="modal" aria-label="Close">
+									  <span aria-hidden="true">&times;</span>
+									</button>
+								  </div>
+								  <form action='/create/edu' method='post' id="create_edu">
+									  <div class="modal-body">
+											<div class="row">
+												<div class="col-sm-4 mx-auto">
+													<label for="title">Degree</label><br>
+													<input id="title" type="text" name="degree" placeholder="Degree"></input>
+												</div>
+												<div class="col-sm-4">
+													<label for="title">GPA</label><br>
+													<input id="title" type="text" name="gpa" placeholder="GPA"></input>
+												</div>
+												<div class="col-sm-4">
+													<label for="date_stop">Graduation Date</label><br>
+													<input id="date_stop" type="date" name="date_stop" value="'''+now.strftime("%Y-%m-%d")+'''"></input>
+												</div>
+											</div><br>
+
+											<div class="row">
+												<div class="col-sm-6 mx-auto">
+													<label for="desc_short">Short Description</label><br>
+													<textarea name="desc_short" form="create_edu" placeholder="Short description of education." style="width:95%;height:100px;"></textarea>
+												</div>
+												<div class="col-sm-6 mx-auto">
+													<label for="desc_long">Long Description</label><br>
+													<textarea name="desc_long" form="create_edu" placeholder="Long description of education." style="width:95%;height:100px;"></textarea>
+												</div>
+											</div><br>
+											<div class="row">
+												<div class="col-sm-6 mx-auto">
+													<label for="skill_selector">Select Skills <i>(CTRL + Click for multiple)</i></label><br>'''
+			all_skills = self.skills_for_add_query()
+			html += '''								<select style="min-width:80%;" size="6" id="skill_selector" name="skill_selector" multiple>'''
+			for s in all_skills:
+				html +=	'''								<option value="'''+s['id']+'''">'''+s['name']+'''</option>'''
+			html+= '''								</select>
+												</div>
+
+
+													<div class="col-sm-6 mx-auto">
+														<label for="org_select">Select Organization</label><br>'''
+			all_orgs = self.orgs_for_add_query()
+			html += '''									<select style="min-width:80%;" size="6" id="org_selector" name="org_selector">'''
+			for o in all_orgs:
+				html += '''									<option value="'''+o['id']+'''">'''+o['name']+'''</option>'''
+			html += '''									</select>
+														</div>
+												</div>
+												<input type="hidden" name="redirect" id="redirect" value="'''+redirect+'''"></input>
+												<div class="row">
+													<div class="col-sm-10 mx-auto">
+														<input type="submit" value="Submit" style="display:none">
+													</div>
+												</div>
+										  </div>
+										  <div class="modal-footer">
+											<button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close">
+											  <span aria-hidden="true">Cancel</span>
+											</button>
+											<input type="submit" class="btn btn-primary" value="Save & Exit"></button>
+										  </div>
+									   </form>
+									</div>
+								  </div>
 								</div>
-							</div>
-							<input type="hidden" name="redirect" id="redirect" value="'''+redirect+'''"></input>
-							<div class="row">
-								<div class="col-sm-10 mx-auto">
-									<input type="submit" value="Submit" style="display:none">
-								</div>
-							</div>
-						</form>
-					</div>
 					'''
 		else:
-			return '''
+			html = '''
 					<html style="margin:0; max-width:100vw; overflow-x:hidden;">
 						<head>
 							<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -1899,7 +2236,130 @@ class CRender:
 							<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 						</head>
 						<body style="margin:0; max-width:100vw; overflow-x:hidden;">
+							<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true" style="position:fixed; top:20%; width:80%; left:10%;">
+							  <div class="modal-dialog" role="document">
+							    <div class="modal-content">
+							      <div class="modal-header">
+							        <h5 class="modal-title" id="loginModalLabel">Login</h5>
+
+							        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							          <span aria-hidden="true">&times;</span>
+							        </button>
+							      </div>
+								  <form action='/login' method='post'>
+								      <div class="modal-body">
+									  			<p>Go ahead and log in as a member to make changes to content (don't worry, the content can be reset).</p>
+											<div class="row">
+												<div class="col-sm-10 mx-auto">
+													<input type="text" name="username" id="username" value="member"></input><br><br>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-sm-10 mx-auto">
+													<input type="password" name="password" id="password" value="member"></input>
+												</div>
+											</div>
+											<input type="hidden" name="redirect" id="redirect" value="'''+redirect+'''"></input>
+											<div class="row">
+												<div class="col-sm-10 mx-auto">
+													<input type="submit" value="Submit" style="display:none">
+												</div>
+											</div>
+								      </div>
+								      <div class="modal-footer">
+								        <input type="submit" class="btn btn-primary" value="Submit"></button>
+								      </div>
+								   </form>
+							    </div>
+							  </div>
+							</div>
+
+
+							<div class="modal fade" id="addJobModal" tabindex="-1" role="dialog" aria-labelledby="addJobModal" aria-hidden="true" style="position:fixed; top:5%; width:80%; left:10%; height:90%;">
+							  <div class="modal-dialog" role="document">
+							    <div class="modal-content">
+							      <div class="modal-header">
+							        <h5 class="modal-title" id="addJobModal">New Work Experience</h5>
+
+							        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							          <span aria-hidden="true">&times;</span>
+							        </button>
+							      </div>
+								  <form action='/create/job' method='post' id="create_job">
+								      <div class="modal-body">
+											<div class="row">
+												<div class="col-sm-12 mx-auto">
+													<label for="title">Title</label><br>
+													<input id="title" type="text" name="title" placeholder="Job title"></input><br><br>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-sm-12 mx-auto">
+													<label for="present">Present Job</label><br>
+													<input id="present" type="checkbox" name="present" ></input><br><br>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-sm-6">
+													<label for="date_start">Start Date</label><br>
+													<input id="date_start" type="date" name="date_start" value="'''+now.strftime("%Y-%m-%d")+'''"></input><br><br>
+												</div>
+												<div class="col-sm-6">
+													<label for="date_stop">Stop Date</label><br>
+													<input id="date_stop" type="date" name="date_stop" value="'''+now.strftime("%Y-%m-%d")+'''"></input><br><br>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-sm-12 mx-auto">
+													<label for="desc_short">Short Description</label><br>
+													<textarea name="desc_short" form="create_job" placeholder="Short description of job."></textarea>
+												</div>
+											</div><br>
+											<div class="row">
+												<div class="col-sm-12 mx-auto">
+													<label for="desc_long">Long Description</label><br>
+													<textarea name="desc_long" form="create_job" placeholder="Long description of job."></textarea>
+												</div>
+											</div><br>
+											<div class="row">
+												<div class="col-sm-12 mx-auto">
+													<label for="skill_selector">Select Skills</label><br>'''
+			all_skills = self.skills_for_add_query()
+			html += '''								<select "style=width:100%;" size="'''+str(len(all_skills))+'''" id="skill_selector" name="skill_selector" multiple>'''
+			for s in all_skills:
+				html +=	'''								<option value="'''+s['id']+'''">'''+s['name']+'''</option>'''
+			html+= '''								</select>
+												</div>
+											</div><br>
+											<div class="row">
+													<div class="col-sm-12 mx-auto">
+														<label for="org_select">Select Organization</label><br>'''
+			all_orgs = self.orgs_for_add_query()
+			html += '''									<select "style=width:100%;" size="'''+str(len(all_orgs))+'''" id="org_selector" name="org_selector">'''
+			for o in all_orgs:
+				html += '''									<option value="'''+o['id']+'''">'''+o['name']+'''</option>'''
+			html += '''									</select>
+													</div>
+											</div>
+											<input type="hidden" name="redirect" id="redirect" value="'''+redirect+'''"></input>
+											<div class="row">
+												<div class="col-sm-10 mx-auto">
+													<input type="submit" value="Submit" style="display:none">
+												</div>
+											</div>
+								      </div>
+								      <div class="modal-footer">
+									  	<button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close">
+								          <span aria-hidden="true">Cancel</span>
+								        </button>
+								        <input type="submit" class="btn btn-primary" value="Save & Exit"></button>
+								      </div>
+								   </form>
+							    </div>
+							  </div>
+							</div>
 						'''
+		return html
 
 	def render_about(self, session):
 		if not session['mobile']:

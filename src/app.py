@@ -75,7 +75,7 @@ def reauthenticate():
 
 	platform = request.user_agent
 	print(request.user_agent)
-	if 'iPhone' in str(platform) or 'android' in str(platform):
+	if 'iPhone' in str(platform) or 'Android' in str(platform):
 		session['mobile'] = True
 	else:
 		session['mobile'] = False
@@ -198,7 +198,7 @@ def skills_general():
 	html = cr.render_html_head('/skills', session['mobile'])
 	html += cr.render_header(contact_dict['name'], session['name'], '/skills', '/skills', session)
 
-	html += cr.skills_general_htmlify(all_skills)
+	html += cr.skills_general_htmlify(all_skills, session['mobile'])
 
 	return html
 
@@ -244,6 +244,12 @@ def login():
 					session['gid'] = data['g_id']
 					session['auth_key'] = data['auth_key']
 
+	platform = request.user_agent
+	if 'iPhone' in str(platform) or 'Android' in str(platform):
+		session['mobile'] = True
+	else:
+		session['mobile'] = False
+
 	return redirect(r)
 
 @app.route('/logout', methods=['GET'])
@@ -269,9 +275,60 @@ def logout():
 		session['gid'] = None
 
 	session['auth_key'] = get_sesh_key(session['gid'])
+
+	platform = request.user_agent
+	if 'iPhone' in str(platform) or 'Android' in str(platform):
+		session['mobile'] = True
+	else:
+		session['mobile'] = False
+
 	return redirect(r)
 
+@app.route('/create/job', methods=['POST'])
+def create_job():
+	skills = ""
+	d = list(request.form.lists())
+	for s in d:
+		if s[0] == 'skill_selector':
+			for a in s[1]:
+				skills += str(a) + ','
+	if request.form['present'] == 'on':
+		present = True
+	else:
+		present = False
+	form_data = {
+		'title': request.form['title'],
+		'present': present,
+		'date_start': request.form['date_start'],
+		'date_stop': request.form['date_stop'],
+		'desc_short': request.form['desc_short'],
+		'desc_long': request.form['desc_long'],
+		'org_id': request.form['org_selector'],
+		'skill_ids': skills[:len(skills)-1]
+	}
 
+
+	return form_data
+
+@app.route('/create/edu', methods=['POST'])
+def create_edu():
+	skills = ""
+	d = list(request.form.lists())
+	for s in d:
+		if s[0] == 'skill_selector':
+			for a in s[1]:
+				skills += str(a) + ','
+	form_data = {
+		'degree': request.form['degree'],
+		'gpa': request.form['gpa'],
+		'date_end': request.form['date_stop'],
+		'desc_short': request.form['desc_short'],
+		'desc_long': request.form['desc_long'],
+		'org_id': request.form['org_selector'],
+		'skill_ids': skills[:len(skills)-1]
+	}
+
+	return form_data
 
 if __name__ == '__main__':
 	app.run(host='resume.tomesser.biz',port='80',debug=True)
