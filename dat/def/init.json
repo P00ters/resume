@@ -1,0 +1,33 @@
+{
+	"Groups": [{
+		"index": 0,
+		"name": "Owners"
+	}, {
+		"index": 1,
+		"name": "Contributors"
+	}, {
+		"index": 2,
+		"name": "Readers"
+	}],
+	
+	"Accounts": [{
+		"index": 0,
+		"name": "Administrator",
+		"username": "admin",
+		"password": "admin_pass",
+		"group": 0
+	}, {
+		"index": 1,
+		"name": "Member",
+		"username": "member",
+		"password": "member",
+		"group": 1
+	}, {
+		"index": 2,
+		"name": "Guest",
+		"username": "guest",
+		"password": "guest",
+		"group": 2
+	}]
+
+}

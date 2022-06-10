@@ -27,7 +27,7 @@ g_api = "AIzaSyAQmRwQrAmnbDOU_d0ILUMlT2l9OAldR00"
 
 app = Flask("myResume", static_url_path='/static')
 app.secret_key = os.urandom(24).hex()
-dbm = DBM('../dat/db.sqlite')
+dbm = DBM('../dat/db.sqlite', True)
 auth_keys = get_keys()
 cr = CRender(dbm, auth_keys)
 
@@ -331,4 +331,4 @@ def create_edu():
 	return form_data
 
 if __name__ == '__main__':
-	app.run(host='resume.tomesser.biz',port='80',debug=True)
+	app.run(host='127.0.0.1',port='80',debug=True)

@@ -27,7 +27,7 @@ class CRender:
 		query = '''SELECT 	Jobs.id, Jobs.title, Jobs.present, Jobs.date_start, Jobs.date_stop,
 							Jobs.desc_short, Jobs.desc_long, Jobs.skill_ids, Orgs.id, Orgs.name, Addresses.id, Addresses.name, Addresses.uri, Orgs.phone, Orgs.website, Orgs.logo
 					FROM Jobs, Orgs, Addresses
-					WHERE Jobs.org_id = Orgs.id AND Orgs.address = Addresses.id;'''
+					WHERE Jobs.org = Orgs.id AND Orgs.address = Addresses.id;'''
 
 		result = self.dbm.execute(query)
 		job_rows = []
@@ -175,7 +175,7 @@ class CRender:
 		query = '''SELECT 	Jobs.id, Jobs.title, Jobs.present, Jobs.date_start, Jobs.date_stop,
 							Jobs.desc_short, Jobs.desc_long, Jobs.skill_ids, Orgs.id, Orgs.name, Addresses.id, Addresses.name, Addresses.uri, Orgs.phone, Orgs.website, Orgs.logo
 					FROM Jobs, Orgs, Addresses
-					WHERE Jobs.org_id = Orgs.id AND Orgs.address = Addresses.id;'''
+					WHERE Jobs.org = Orgs.id AND Orgs.address = Addresses.id;'''
 
 		result = self.dbm.execute(query)
 		job_rows = []
@@ -236,7 +236,7 @@ class CRender:
 	def edus_edus_general_query(self):
 		query = '''SELECT 	Education.id, Orgs.id, Orgs.name, Addresses.id, Addresses.name, Addresses.uri, Orgs.phone, Orgs.desc,
 							Orgs.website, Orgs.logo, Orgs.image_head, Education.degree, Education.gpa,
-							Education.skill_ids, Education.date_end, Education.desc_short, Education.desc_long
+							Education.skill_ids, Education.stop_date, Education.desc_short, Education.desc_long
 					FROM	Education, Orgs, Addresses
 					WHERE	Education.org = Orgs.id AND Orgs.address = Addresses.id;'''
 
@@ -347,7 +347,6 @@ class CRender:
 							query += 'id="' + skills[i] + '" OR '
 						else:
 							query += 'id="' + skills[i] + '";'
-					print(query)
 					result = self.dbm.execute(query)
 					if result != None:
 						result = self.dbm.cur.fetchall()
@@ -458,7 +457,8 @@ class CRender:
 		return orgs
 
 	def home_edu_query(self):
-		query = '''SELECT	Education.id, Education.degree, Education.gpa, Education.skill_ids, Education.date_end, Education.desc_short,
+		query = '''SELECT	Education.id, Education.degree, Education.gpa, Education.skill_ids, 		
+							Education.date_stop, Education.desc_short,
 							Education.desc_long, Orgs.id, Orgs.name, Orgs.phone, Orgs.website, Orgs.logo, Addresses.id, Addresses.name,
 							Addresses.uri
 					FROM	Education, Orgs, Addresses
@@ -471,7 +471,7 @@ class CRender:
 
 			for row in result:
 				edu = {
-					'id': row[0], 'degree': row[1], 'gpa': row[2], 'skills': row[3], 'date_end': row[4], 'desc_short': row[5],
+					'id': row[0], 'degree': row[1], 'gpa': row[2], 'skills': row[3], 'date_stop': row[4], 'desc_short': row[5],
 					'desc_long': row[6],
 					'org': {
 						'id': row[7], 'name': row[8], 'phone': row[9], 'website': row[10], 'logo': row[11],
@@ -539,7 +539,7 @@ class CRender:
 								'phone1': contact_row[3],
 								'phone2': contact_row[4],
 								'email': contact_row[5],
-								'objective': contact_row[7]
+								'objective': contact_row[6]
 								}
 		return {
 				'id': None,
@@ -888,12 +888,12 @@ class CRender:
 	def home_job_htmlify(self, job, mobile):
 		src = "data:image/png;base64,"
 		src += job['org']['logo'].decode('utf-8')
-		date_start = datetime.datetime.strptime(job['date_start'], '%m/%d/%Y')
+		date_start = datetime.datetime.strptime(job['date_start'], '%Y-%m-%d')
 
 		if (job['present'] == 1):
 			date_stop = 'Present'
 		else:
-			date_stop = datetime.datetime.strptime(job['date_stop'], '%m/%d/%Y')
+			date_stop = datetime.datetime.strptime(job['date_stop'], '%Y-%m-%d')
 
 		date_start_str = date_start.strftime('%b %Y')
 		if job['present'] != 1:
@@ -1008,7 +1008,7 @@ class CRender:
 		src = "data:image/png;base64,"
 		src += edu['org']['logo'].decode('utf-8')
 
-		date_stop = datetime.datetime.strptime(edu['date_end'], '%m/%d/%Y')
+		date_stop = datetime.datetime.strptime(edu['date_stop'], '%Y-%m-%d')
 		date_stop_str = date_stop.strftime('%b %Y')
 		if not mobile:
 			html = '''
@@ -2681,5 +2681,5 @@ class CRender:
 		return c
 
 	def datereformat (self, date):
-		d = datetime.datetime.strptime(date, '%m/%d/%Y')
+		d = datetime.datetime.strptime(date, '%Y-%m-%d')
 		return d.strftime('%b %Y')

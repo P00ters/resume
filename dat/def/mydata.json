@@ -1,0 +1,1002 @@
+{
+    "Addresses": [
+        {
+            "index": 0,
+            "name": "400 E North St, Jackson, MI 49202"
+        },
+        {
+            "index": 1,
+            "name": "2003 Horton Rd Suite B, Jackson, MI, 49203"
+        },
+        {
+            "index": 2,
+            "name": "544 Wildwood Ave, Jackson, MI 49201"
+        },
+        {
+            "index": 3,
+            "name": "1903 W Michigan Ave, Kalamazoo, MI 49008"
+        },
+        {
+            "index": 4,
+            "name": "625 Kenmoor Ave SE, Suite 311, Grand Rapids, MI 49546"
+        },
+        {
+            "index": 5,
+            "name": "515 Eastern Ave, Allegan, MI 49010"
+        },
+        {
+            "index": 6,
+            "name": "2111 Emmons Rd, Jackson, MI 49201"
+        },
+        {
+            "index": 7,
+            "name": "10527 S Sprinkle Rd, Vicksburg, MI 49097"
+        }
+    ],
+    "Contact": [
+        {
+            "address": 7,
+            "email": "esserth1@outlook.com",
+            "index": 0,
+            "name": "Tom Esser",
+            "objective": "To secure a software engineering role in a team-driven environment that utilizes my exceptional work ethic, accessible demeanor, and technical expertise.",
+            "phone1": "3057109723",
+            "phone2": "5177401802"
+        }
+    ],
+    "Education": [
+        {
+            "date_stop": "2012-06-01",
+            "degree": "High School Diploma",
+            "desc_long": "Placeholder1",
+            "desc_short": "Graduated as class valedictorian. Particpiated in National Honor Society and school sports including hockey and soccer.",
+            "gpa": 4.0,
+            "index": 0,
+            "org": 2,
+            "skill_ids": "39,60,63"
+        },
+        {
+            "date_stop": "2013-05-01",
+            "degree": "Associates in Applied Science",
+            "desc_long": "Placeholder2",
+            "desc_short": "Academic experiences with technical skills, including systems design and analysis, project management, and multiple programming language proficiencies, and soft skills, including, leadership and intrapersonal development and communication.",
+            "gpa": 3.2,
+            "index": 1,
+            "org": 6,
+            "skill_ids": "0,4,8,10,11,12,29,32,39,59,61,63"
+        },
+        {
+            "date_stop": "2021-12-01",
+            "degree": "Bachelors in Computer Science",
+            "desc_long": "Placeholder3",
+            "desc_short": "Academic experiences with theoretical aspects of computer programming, including systems programming and algorithmic logic and design. Further experience attained in software development lifecycle paradigms and project management. Obtained some graduate level experiences with data structures and database management systems design.",
+            "gpa": 3.0,
+            "index": 2,
+            "org": 3,
+            "skill_ids": "0,1,2,4,6,9,11,12,13,14,17,19,21,23,26,27,29,30,32,33,34,35,36,37,39,49,50,51,53,59,61,64,63"
+        }
+    ],
+    "Jobs": [
+        {
+            "date_start": "2011-06-01",
+            "date_stop": "2012-09-01",
+            "desc_long": "Summer job in which lifeguard training and certification from the Red Cross was received to prepare for role. Duties included opening and closing off the pool, providing swim lessons, monitoring activities in the pool area, and identifying any safety issues.",
+            "desc_short": "Summer job in which lifeguard training and certification from the Red Cross was received to prepare for role. Duties included opening and closing off the pool, providing swim lessons, monitoring activities in the pool area, and identifying any safety issues.",
+            "index": 0,
+            "org": 0,
+            "present": 0,
+            "skill_ids": "58,63",
+            "title": "Lifeguard"
+        },
+        {
+            "date_start": "2013-06-01",
+            "date_stop": "2013-09-01",
+            "desc_long": "Summer job delivering pizzas to clientele. Cross-trained to be able to not only deliver food to clients and on good customer service practices, but also to prepare and make the food, as well as sanitation and food safety practices.",
+            "desc_short": "Summer job delivering pizzas to clientele. Cross-trained to be able to not only deliver food to clients and on good customer service practices, but also to prepare and make the food, as well as sanitation and food safety practices.",
+            "index": 1,
+            "org": 1,
+            "present": 0,
+            "skill_ids": "58,63",
+            "title": "Pizza Delivery Driver"
+        },
+        {
+            "date_start": "2012-10-01",
+            "date_stop": "2013-04-01",
+            "desc_long": "\"Volunteer experience coaching high school hockey at alma mater. Duties included assembling offensive line combinations, calling lines during games, and practice planning.",
+            "desc_short": "\"Volunteer experience coaching high school hockey at alma mater. Duties included assembling offensive line combinations, calling lines during games, and practice planning.",
+            "index": 2,
+            "org": 2,
+            "present": 0,
+            "skill_ids": "60,61,62",
+            "title": "Offensive Coach"
+        },
+        {
+            "date_start": "2014-09-01",
+            "date_stop": "2016-09-01",
+            "desc_long": "Assisted in the management of computer environment by providing physical and remote support to clientele. Experiences with hardware and software troubleshooting, service delivery, project management, knowledge management and asset management were attained. Some additional experience attained in development of software and OS image deployment scripting.",
+            "desc_short": "Assisted in the management of computer environment by providing physical and remote support to clientele. Experiences with hardware and software troubleshooting, service delivery, project management, knowledge management and asset management were attained. Some additional experience attained in development of software and OS image deployment scripting.",
+            "index": 3,
+            "org": 3,
+            "present": 0,
+            "skill_ids": "7,1,28,39,42,47,57,46,58,64,63,62,65",
+            "title": "Helpdesk Technician"
+        },
+        {
+            "date_start": "2016-10-01",
+            "date_stop": "2017-12-01",
+            "desc_long": "Provide quality service support in a large, multi-national business environment. Duties include analyzing, interpreting, and resolving user issues in strong collaboration with a team.",
+            "desc_short": "Provide quality service support in a large, multi-national business environment. Duties include analyzing, interpreting, and resolving user issues in strong collaboration with a team.",
+            "index": 4,
+            "org": 4,
+            "present": 0,
+            "skill_ids": "7,48,39,41,58,64,63,62,68",
+            "title": "Service Desk Analyst"
+        },
+        {
+            "date_start": "2017-12-01",
+            "date_stop": "2020-03-01",
+            "desc_long": "Provide quality service support in a large, multi-national business environment. Duties include analyzing, interpreting, and resolving user issues in strong collaboration with a team. Solely responsible for maintaining the company's US mobility (cellular) program. Obtained some experience developing automated solutions, primarily in .NET and python, used intrateam to streamline processes.",
+            "desc_short": "Provide quality service support in a large, multi-national business environment. Duties include analyzing, interpreting, and resolving user issues in strong collaboration with a team. Solely responsible for maintaining the company's US mobility (cellular) program. Obtained some experience developing automated solutions, primarily in .NET and python, used intrateam to streamline processes.",
+            "index": 5,
+            "org": 5,
+            "present": 0,
+            "skill_ids": "5,7,20,39,41,46,54,43,40,41,56,58,64,63,62",
+            "title": "Sr. Service Desk Analyst"
+        },
+        {
+            "date_start": "2020-03-01",
+            "date_stop": null,
+            "desc_long": "Directly manage a small team of remote service desk staff, providing day-to-day guidance and delegation. Obtained some experiences in project management, interfacing with a wide variety of IT and business stakeholders to address requirements with respect to the team.",
+            "desc_short": "Directly manage a small team of remote service desk staff, providing day-to-day guidance and delegation. Obtained some experiences in project management, interfacing with a wide variety of IT and business stakeholders to address requirements with respect to the team.",
+            "index": 6,
+            "org": 5,
+            "present": 1,
+            "skill_ids": "5,7,20,38,39,46,54,43,40,41,56,58,59,60,61,64,62,66,68,69",
+            "title": "Service Desk Supervisor"
+        }
+    ],
+    "Orgs": [
+        {
+            "address": 0,
+            "desc_short": "Waterpark? Nixon\u2019s got one. Skateboard park? Got that too. Four softball fields, a playground, and a picnic shelter? Let\u2019s just call it - Nixon Park has it all.\n\t\t\t<br>\n\t\t\tNixon Water Park and Skate Park is a great place to enjoy those hot summer days! Throughout the summer there are gym and swim days, creative themed parties, and customer appreciation discounted rate days at the water park. This water park features a zero-depth pool, along with water slides for the thrill seekers.",
+            "image_head": "static/coj-header.png",
+            "index": 0,
+            "logo": "static/coj-logo.png",
+            "name": "City of Jackson: Nixon Water Park",
+            "phone": "5177884068",
+            "website": "https://www.cityofjackson.org/1072/Nixon-Skate-Park"
+        },
+        {
+            "address": 1,
+            "desc_short": "Marco's Pizza, operated by Marco's Franchising, LLC, is an American restaurant chain and interstate franchise based in Toledo, Ohio, that specializes in Italian-American cuisine. The first store was opened in Oregon, Ohio on Starr Ave. It was founded by Italian immigrant Pasquale \"Pat\" Giammarco in 1978.",
+            "image_head": "static/marcos-header.png",
+            "index": 1,
+            "logo": "static/marcos-logo.png",
+            "name": "Marco's Pizza",
+            "phone": "5177800100",
+            "website": "https://www.marcos.com/"
+        },
+        {
+            "address": 2,
+            "desc_short": "Jackson High School is a public high school located near downtown Jackson, Michigan. The school was created in 1908 with the merger of Jackson's West Side and East Side High Schools and moved to its present location in 1927. The school's mascot is the Viking. The athletic teams compete as members of the Southeastern Conference as of 2018. It is a part of the Jackson Public Schools.",
+            "image_head": "static/jhs-header.png",
+            "index": 2,
+            "logo": "static/jhs-logo.png",
+            "name": "Jackson High School",
+            "phone": "5178413701",
+            "website": "https://www.jpsk12.org/jacksonhs"
+        },
+        {
+            "address": 3,
+            "desc_short": "Western Michigan University (WMU) is a public research university in Kalamazoo, Michigan. It was established in 1903 by Dwight B. Waldo. Its enrollment, as of the Fall 2019 semester, was 21,470. It is classified among \"R2: Doctoral Universities \u2013 High research activity\".",
+            "image_head": "static/wmu-header.png",
+            "index": 3,
+            "logo": "static/wmu-logo.png",
+            "name": "Western Michigan University",
+            "phone": "2693872152",
+            "website": "https://wmich.edu/studentaffairs"
+        },
+        {
+            "address": 4,
+            "desc_short": "TEKsystems is a United States-based recruitment company that provides information technology staffing solutions. It has offices in North America, Europe, and Asia. Its parent company is Allegis Group.\n\t\t\t<br>\n\t\t\tThe company connects information technology professionals with companies seeking their expertise. Specialties covered by TEKsystems include cloud enablement, risk and security, data analytics and insights, enterprise applications, and more. The company has worked in the industries of financial services, healthcare services, communications, and government.",
+            "image_head": "static/teksystems-header.png",
+            "index": 4,
+            "logo": "static/teksystems-logo.png",
+            "name": "TEKsystems",
+            "phone": "6169742560",
+            "website": "https://www.teksystems.com/en"
+        },
+        {
+            "address": 5,
+            "desc_short": "Perrigo Company plc is an American Irish\u2013registered manufacturer of private label over-the-counter pharmaceuticals, and while 70% of Perrigo's net sales are from the U.S. healthcare system, Perrigo is legally headquartered in Ireland for tax purposes, which accounts for 0.60% of net sales. In 2013, Perrigo completed the 6th-largest US corporate tax inversion in history when it reregistered its tax status to Ireland to avoid U.S. corporate taxes.",
+            "image_head": "static/perrigo-header.png",
+            "index": 5,
+            "logo": "static/perrigo-logo.png",
+            "name": "Perrigo Company",
+            "phone": "2696738451",
+            "website": "https://www.perrigo.com/"
+        },
+        {
+            "address": 6,
+            "desc_short": "Jackson College is a public college in Jackson County, Michigan. It was originally established as Jackson Junior College in 1928. Jackson College has been accredited by the Higher Learning Commission since 1933 and offers 48 associate degrees, certificate programs, and transfer options to Jackson County and Michigan residents. Today, the college has a yearly enrollment of nearly 8,000 students between its several locations.",
+            "image_head": "static/jc-header.png",
+            "index": 6,
+            "logo": "static/jc-logo.png",
+            "name": "Jackson College",
+            "phone": "5177968425",
+            "website": "https://www.jccmi.edu/"
+        }
+    ],
+    "Skills": [
+        {
+            "category": "Programming/Scripting Languages",
+            "desc_long": "",
+            "desc_short": "Computer programming is the process of performing a particular computation (or more generally, accomplishing a specific computing result), usually by designing and building an executable computer program. Programming involves tasks such as analysis, generating algorithms, profiling algorithms' accuracy and resource consumption, and the implementation of algorithms (usually in a chosen programming language, commonly referred to as coding).",
+            "exposure": 7,
+            "icon": "static/programming-ico.png",
+            "index": 0,
+            "name": "Programming",
+            "reference": "https://en.wikipedia.org/wiki/Computer_programming",
+            "soft_or_hard": 1
+        },
+        {
+            "category": "Programming/Scripting Languages",
+            "desc_long": "",
+            "desc_short": "A scripting language or script language is a programming language for a runtime system that automates the execution of tasks that would otherwise be performed individually by a human operator. Scripting languages are usually interpreted at runtime rather than compiled.",
+            "exposure": 7,
+            "icon": "static/scripting-ico.png",
+            "index": 1,
+            "name": "Scripting",
+            "reference": "https://www.geeksforgeeks.org/introduction-to-scripting-languages/",
+            "soft_or_hard": 1
+        },
+        {
+            "category": "Programming/Scripting Languages",
+            "desc_long": "",
+            "desc_short": "C is a general-purpose computer programming language. It was created in the 1970s by Dennis Ritchie, and remains very widely used and influential. By design, C's features cleanly reflect the capabilities of the targeted CPUs. It has found lasting use in operating systems, device drivers, protocol stacks, though decreasingly for application software, and is common in computer architectures that range from the largest supercomputers to the smallest microcontrollers and embedded systems.",
+            "exposure": 7,
+            "icon": "static/c-ico.png",
+            "index": 2,
+            "name": "C",
+            "reference": "https://en.wikipedia.org/wiki/C_(programming_language)",
+            "soft_or_hard": 1
+        },
+        {
+            "category": "Programming/Scripting Languages",
+            "desc_long": "",
+            "desc_short": "C# is a general-purpose, multi-paradigm programming language. C# encompasses static typing, strong typing, lexically scoped, imperative, declarative, functional, generic, object-oriented (class-based), and component-oriented programming disciplines]",
+            "exposure": 9,
+            "icon": "static/csharp-ico.png",
+            "index": 3,
+            "name": "C#",
+            "reference": "https://en.wikipedia.org/wiki/C_Sharp_(programming_language)",
+            "soft_or_hard": 1
+        },
+        {
+            "category": "Programming/Scripting Languages",
+            "desc_long": "",
+            "desc_short": "Java is a high-level, class-based, object-oriented programming language that is designed to have as few implementation dependencies as possible. It is a general-purpose programming language intended to let programmers write once, run anywhere (WORA), meaning that compiled Java code can run on all platforms that support Java without the need to recompile.",
+            "exposure": 8,
+            "icon": "static/java-ico.png",
+            "index": 4,
+            "name": "Java",
+            "reference": "https://en.wikipedia.org/wiki/Java_%28programming_language%29",
+            "soft_or_hard": 1
+        },
+        {
+            "category": "Programming/Scripting Languages",
+            "desc_long": "",
+            "desc_short": "Python is a high-level, interpreted, general-purpose programming language. Its design philosophy emphasizes code readability with the use of significant indentation. Python is dynamically-typed and garbage-collected. It supports multiple programming paradigms, including structured, object-oriented and functional programming.",
+            "exposure": 9,
+            "icon": "static/python-ico.png",
+            "index": 5,
+            "name": "Python",
+            "reference": "https://en.wikipedia.org/wiki/Python_(programming_language)",
+            "soft_or_hard": 1
+        },
+        {
+            "category": "Programming/Scripting Languages",
+            "desc_long": "",
+            "desc_short": "SQL is a domain-specific language used in programming and designed for managing data held in a relational database management system (RDBMS), or for stream processing in a relational data stream management system (RDSMS). It is particularly useful in handling structured data, i.e. data incorporating relations among entities and variables.",
+            "exposure": 7,
+            "icon": "static/sql-ico.png",
+            "index": 6,
+            "name": "SQL",
+            "reference": "https://en.wikipedia.org/wiki/SQL",
+            "soft_or_hard": 1
+        },
+        {
+            "category": "Programming/Scripting Languages",
+            "desc_long": "",
+            "desc_short": "PowerShell is a task automation and configuration management program from Microsoft, consisting of a command-line shell and the associated scripting language. Initially a Windows component only, known as Windows PowerShell, it was made open-source and cross-platform on 18 August 2016 with the introduction of PowerShell Core. The former is built on the .NET Framework, the latter on .NET Core.",
+            "exposure": 8,
+            "icon": "static/powershell-ico.png",
+            "index": 7,
+            "name": "Powershell",
+            "reference": "https://en.wikipedia.org/wiki/PowerShell",
+            "soft_or_hard": 1
+        },
+        {
+            "category": "Programming/Scripting Languages",
+            "desc_long": "",
+            "desc_short": "C++ is a general-purpose programming language created by Bjarne Stroustrup as an extension of the C programming language, or 'C with Classes'. The language has expanded significantly over time, and modern C++ has object-oriented, generic, and functional features in addition to facilities for low-level memory manipulation.",
+            "exposure": 5,
+            "icon": "static/cpp-ico.png",
+            "index": 8,
+            "name": "C++",
+            "reference": "https://en.wikipedia.org/wiki/C++",
+            "soft_or_hard": 1
+        },
+        {
+            "category": "Programming/Scripting Languages",
+            "desc_long": "",
+            "desc_short": "JavaScript, often abbreviated JS, is a programming language that is one of the core technologies of the World Wide Web, alongside HTML and CSS. Over 97% of websites use JavaScript on the client side for web page behavior, often incorporating third-party libraries. All major web browsers have a dedicated JavaScript engine to execute the code on users' devices.",
+            "exposure": 6,
+            "icon": "static/js-ico.png",
+            "index": 9,
+            "name": "JavaScript",
+            "reference": "https://en.wikipedia.org/wiki/JavaScript",
+            "soft_or_hard": 1
+        },
+        {
+            "category": "Programming/Scripting Languages",
+            "desc_long": "",
+            "desc_short": "PHP is a server scripting language, and a powerful tool for making dynamic and interactive Web pages. PHP is a widely-used, free, and efficient alternative to competitors such as Microsoft's ASP.",
+            "exposure": 5,
+            "icon": "static/php-ico.png",
+            "index": 10,
+            "name": "PHP",
+            "reference": "https://en.wikipedia.org/wiki/PHP",
+            "soft_or_hard": 1
+        },
+        {
+            "category": "Programming/Scripting Languages",
+            "desc_long": "",
+            "desc_short": "The HyperText Markup Language or HTML is the standard markup language for documents designed to be displayed in a web browser. It can be assisted by technologies such as Cascading Style Sheets (CSS) and scripting languages such as JavaScript.",
+            "exposure": 6,
+            "icon": "static/html-ico.png",
+            "index": 11,
+            "name": "HTML",
+            "reference": "https://en.wikipedia.org/wiki/HTML",
+            "soft_or_hard": 1
+        },
+        {
+            "category": "Programming/Scripting Languages",
+            "desc_long": "",
+            "desc_short": "Cascading Style Sheets (CSS) is a style sheet language used for describing the presentation of a document written in a markup language such as HTML. CSS is a cornerstone technology of the World Wide Web, alongside HTML and JavaScript.",
+            "exposure": 6,
+            "icon": "static/css-ico.png",
+            "index": 12,
+            "name": "CSS",
+            "reference": "https://en.wikipedia.org/wiki/CSS",
+            "soft_or_hard": 1
+        },
+        {
+            "category": "Programming/Scripting Languages",
+            "desc_long": "",
+            "desc_short": "LaTeX is a high-quality typesetting system; it includes features designed for the production of technical and scientific documentation. LaTeX is the de facto standard for the communication and publication of scientific documents.",
+            "exposure": 5,
+            "icon": "static/latex-ico.png",
+            "index": 13,
+            "name": "LaTeX",
+            "reference": "https://en.wikipedia.org/wiki/LaTeX",
+            "soft_or_hard": 1
+        },
+        {
+            "category": "Programming/Scripting Languages",
+            "desc_long": "",
+            "desc_short": "Ruby is an interpreted, high-level, general-purpose programming language which supports multiple programming paradigms. It was designed with an emphasis on programming productivity and simplicity. In Ruby, everything is an object, including primitive data types. It was developed in the mid-1990s by Yukihiro 'Matz' Matsumoto in Japan.",
+            "exposure": 3,
+            "icon": "static/ruby-ico.png",
+            "index": 14,
+            "name": "Ruby",
+            "reference": "https://en.wikipedia.org/wiki/Ruby_(programming_language)",
+            "soft_or_hard": 1
+        },
+        {
+            "category": "Programming/Scripting Languages",
+            "desc_long": "",
+            "desc_short": "Go is a statically typed, compiled programming language designed at Google[10] by Robert Griesemer, Rob Pike, and Ken Thompson. It is syntactically similar to C, but with memory safety, garbage collection, structural typing, and CSP-style concurrency. It is often referred to as Golang because of its former domain name, golang.org, but its proper name is Go.",
+            "exposure": 4,
+            "icon": "static/go-ico.png",
+            "index": 15,
+            "name": "Go",
+            "reference": "https://en.wikipedia.org/wiki/Go_(programming_language)",
+            "soft_or_hard": 1
+        },
+        {
+            "category": "Programming/Scripting Languages",
+            "desc_long": "",
+            "desc_short": "Rust is a multi-paradigm, general-purpose programming language. It is designed for performance and safety, especially safe concurrency. Rust is known for enforcing memory safety \u2014 that is, that all references point to valid memory \u2014 without requiring the use of a garbage collector or reference counting like other memory-safe languages. Memory safety is enforced by a borrow checker, which tracks object lifetime and variable scope as references are passed throughout the program during compilation.[16] Rust can be used for systems programming with mechanisms for low-level memory management,[18] but also offers high-level features such as functional programming.",
+            "exposure": 2,
+            "icon": "static/rust-ico.png",
+            "index": 16,
+            "name": "Rust",
+            "reference": "https://en.wikipedia.org/wiki/Rust_(programming_language)#:~:text=Rust%20is%20a%20multi-paradigm%20programming%20language%20designed%20for,without%20garbage%20collection%2C%20and%20reference%20counting%20is%20optional.",
+            "soft_or_hard": 1
+        },
+        {
+            "category": "Programming/Scripting Languages",
+            "desc_long": "",
+            "desc_short": "Bash is a Unix shell and command language written by Brian Fox for the GNU Project as a free software replacement for the Bourne shell. First released in 1989, it has been used as the default login shell for most Linux distributions. Bash is a command processor that typically runs in a text window where the user types commands that cause actions. Bash can also read and execute commands from a file, called a shell script.",
+            "exposure": 4,
+            "icon": "static/bash-ico.png",
+            "index": 17,
+            "name": "Bash",
+            "reference": "https://en.wikipedia.org/wiki/Bash_(Unix_shell)",
+            "soft_or_hard": 1
+        },
+        {
+            "category": "Frameworks",
+            "desc_long": "",
+            "desc_short": ".NET is a free, open-source development platform for building many kinds of apps, such as: Web apps, web APIs, and microservices, Serverless functions in the cloud, Cloud native apps, Mobile apps, Desktop apps, Windows WPF, Windows Forms, Universal Windows Platform (UWP), Games, Internet of Things (IoT), Machine learning, Console apps, and Windows services",
+            "exposure": 6,
+            "icon": "static/dotnet-ico.png",
+            "index": 18,
+            "name": ".NET",
+            "reference": "https://en.wikipedia.org/wiki/.NET_Framework",
+            "soft_or_hard": 1
+        },
+        {
+            "category": "Frameworks",
+            "desc_long": "",
+            "desc_short": "Bootstrap is a free and open-source CSS framework directed at responsive, mobile-first front-end web development. It contains HTML, CSS and (optionally) JavaScript-based design templates for typography, forms, buttons, navigation, and other interface components.",
+            "exposure": 5,
+            "icon": "static/bootstrap-ico.png",
+            "index": 19,
+            "name": "Bootstrap",
+            "reference": "https://en.wikipedia.org/wiki/Bootstrap_(front-end_framework)",
+            "soft_or_hard": 1
+        },
+        {
+            "category": "Frameworks",
+            "desc_long": "",
+            "desc_short": "Selenium is an open source umbrella project for a range of tools and libraries aimed at supporting browser automation. It provides a playback tool for authoring functional tests without the need to learn a test scripting language (Selenium IDE). It also provides a test domain-specific language (Selenese) to write tests in a number of popular programming languages, including JavaScript (Node.js), C#, Groovy, Java, Perl, PHP, Python, Ruby and Scala. The tests can then run against most modern web browsers.",
+            "exposure": 7,
+            "icon": "static/selenium-ico.png",
+            "index": 20,
+            "name": "Selenium",
+            "reference": "https://en.wikipedia.org/wiki/Selenium_(software)",
+            "soft_or_hard": 1
+        },
+        {
+            "category": "Frameworks",
+            "desc_long": "",
+            "desc_short": "Rails is a web application development framework written in the Ruby programming language. It is designed to make programming web applications easier by making assumptions about what every developer needs to get started. It allows you to write less code while accomplishing more than many other languages and frameworks.",
+            "exposure": 2,
+            "icon": "static/rails-ico.png",
+            "index": 21,
+            "name": "Ruby on Rails",
+            "reference": "https://en.wikipedia.org/wiki/Ruby_on_Rails",
+            "soft_or_hard": 1
+        },
+        {
+            "category": "Frameworks",
+            "desc_long": "",
+            "desc_short": "Django is a high-level Python web framework that encourages rapid development and clean, pragmatic design. Built by experienced developers, it takes care of much of the hassle of web development, so you can focus on writing your app without needing to reinvent the wheel.",
+            "exposure": 3,
+            "icon": "static/django-ico.png",
+            "index": 22,
+            "name": "Django",
+            "reference": "https://en.wikipedia.org/wiki/Django_(web_framework)",
+            "soft_or_hard": 1
+        },
+        {
+            "category": "Frameworks",
+            "desc_long": "",
+            "desc_short": "jQuery is a fast, small, and feature-rich JavaScript library. It makes things like HTML document traversal and manipulation, event handling, animation, and Ajax much simpler with an easy-to-use API that works across a multitude of browsers.",
+            "exposure": 3,
+            "icon": "static/jquery-ico.png",
+            "index": 23,
+            "name": "JQuery",
+            "reference": "https://en.wikipedia.org/wiki/JQuery",
+            "soft_or_hard": 1
+        },
+        {
+            "category": "Frameworks",
+            "desc_long": "",
+            "desc_short": "Unity is a cross-platform game engine developed by Unity Technologies, first announced and released in June 2005 at Apple Worldwide Developers Conference as a Mac OS X game engine. The engine has since been gradually extended to support a variety of desktop, mobile, console and virtual reality platforms. It is particularly popular for iOS and Android mobile game development and is considered easy to use for beginner developers and is popular for indie game development.",
+            "exposure": 5,
+            "icon": "static/unity-ico.png",
+            "index": 24,
+            "name": "Unity Engine",
+            "reference": "https://en.wikipedia.org/wiki/Unity_(game_engine)",
+            "soft_or_hard": 1
+        },
+        {
+            "category": "Frameworks",
+            "desc_long": "",
+            "desc_short": "Keras is a deep learning API written in Python, running on top of the machine learning platform TensorFlow. It was developed with a focus on enabling fast experimentation. Being able to go from idea to result as fast as possible is key to doing good research.",
+            "exposure": 2,
+            "icon": "static/keras-ico.png",
+            "index": 25,
+            "name": "Keras",
+            "reference": "https://en.wikipedia.org/wiki/Keras",
+            "soft_or_hard": 1
+        },
+        {
+            "category": "Theoretical Knowledge",
+            "desc_long": "",
+            "desc_short": "A data structure is a particular way of organizing data in a computer so that it can be used effectively. The idea is to reduce the space and time complexities of different tasks.",
+            "exposure": 7,
+            "icon": "static/datastructures-ico.png",
+            "index": 26,
+            "name": "Data Structures",
+            "reference": "https://en.wikipedia.org/wiki/Data_structure",
+            "soft_or_hard": 1
+        },
+        {
+            "category": "Theoretical Knowledge",
+            "desc_long": "",
+            "desc_short": "Algorithm analysis is an important part of computational complexity theory, which provides theoretical estimation for the required resources of an algorithm to solve a specific computational problem. Most algorithms are designed to work with inputs of arbitrary length. Analysis of algorithms is the determination of the amount of time and space resources required to execute it.",
+            "exposure": 7,
+            "icon": "static/aa-ico.png",
+            "index": 27,
+            "name": "Algorithm Analysis",
+            "reference": "https://en.wikipedia.org/wiki/Analysis_of_algorithms",
+            "soft_or_hard": 1
+        },
+        {
+            "category": "Software Solutions",
+            "desc_long": "",
+            "desc_short": "As your business grows, so do the demands on your IT team. Automating repetitive processes is one of the simplest and most cost-effective ways to maximize efficiency without hiring new personnel. PDQ Deploy serves as an automated patch manager and software deployment tool so you can update more computers in less time.",
+            "exposure": 6,
+            "icon": "static/pdq-ico.png",
+            "index": 28,
+            "name": "PDQ Deploy",
+            "reference": "https://www.pdq.com/pdq-deploy/",
+            "soft_or_hard": 1
+        },
+        {
+            "category": "Software Solutions",
+            "desc_long": "",
+            "desc_short": "Notepad++ is a text and source code editor for use with Microsoft Windows. It supports tabbed editing, which allows working with multiple open files in a single window. The product's name comes from the C postfix increment operator.",
+            "exposure": 7,
+            "icon": "static/nppp-ico.png",
+            "index": 29,
+            "name": "Notepad++",
+            "reference": "https://en.wikipedia.org/wiki/Notepad++",
+            "soft_or_hard": 1
+        },
+        {
+            "category": "Software Solutions",
+            "desc_long": "",
+            "desc_short": "Atom is a free and open-source text and source code editor for macOS, Linux, and Microsoft Windows with support for plug-ins written in JavaScript, and embedded Git Control. Developed by GitHub, Atom is a desktop application built using web technologies. Most of the extending packages have free software licenses and are community-built and maintained. Atom is based on Electron (formerly known as Atom Shell), a framework that enables cross-platform desktop applications using Chromium and Node.js. Atom was initially written in CoffeeScript and Less, but much of it has been converted to JavaScript.",
+            "exposure": 8,
+            "icon": "static/atom-ico.png",
+            "index": 30,
+            "name": "Atom",
+            "reference": "https://en.wikipedia.org/wiki/Atom_(text_editor)",
+            "soft_or_hard": 1
+        },
+        {
+            "category": "Software Solutions",
+            "desc_long": "",
+            "desc_short": "Microsoft Visual Studio is an integrated development environment (IDE) from Microsoft. It is used to develop computer programs, as well as websites, web apps, web services and mobile apps. Visual Studio uses Microsoft software development platforms such as Windows API, Windows Forms, Windows Presentation Foundation, Windows Store and Microsoft Silverlight. It can produce both native code and managed code.",
+            "exposure": 7,
+            "icon": "static/visualstudio-ico.png",
+            "index": 31,
+            "name": "Microsoft Visual Studio",
+            "reference": "https://en.wikipedia.org/wiki/Microsoft_Visual_Studio",
+            "soft_or_hard": 1
+        },
+        {
+            "category": "Software Solutions",
+            "desc_long": "",
+            "desc_short": "Eclipse is an integrated development environment (IDE) used in computer programming. It contains a base workspace and an extensible plug-in system for customizing the environment. It is the second-most-popular IDE for Java development, and, until 2016, was the most popular. Eclipse is written mostly in Java and its primary use is for developing Java applications, but it may also be used to develop applications in other programming languages via plug-ins, including Ada, ABAP, C, C++, C#, Clojure, COBOL, D, Erlang, Fortran, Groovy, Haskell, JavaScript, Julia, Lasso, Lua, NATURAL, Perl, PHP, Prolog, Python, R, Ruby (including Ruby on Rails framework), Rust, Scala, and Scheme",
+            "exposure": 7,
+            "icon": "static/eclipse-ico.png",
+            "index": 32,
+            "name": "Eclipse",
+            "reference": "https://en.wikipedia.org/wiki/Eclipse_(software)",
+            "soft_or_hard": 1
+        },
+        {
+            "category": "Software Solutions",
+            "desc_long": "",
+            "desc_short": "PuTTY is a free and open-source terminal emulator, serial console and network file transfer application. It supports several network protocols, including SCP, SSH, Telnet, rlogin, and raw socket connection. It can also connect to a serial port.",
+            "exposure": 7,
+            "icon": "static/putty-ico.png",
+            "index": 33,
+            "name": "Putty",
+            "reference": "https://en.wikipedia.org/wiki/PuTTY",
+            "soft_or_hard": 1
+        },
+        {
+            "category": "Software Solutions",
+            "desc_long": "",
+            "desc_short": "Git is software for tracking changes in any set of files, usually used for coordinating work among programmers collaboratively developing source code during software development. Its goals include speed, data integrity, and support for distributed, non-linear workflows (thousands of parallel branches running on different systems).",
+            "exposure": 7,
+            "icon": "static/git-ico.png",
+            "index": 34,
+            "name": "Git",
+            "reference": "https://en.wikipedia.org/wiki/Git",
+            "soft_or_hard": 1
+        },
+        {
+            "category": "Software Solutions",
+            "desc_long": "",
+            "desc_short": "TeXstudio is a cross-platform open-source LaTeX editor. Its features include an interactive spelling checker, code folding, and syntax highlighting. It does not provide LaTeX itself, the user must choose a TeX distribution and install it first.",
+            "exposure": 5,
+            "icon": "static/texstudio-ico.png",
+            "index": 35,
+            "name": "TEXstudio",
+            "reference": "https://en.wikipedia.org/wiki/TeXstudio",
+            "soft_or_hard": 1
+        },
+        {
+            "category": "Software Solutions",
+            "desc_long": "",
+            "desc_short": "Oracle VM VirtualBox is a type-2 hypervisor for x86 virtualization developed by Oracle Corporation. VirtualBox was originally created by Innotek GmbH, which was acquired by Sun Microsystems in 2008, which was in turn acquired by Oracle in 2010. VirtualBox may be installed on Microsoft Windows, macOS, Linux, Solaris and OpenSolaris. There are also ports to FreeBSD and Genode. It supports the creation and management of guest virtual machines running Windows, Linux, BSD, OS/2, Solaris, Haiku, and OSx86, as well as limited virtualization of macOS guests on Apple hardware.",
+            "exposure": 5,
+            "icon": "static/oraclevirtualbox-ico.png",
+            "index": 36,
+            "name": "Oracle VirtualBox",
+            "reference": "https://en.wikipedia.org/wiki/VirtualBox",
+            "soft_or_hard": 1
+        },
+        {
+            "category": "Software Solutions",
+            "desc_long": "",
+            "desc_short": "VMware Workstation Pro (known as VMware Workstation until release of VMware Workstation 12 in 2015) is a hosted hypervisor that runs on x64 versions of Windows and Linux operating systems (an x86-32 version of earlier releases was available); it enables users to set up virtual machines (VMs) on a single physical machine and use them simultaneously along with the host machine. Each virtual machine can execute its own operating system, including versions of Microsoft Windows, Linux, BSD, and MS-DOS.",
+            "exposure": 5,
+            "icon": "static/vmwareworkstation-ico.png",
+            "index": 37,
+            "name": "VMware Workstation",
+            "reference": "https://en.wikipedia.org/wiki/VMware_Workstation",
+            "soft_or_hard": 1
+        },
+        {
+            "category": "Software Solutions",
+            "desc_long": "",
+            "desc_short": "Power BI is an interactive data visualization software product developed by Microsoft with a primary focus on business intelligence. It is part of the Microsoft Power Platform. Power BI is a collection of software services, apps, and connectors that work together to turn unrelated sources of data into coherent, visually immersive, and interactive insights. Data may be input by reading directly from a database, webpage, or structured files such as spreadsheets, CSV, XML, and JSON.",
+            "exposure": 4,
+            "icon": "static/powerbi-ico.png",
+            "index": 38,
+            "name": "Microsoft Power BI",
+            "reference": "https://en.wikipedia.org/wiki/Microsoft_Power_BI",
+            "soft_or_hard": 1
+        },
+        {
+            "category": "Software Solutions",
+            "desc_long": "",
+            "desc_short": "Microsoft Office, or simply Office, is a family of client software, server software, and services developed by Microsoft. Initially a marketing term for an office suite (bundled set of productivity applications), the first version of Office contained Microsoft Word, Microsoft Excel, and Microsoft PowerPoint. Over the years, Office applications have grown substantially closer with shared features such as a common spell checker, Object Linking and Embedding data integration and Visual Basic for Applications scripting language. Microsoft also positions Office as a development platform for line-of-business software under the Office Business Applications brand.",
+            "exposure": 8,
+            "icon": "static/mso-ico.png",
+            "index": 39,
+            "name": "Microsoft Office",
+            "reference": "https://en.wikipedia.org/wiki/Microsoft_Office",
+            "soft_or_hard": 1
+        },
+        {
+            "category": "Software Solutions",
+            "desc_long": "",
+            "desc_short": "Power Apps is a suite of apps, services, and connectors, as well as a data platform, that provides a rapid development environment to build custom apps for your business needs. Using Power Apps, you can quickly build custom business apps that connect to your data stored either in the underlying data platform (Microsoft Dataverse) or in various online and on-premises data sources (such as SharePoint, Microsoft 365, Dynamics 365, SQL Server, and so on).",
+            "exposure": 3,
+            "icon": "static/mspa-ico.png",
+            "index": 40,
+            "name": "Microsoft Power Apps",
+            "reference": "https://docs.microsoft.com/en-us/power-apps/powerapps-overview",
+            "soft_or_hard": 1
+        },
+        {
+            "category": "Software Solutions",
+            "desc_long": "",
+            "desc_short": "ServiceNow is a platform-as-a-service provider, providing technical management support, such as IT service management, to the IT operations of large corporations, including providing help desk functionality. The company's core business revolves around management of 'incident, problem, and change' IT operational events.",
+            "exposure": 6,
+            "icon": "static/sn-ico.png",
+            "index": 41,
+            "name": "ServiceNow",
+            "reference": "https://en.wikipedia.org/wiki/ServiceNow",
+            "soft_or_hard": 1
+        },
+        {
+            "category": "Software Solutions",
+            "desc_long": "",
+            "desc_short": "Spiceworks is an online community where users can collaborate and seek advice from one another, and also engage in a marketplace to purchase IT-related services and products. The network is estimated to be used by more than six million IT professionals and 3,000 technology vendors. The company's free proprietary software is written in Ruby on Rails, and runs exclusively on Microsoft Windows. The software discovers IP-addressable devices and includes help desk functionality and an integrated knowledge base.",
+            "exposure": 3,
+            "icon": "static/spiceworks-ico.png",
+            "index": 42,
+            "name": "Spiceworks",
+            "reference": "https://en.wikipedia.org/wiki/Spiceworks",
+            "soft_or_hard": 1
+        },
+        {
+            "category": "Software Solutions",
+            "desc_long": "",
+            "desc_short": "Microsoft Azure, often referred to as Azure, is a cloud computing service operated by Microsoft for application management via Microsoft-managed data centers. It provides software as a service (SaaS), platform as a service (PaaS) and infrastructure as a service (IaaS) and supports many different programming languages, tools, and frameworks, including both Microsoft-specific and third-party software and systems.",
+            "exposure": 4,
+            "icon": "static/azure-ico.png",
+            "index": 43,
+            "name": "Microsoft Azure",
+            "reference": "https://en.wikipedia.org/wiki/Microsoft_Azure",
+            "soft_or_hard": 1
+        },
+        {
+            "category": "Software Solutions",
+            "desc_long": "",
+            "desc_short": "Google Cloud Platform (GCP), offered by Google, is a suite of cloud computing services that runs on the same infrastructure that Google uses internally for its end-user products, such as Google Search, Gmail, Google Drive, and YouTube. Alongside a set of management tools, it provides a series of modular cloud services including computing, data storage, data analytics and machine learning. Google Cloud Platform provides infrastructure as a service, platform as a service, and serverless computing environments.",
+            "exposure": 2,
+            "icon": "static/gc-ico.png",
+            "index": 44,
+            "name": "Google Cloud",
+            "reference": "https://en.wikipedia.org/wiki/Google_Cloud_Platform",
+            "soft_or_hard": 1
+        },
+        {
+            "category": "Software Solutions",
+            "desc_long": "",
+            "desc_short": "Amazon Web Services, Inc. (AWS) is a subsidiary of Amazon that provides on-demand cloud computing platforms and APIs to individuals, companies, and governments, on a metered pay-as-you-go basis. These cloud computing web services provide distributed computing processing capacity and software tools via AWS server farms.",
+            "exposure": 2,
+            "icon": "static/aws-ico.png",
+            "index": 45,
+            "name": "AWS",
+            "reference": "https://en.wikipedia.org/wiki/Amazon_Web_Services",
+            "soft_or_hard": 1
+        },
+        {
+            "category": "Operating Systems",
+            "desc_long": "",
+            "desc_short": "Windows 10 is a major release of Microsoft's Windows NT operating system. It is the direct successor to Windows 8.1, which was released nearly two years earlier. It was released to manufacturing on July 15, 2015, and later to retail on July 29, 2015.",
+            "exposure": 9,
+            "icon": "static/win10-ico.png",
+            "index": 46,
+            "name": "Windows 10",
+            "reference": "https://en.wikipedia.org/wiki/Windows_10",
+            "soft_or_hard": 1
+        },
+        {
+            "category": "Operating Systems",
+            "desc_long": "",
+            "desc_short": "Windows 8 is a major release of the Windows NT operating system developed by Microsoft. It was released to manufacturing on August 1, 2012; it was subsequently made available for download via MSDN and TechNet on August 15, 2012, and later to retail on October 26, 2012.",
+            "exposure": 6,
+            "icon": "static/win8-ico.png",
+            "index": 47,
+            "name": "Windows 8",
+            "reference": "https://en.wikipedia.org/wiki/Windows_8",
+            "soft_or_hard": 1
+        },
+        {
+            "category": "Operating Systems",
+            "desc_long": "",
+            "desc_short": "Windows 7 is a major release of the Windows NT operating system developed by Microsoft. It was released to manufacturing on July 22, 2009, and became generally available on October 22, 2009.",
+            "exposure": 7,
+            "icon": "static/win7-ico.png",
+            "index": 48,
+            "name": "Windows 7",
+            "reference": "https://en.wikipedia.org/wiki/Windows_7",
+            "soft_or_hard": 1
+        },
+        {
+            "category": "Operating Systems",
+            "desc_long": "",
+            "desc_short": "Ubuntu has a server edition that uses the same APT repositories as the Ubuntu Desktop Edition. The differences between them are the absence of an X Window environment in a default installation of the server edition (although one can easily be installed, including Unity, GNOME, KDE or Xfce), and some alterations to the installation process. The server edition uses a screen-mode, character-based interface for the installation, instead of a graphical installation process. This enables installation on machines with a serial or 'dumb terminal' interface without graphics support.",
+            "exposure": 8,
+            "icon": "static/ubuntuserver-ico.png",
+            "index": 49,
+            "name": "Ubuntu Server",
+            "reference": "https://en.wikipedia.org/wiki/Ubuntu",
+            "soft_or_hard": 1
+        },
+        {
+            "category": "Operating Systems",
+            "desc_long": "",
+            "desc_short": "Ubuntu is a Linux distribution based on Debian and composed mostly of free and open-source software. Ubuntu is officially released in three editions: Desktop, Server, and Core for Internet of things devices and robots. All the editions can run on the computer alone, or in a virtual machine. Ubuntu is a popular operating system for cloud computing, with support for OpenStack.",
+            "exposure": 7,
+            "icon": "static/ubuntudesktop-ico.png",
+            "index": 50,
+            "name": "Ubuntu Desktop",
+            "reference": "https://en.wikipedia.org/wiki/Ubuntu",
+            "soft_or_hard": 1
+        },
+        {
+            "category": "Operating Systems",
+            "desc_long": "",
+            "desc_short": "Debian, also known as Debian GNU/Linux, is a Linux distribution composed of free and open-source software, developed by the community-supported Debian Project, which was established by Ian Murdock on August 16, 1993. The first version of Debian (0.01) was released on September 15, 1993, and its first stable version (1.1) was released on June 17, 1996. The Debian Stable branch is the most popular edition for personal computers and servers. Debian is also the basis for many other distributions, most notably Ubuntu.",
+            "exposure": 5,
+            "icon": "static/debian-ico.png",
+            "index": 51,
+            "name": "Debian",
+            "reference": "https://en.wikipedia.org/wiki/Debian",
+            "soft_or_hard": 1
+        },
+        {
+            "category": "Operating Systems",
+            "desc_long": "",
+            "desc_short": "Linux Mint is a community-driven Linux distribution based on Ubuntu (which is in turn based on Debian), bundled with a variety of free and open-source applications. It can provide full out-of-the-box multimedia support for those who choose to include proprietary software such as multimedia codecs.",
+            "exposure": 3,
+            "icon": "static/linuxmint-ico.png",
+            "index": 52,
+            "name": "Linux Mint",
+            "reference": "https://en.wikipedia.org/wiki/Linux_Mint",
+            "soft_or_hard": 1
+        },
+        {
+            "category": "Operating Systems",
+            "desc_long": "",
+            "desc_short": "CrunchBang Linux (abbreviated #!) was a Linux distribution derived from Debian by Philip Newborough (who is more commonly known by his username, corenominal). CrunchBang was designed to use comparatively few system resources. Instead of a desktop environment it used a customized implementation of the Openbox window manager. Many of its preinstalled applications used the GTK+ widget toolkit. CrunchBang PlusPlus (#!++) was developed in response to Newborough's announcement of the end of CrunchBang. It is currently based on the Debian Bullseye (release 11.1) distribution.",
+            "exposure": 5,
+            "icon": "static/crunchbang-ico.png",
+            "index": 53,
+            "name": "CrunchBang Plus Plus",
+            "reference": "https://en.wikipedia.org/wiki/Crunchbang_Linux",
+            "soft_or_hard": 1
+        },
+        {
+            "category": "Operating Systems",
+            "desc_long": "",
+            "desc_short": "macOS is a Unix operating system developed and marketed by Apple Inc. since 2001. It is the primary operating system for Apple's Mac computers. Within the market of desktop and laptop computers it is the second most widely used desktop OS, after Microsoft Windows and ahead of Chrome OS.",
+            "exposure": 4,
+            "icon": "static/osx-ico.png",
+            "index": 54,
+            "name": "macOS",
+            "reference": "https://en.wikipedia.org/wiki/MacOS",
+            "soft_or_hard": 1
+        },
+        {
+            "category": "Operating Systems",
+            "desc_long": "",
+            "desc_short": "Kali Linux is a Debian-derived Linux distribution designed for digital forensics and penetration testing. It is maintained and funded by Offensive Security. Kali Linux has around 600 penetration-testing programs (tools), including Armitage (a graphical cyber attack management tool), Nmap (a port scanner), Wireshark (a packet analyzer), metasploit (penetration testing framework), John the Ripper (a password cracker), sqlmap (automatic SQL injection and database takeover tool), Aircrack-ng (a software suite for penetration-testing wireless LANs), Burp suite and OWASP ZAP web application security scanners, etc.",
+            "exposure": 3,
+            "icon": "static/kalilinux-ico.png",
+            "index": 55,
+            "name": "Kali Linux",
+            "reference": "https://en.wikipedia.org/wiki/Kali_Linux",
+            "soft_or_hard": 1
+        },
+        {
+            "category": "Theoretical Knowledge",
+            "desc_long": "",
+            "desc_short": "The Information Technology Infrastructure Library (ITIL) is a set of detailed practices for IT activities such as IT service management (ITSM) and IT asset management (ITAM) that focus on aligning IT services with the needs of business.",
+            "exposure": 5,
+            "icon": "static/ITIL-ico.png",
+            "index": 56,
+            "name": "ITIL",
+            "reference": "https://en.wikipedia.org/wiki/ITIL",
+            "soft_or_hard": 1
+        },
+        {
+            "category": "Operating Systems",
+            "desc_long": "",
+            "desc_short": "Windows Server 2012 is the sixth version of the Windows Server operating system by Microsoft, as part of the Windows NT family of operating systems. It is the server version of Windows based on Windows 8 and succeeds Windows Server 2008 R2, which is derived from the Windows 7 codebase, released nearly three years earlier. ",
+            "exposure": 4,
+            "icon": "static/winserver-ico.png",
+            "index": 57,
+            "name": "Windows Server 2012",
+            "reference": "https://en.wikipedia.org/wiki/Windows_Server_2012",
+            "soft_or_hard": 1
+        },
+        {
+            "category": "Soft Skills",
+            "desc_long": "",
+            "desc_short": "Customer service is the provision of service to customers before, during, and after a purchase. This makes it an important part on the value chain of clients. Each industry requires different levels of customer service, but at the end, the idea of a well performed service is that of increasing revenues. The perception of success of the customer service interactions is dependent on employees 'who can adjust themselves to the personality of the customer'.",
+            "exposure": 10,
+            "icon": "static/customerservice-ico.png",
+            "index": 58,
+            "name": "Customer Service",
+            "reference": "https://en.wikipedia.org/wiki/Customer_service",
+            "soft_or_hard": 0
+        },
+        {
+            "category": "Soft Skills",
+            "desc_long": "",
+            "desc_short": "Project management is the process of leading the work of a team to achieve all project goals within the given constraints. This information is usually described in project documentation, created at the beginning of the development process. The primary constraints are scope, time, and budget. The secondary challenge is to optimize the allocation of necessary inputs and apply them to meet pre-defined objectives.",
+            "exposure": 5,
+            "icon": "static/projectmanagement-ico.png",
+            "index": 59,
+            "name": "Project Management",
+            "reference": "https://en.wikipedia.org/wiki/Project_management",
+            "soft_or_hard": 0
+        },
+        {
+            "category": "Soft Skills",
+            "desc_long": "",
+            "desc_short": "Leadership, both as a research area and as a practical skill, encompasses the ability of an individual, group or organization to 'lead', influence or guide other individuals, teams, or entire organizations.",
+            "exposure": 5,
+            "icon": "static/leadership-ico.png",
+            "index": 60,
+            "name": "Leadership",
+            "reference": "https://en.wikipedia.org/wiki/Leadership",
+            "soft_or_hard": 0
+        },
+        {
+            "category": "Soft Skills",
+            "desc_long": "",
+            "desc_short": "Delegation is the assignment of authority to another person (normally from a manager to a subordinate) to carry out specific activities. It is the process of distributing and entrusting work to another person, and therefore one of the core concepts of management leadership. The process involves managers deciding which work they should do themselves and which work should be delegated to others for completion.",
+            "exposure": 4,
+            "icon": "static/delegation-ico.png",
+            "index": 61,
+            "name": "Delegation",
+            "reference": "https://en.wikipedia.org/wiki/Delegation",
+            "soft_or_hard": 0
+        },
+        {
+            "category": "Soft Skills",
+            "desc_long": "",
+            "desc_short": "Communication is when information is passed from a sender to a recipient using a medium. There are different media that can be used: Visual communication, communicating with sounds, communication using touch, using smell, or using writing",
+            "exposure": 9,
+            "icon": "static/communication-ico.png",
+            "index": 62,
+            "name": "Communication",
+            "reference": "https://simple.wikipedia.org/wiki/Communication",
+            "soft_or_hard": 0
+        },
+        {
+            "category": "Soft Skills",
+            "desc_long": "",
+            "desc_short": "Teamwork is the collaborative effort of a group to achieve a common goal or to complete a task in the most effective and efficient way. This concept is seen within the greater framework of a team, which is a group of interdependent individuals who work together towards a common goal.",
+            "exposure": 9,
+            "icon": "static/teamwork-ico.png",
+            "index": 63,
+            "name": "Teamwork",
+            "reference": "https://en.wikipedia.org/wiki/Teamwork",
+            "soft_or_hard": 0
+        },
+        {
+            "category": "Soft Skills",
+            "desc_long": "",
+            "desc_short": "Problem solving is the way by which solutions are developed to remove an obstacle from achieving an ultimate goal. Problems in need of solutions range from basic personal issues of 'how do I turn on this appliance?' to more complex topics in the business and academic fields.",
+            "exposure": 9,
+            "icon": "static/problemsolving-ico.png",
+            "index": 64,
+            "name": "Problem Solving",
+            "reference": "https://en.wikipedia.org/wiki/Problem_solving",
+            "soft_or_hard": 0
+        },
+        {
+            "category": "Theoretical Knowledge",
+            "desc_long": "",
+            "desc_short": "Through a series of interlocking regulatory rules, HIPAA compliance is a living culture that health care organizations must implement into their business in order to protect the privacy, security, and integrity of protected health information.",
+            "exposure": 4,
+            "icon": "static/hipaa-ico.png",
+            "index": 65,
+            "name": "HIPAA Compliance",
+            "reference": "https://compliancy-group.com/what-is-hipaa-compliance/",
+            "soft_or_hard": 1
+        },
+        {
+            "category": "Theoretical Knowledge",
+            "desc_long": "",
+            "desc_short": "In software development, agile practices include requirements discovery and solutions improvement through the collaborative effort of self-organizing and cross-functional teams with their customer(s)/end user(s), adaptive planning, evolutionary development, early delivery, continual improvement, and flexible responses to changes in requirements, capacity, and understanding of the problems to be solved.",
+            "exposure": 6,
+            "icon": "static/agile-ico.png",
+            "index": 66,
+            "name": "Agile Methodology",
+            "reference": "https://en.wikipedia.org/wiki/Agile_software_development",
+            "soft_or_hard": 1
+        },
+        {
+            "category": "Soft Skills",
+            "desc_long": "",
+            "desc_short": "Integrity is the practice of being honest and showing a consistent and uncompromising adherence to strong moral and ethical principles and values. In ethics, integrity is regarded as the honesty and truthfulness or accuracy of one's actions.",
+            "exposure": 6,
+            "icon": "static/integrity-ico.png",
+            "index": 67,
+            "name": "Integrity",
+            "reference": "https://en.wikipedia.org/wiki/Integrity",
+            "soft_or_hard": 0
+        },
+        {
+            "category": "Soft Skills",
+            "desc_long": "",
+            "desc_short": "Adaptive performance in the work environment refers to adjusting to and understanding change in the workplace. An employee who is versatile is valued and important in the success of an organization. Employers seek employees with high adaptability, due to the positive outcomes that follow, such as excellent work performance, work attitude, and ability to handle stress. Employees, who display high adaptive performance in an organization, tend to have more advantages in career opportunities unlike employees who are not adaptable to change.",
+            "exposure": 7,
+            "icon": "static/adaptability-ico.png",
+            "index": 68,
+            "name": "Adaptability",
+            "reference": "https://en.wikipedia.org/wiki/Adaptive_performance",
+            "soft_or_hard": 0
+        },
+        {
+            "category": "Soft Skills",
+            "desc_long": "",
+            "desc_short": "Empathy is the capacity to understand or feel what another person is experiencing from within their frame of reference, that is, the capacity to place oneself in another's position.",
+            "exposure": 6,
+            "icon": "static/empathy-ico.png",
+            "index": 69,
+            "name": "Empathy",
+            "reference": "https://en.wikipedia.org/wiki/Empathy",
+            "soft_or_hard": 0
+        }
+    ]
+}
