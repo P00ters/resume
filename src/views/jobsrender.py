@@ -225,12 +225,12 @@ class JobRenderer:
 						<div class="card">
 							<div class="card-header">
 								<div class="row">
-									<div class="col-sm-7">
+									<div class="col-sm-12">
 										<h4 style="vertical-align:middle;">
 											''' + str(this_job.title) + '''
 										</h4>
 									</div>
-									<div class="col-sm-5" style="text-align:right;">
+									<div class="col-sm-12" style="text-align:left;">
 										<i style="vertical-align:middle;">'''
 			if this_job.present == 0:
 				html += datereformat(this_job.date_start)+''' - '''+datereformat(this_job.date_stop)+'''</i>'''
