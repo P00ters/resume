@@ -467,4 +467,4 @@ def create_edu():
 	return html
 
 if __name__ == '__main__':
-	app.run(host='resume.tomesser.biz',port='5000',debug=True)
+	app.run(host='resume.tomesser.biz',port='80',debug=True)

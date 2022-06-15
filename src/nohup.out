@@ -1,0 +1,35 @@
+ * Serving Flask app 'myResume' (lazy loading)
+ * Environment: production
+   WARNING: This is a development server. Do not use it in a production deployment.
+   Use a production WSGI server instead.
+ * Debug mode: on
+ * Running on http://resume.tomesser.biz:80 (Press CTRL+C to quit)
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 127-540-813
+68.51.230.242 - - [15/Jun/2022 05:17:06] "[32mGET /home HTTP/1.1[0m" 302 -
+68.51.230.242 - - [15/Jun/2022 05:17:06] "[32mGET /reauth?r=_home HTTP/1.1[0m" 302 -
+68.51.230.242 - - [15/Jun/2022 05:17:06] "GET /home HTTP/1.1" 200 -
+68.51.230.242 - - [15/Jun/2022 05:17:06] "[36mGET /static/css/lib.css HTTP/1.1[0m" 304 -
+68.51.230.242 - - [15/Jun/2022 05:17:06] "[36mGET /static/js/lib.js HTTP/1.1[0m" 304 -
+68.51.230.242 - - [15/Jun/2022 05:17:06] "[36mGET /static/logo.png HTTP/1.1[0m" 304 -
+68.51.230.242 - - [15/Jun/2022 05:17:06] "[36mGET /static/Addr.png HTTP/1.1[0m" 304 -
+68.51.230.242 - - [15/Jun/2022 05:17:06] "[36mGET /static/Phone.png HTTP/1.1[0m" 304 -
+68.51.230.242 - - [15/Jun/2022 05:17:06] "[36mGET /static/Mail.png HTTP/1.1[0m" 304 -
+68.51.230.242 - - [15/Jun/2022 05:17:06] "[36mGET /static/HeaderAnim.gif HTTP/1.1[0m" 304 -
+68.51.230.242 - - [15/Jun/2022 05:17:12] "GET /home HTTP/1.1" 200 -
+68.51.230.242 - - [15/Jun/2022 05:17:12] "[36mGET /static/js/lib.js HTTP/1.1[0m" 304 -
+68.51.230.242 - - [15/Jun/2022 05:17:12] "[36mGET /static/css/lib.css HTTP/1.1[0m" 304 -
+68.51.230.242 - - [15/Jun/2022 05:17:12] "[36mGET /static/logo.png HTTP/1.1[0m" 304 -
+68.51.230.242 - - [15/Jun/2022 05:17:12] "[36mGET /static/Addr.png HTTP/1.1[0m" 304 -
+68.51.230.242 - - [15/Jun/2022 05:17:12] "[36mGET /static/Phone.png HTTP/1.1[0m" 304 -
+68.51.230.242 - - [15/Jun/2022 05:17:12] "[36mGET /static/Mail.png HTTP/1.1[0m" 304 -
+68.51.230.242 - - [15/Jun/2022 05:17:12] "[36mGET /static/HeaderAnim.gif HTTP/1.1[0m" 304 -
+68.51.230.242 - - [15/Jun/2022 05:17:19] "GET /home HTTP/1.1" 200 -
+68.51.230.242 - - [15/Jun/2022 05:17:19] "[36mGET /static/js/lib.js HTTP/1.1[0m" 304 -
+68.51.230.242 - - [15/Jun/2022 05:17:19] "[36mGET /static/css/lib.css HTTP/1.1[0m" 304 -
+68.51.230.242 - - [15/Jun/2022 05:17:19] "[36mGET /static/logo.png HTTP/1.1[0m" 304 -
+68.51.230.242 - - [15/Jun/2022 05:17:19] "[36mGET /static/Addr.png HTTP/1.1[0m" 304 -
+68.51.230.242 - - [15/Jun/2022 05:17:19] "[36mGET /static/Phone.png HTTP/1.1[0m" 304 -
+68.51.230.242 - - [15/Jun/2022 05:17:19] "[36mGET /static/Mail.png HTTP/1.1[0m" 304 -
+68.51.230.242 - - [15/Jun/2022 05:17:19] "[36mGET /static/HeaderAnim.gif HTTP/1.1[0m" 304 -
