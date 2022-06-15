@@ -5,15 +5,15 @@ import dbm
 from dbm import DBM
 from contacts import Contact
 from fmat import teleformat, telelink
-
+g_api = "AIzaSyAQmRwQrAmnbDOU_d0ILUMlT2l9OAldR00"
 
 class ContactRenderer:
 	def __init__ (self, dbm):
 		self.dbm = dbm
-		
+
 	def render_home_contact (self, contact, mobile):
 		html = ''
-		
+
 		if not mobile:
 			html += '''
 				<div style="background-color:#c6bc24;position:relative;width:100%;">
@@ -57,7 +57,7 @@ class ContactRenderer:
 								</div>
 							</div>
 						<br>'''
-						
+
 		else:
 			html += '''
 				<div style="background-color:#c6bc24;position:relative;width:100%;">
@@ -121,5 +121,5 @@ class ContactRenderer:
 									</ul>
 								</div>
 							</div>'''
-		
+
 		return html

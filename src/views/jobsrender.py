@@ -14,14 +14,14 @@ from fmat import datereformat
 class JobRenderer:
 	def __init__ (self, dbm):
 		self.dbm = dbm
-	
+
 	def render_home_tile (self, j, mobile):
 		# Set logo source
 		if j.org.logo != None and j.org.logo != '':
 			org_logo_src = "data:image/png;base64," + j.org.logo.decode('utf-8')
 		else:
 			org_logo_src = "/static/placeholder-logo.png"
-		
+
 		# Format date strings
 		date_start = datetime.datetime.strptime(j.date_start, '%Y-%m-%d')
 		if j.present == 1:
@@ -33,13 +33,13 @@ class JobRenderer:
 			date_stop_str = date_stop.strftime('%b %Y')
 		else:
 			date_stop_str = 'Present'
-		
+
 		html = ""
-		# Render desktop view 
+		# Render desktop view
 		if not mobile:
 			html += '''
 				<!-- Job home tile card -->
-				
+
 				<div class="card w-75">
 					<div class="card-header">
 						<div class="row">
@@ -90,7 +90,7 @@ class JobRenderer:
 					</div>
 				</div>
 				<br>'''
-						
+
 		# Render mobile view
 		else:
 			html += '''
@@ -102,7 +102,7 @@ class JobRenderer:
 										<img width="30" height="30" src="''' + str(org_logo_src) + '''" />
 									</div>
 									<div class="col-11">
-										<a href="/orgs/''' + str(job.org.id) + '''" style="color:black;">
+										<a href="/orgs/''' + str(j.org.id) + '''" style="color:black;">
 											<h6 style="margin-top:5px;"><u>''' + str(j.org.name) + '''</u></h6>
 										</a>
 									</div>
@@ -123,7 +123,7 @@ class JobRenderer:
 												</i>
 											</div>
 										</div>
-										
+
 										<p class="card-text">''' + str(j.desc_short) + '''</p>
 										<div style="position:relative;left:25%;width:75%;font-size:8px;text-align:right">
 											<a href="/jobs/''' + str(j.id) + '''">
@@ -142,18 +142,18 @@ class JobRenderer:
 			else:
 				html += '''
 											<i>No associated skills identified for this experience.</i>'''
-			
+
 			html += '''					</div>
 									</li>
 								</ul>
 							</div>
 						</div>'''
-			
+
 		return html
-	
+
 	def render_job_page (self, this_job, next_job, last_job, mobile):
 		html = ''
-		
+
 		# Render desktop view
 		if not mobile:
 			html +=	'''		<!-- Job Tile -->
@@ -199,13 +199,13 @@ class JobRenderer:
 													</span>
 												</a>'''
 			else:
-				html += '''						<i style="padding-left:15px;">No associated skills identified for this experience.</i>'''	
+				html += '''						<i style="padding-left:15px;">No associated skills identified for this experience.</i>'''
 			html += '''						</div>
 										</li>
 									</ul>
 								<div>
 							<div>'''
-		
+
 		# Render mobile view
 		else:
 			html += '''	<div class="card">
@@ -215,7 +215,7 @@ class JobRenderer:
 										<div style="position:relative;width:50%;left:0%;display:inline;">
 											<a href="/jobs/''' + str(last_job.id) + '''">< Last Job</a>
 										</div>
-										<div style="position:relative;width:50%;lef:50%;display:inline;">
+										<div style="position:relative;width:50%;left:50%;display:inline;text-align:right;">
 											<a href="/jobs/''' + str(next_job.id) + '''">Next Job ></a>
 										</div>
 									</div>
@@ -269,6 +269,6 @@ class JobRenderer:
 									</li>
 								</ul>
 							</div>
-						</div>'''				
-		
+						</div>'''
+
 		return html

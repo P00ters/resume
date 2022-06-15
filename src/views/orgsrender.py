@@ -13,7 +13,7 @@ g_api = "AIzaSyAQmRwQrAmnbDOU_d0ILUMlT2l9OAldR00"
 class OrgRenderer:
 	def __init__ (self, dbm):
 		self.dbm = dbm
-		
+
 	def render_org_tile (self, mobile, **kwargs):
 		this_org = kwargs.get('this_org', None)
 		next_org = kwargs.get('next_org', None)
@@ -24,7 +24,7 @@ class OrgRenderer:
 		this_edu = kwargs.get('this_edu', None)
 		next_edu = kwargs.get('next_edu', None)
 		last_edu = kwargs.get('last_edu', None)
-		
+
 		if this_org != None:
 			logo = "data:image/png;base64," +  this_org.logo.decode('utf-8')
 			head = "data:image/png;base64," + this_org.image_head.decode('utf-8')
@@ -37,7 +37,8 @@ class OrgRenderer:
 		else:
 			# return 404
 			return
-			
+
+		html = ''
 		if not mobile:
 			html = '''	<div class="jumbotron">
 							<img src="'''+head+'''" style="position:relative;width:70%;left:15%;z-index:0;max-height:25%;"/>'''
@@ -81,7 +82,7 @@ class OrgRenderer:
 										</a>
 									</div>'''
 
-											
+
 			if this_job == None and this_edu == None:
 				html +=	'''			<div class="card-body" style="z-index:0;">
 										<div class="row">
@@ -111,18 +112,18 @@ class OrgRenderer:
 								</div>'''
 			else:
 				html += '''		</div>'''
-											
+
 		else:
 			if this_org != None and next_org != None and last_org != None:
 				this_org = this_org
-			if this_job != None and next_job != None and last_job != None:
+			elif this_job != None and next_job != None and last_job != None:
 				this_org = this_job.org
 			elif this_edu != None and next_edu != None and last_edu != None:
 				this_org = this_edu.org
 			else:
 				# return 404
 				return
-				
+
 			html = '''	<div class="jumbotron">
 							<img src="'''+head+'''" style="position:relative;width:100%;left:0%;z-index:0;"/>
 							<div style="position:relative;width:100%;z-index=1;">
@@ -135,9 +136,24 @@ class OrgRenderer:
 										<h4 style="display:inline;padding-left:10px;vertical-align:middle;">
 											''' + str(this_org.name) + '''</u></h4>
 									</a>
-								</div>'''
+								</div>
+							</div>'''
 			if this_job == None and this_edu == None:
-				html += '''
+				html += '''	<div class="card">
+								<div class="card-body" style="z-index:0;">
+									<div class="row">
+										<div class="col-sm-12">
+											<div style="position:relative;width:50%;left:0%;display:inline;">
+												<a href="/orgs/''' + str(last_org.id) + '''">< Last Org</a>
+											</div>
+											<div style="position:relative;width:50%;left:50%;display:inline;text-align:right;">
+												<a href="/orgs/''' + str(next_org.id) + '''">Next Org ></a>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="card">
 								<div class="card-body" style="z-index:0;">
 									<div class="row">
 										<div class="col-sm-8">
@@ -146,7 +162,7 @@ class OrgRenderer:
 										</div>
 										<div class="col-sm-4">
 												<h6>Information:</h6>
-												''' + addresslines(str(this_org.address))+'''
+												''' + addresslines(str(this_org.address.name))+'''
 												<a href="''' + telelink(str(this_org.phone)) + '''">
 													''' + teleformat(str(this_org.phone)) + '''
 												</a>
@@ -171,10 +187,10 @@ class OrgRenderer:
 							</div>'''
 			else:
 				html += '''	</div>'''
-		
+
 		return html
-		
-	
+
+
 	def addresslines (self, address):
 		a = address.split(',')
 		c = ""

@@ -51,7 +51,7 @@ class CRender:
 	def home_home_htmlify (self, contact, home_edus, home_jobs, session):
 		html = ""
 		html += self.contactrenderer.render_home_contact(contact, session['mobile'])
-		
+
 		if not session['mobile']:
 			html += '''
 						<div class="row" style="width:75%;">
@@ -135,13 +135,13 @@ class CRender:
 	def jobs_jobs_htmlify (self, jobs, mobile):
 		html = self.orgrenderer.render_org_tile(mobile, this_job=jobs[0], next_job=jobs[1], last_job=jobs[2])
 		html += self.jobrenderer.render_job_page(jobs[0], jobs[1], jobs[2], mobile)
-		
+
 		return html
 
 	def edus_edus_htmlify (self, edus, mobile):
 		html = self.orgrenderer.render_org_tile(mobile, this_edu=edus[0], next_edu=edus[1], last_edu=edus[2])
 		html += self.edurenderer.render_edu_page(edus[0], edus[1], edus[2], mobile)
-	
+
 		return html
 
 	def org_htmlify (self, orgs, mobile):
@@ -156,7 +156,7 @@ class CRender:
 
 	def render_header (self, user, page, redirect, s):
 		intact = self.dbm.is_intact()
-		
+
 		if not s['mobile']:
 			html = 	'''
 						<nav class="navbar navbar-expand navbar-dark bg-dark">
@@ -321,7 +321,7 @@ class CRender:
 						</nav>
 					'''
 			if not intact:
-				html += '''	<div class="alert alert-danger" role="alert">
+				html += '''	<div class="alert alert-danger" role="alert" style="margin-bottom:-5px;">
 								<div class="col-sm-8 mx-auto">
 									<b>Note:</b> The data in this site is not original data. Please click <a href="/restore?r=''' + redirect.replace('/','_') + '''">here</a> to restore resume data.
 								</div>
@@ -434,7 +434,7 @@ class CRender:
 				html +=	'''								<option value="''' + s.id + '''">'''+ s.name + '''</option>'''
 			html+= '''								</select>
 													<br><br>
-													<button type="button" class="btn btn-success btn-lg btn-block" style="width:80%;position:relative;left:7.5%;" id="job_add_skill_button" onClick="job_add_skill(0)">Add Skill</button>
+													<button type="button" class="btn btn-success btn-lg btn-block" style="width:80%;position:relative;left:7.5%;" id="job_add_skill_button" onClick="job_add_skill(0, 0)">Add Skill</button>
 												</div>
 
 
@@ -534,8 +534,8 @@ class CRender:
 												</div>
 												<hr>
 												<div class="container" id="job_add_skill_div">
-													
-													
+
+
 												</div>
 												<hr>
 											</div>
@@ -727,29 +727,125 @@ class CRender:
 											<div class="row">
 												<div class="col-sm-12 mx-auto">
 													<label for="skill_selector">Select Skills</label><br>'''
-			all_skills = self.skills_for_add_query()
+			all_skills = self.mc.skills_for_add_query()
 			html += '''								<select "style=width:100%;" size="'''+str(len(all_skills))+'''" id="skill_selector" name="skill_selector" multiple>'''
 			for s in all_skills:
-				html +=	'''								<option value="'''+s['id']+'''">'''+s['name']+'''</option>'''
+				html +=	'''								<option value="'''+s.id+'''">'''+s.name+'''</option>'''
 			html+= '''								</select>
+														<br><br>
+														<button type="button" class="btn btn-success btn-lg btn-block" style="width:80%;position:relative;left:7.5%;" id="job_add_skill_button" onClick="job_add_skill(0, 1)">Add Skill</button>
 												</div>
 											</div><br>
 											<div class="row">
 													<div class="col-sm-12 mx-auto">
 														<label for="org_select">Select Organization</label><br>'''
-			all_orgs = self.orgs_for_add_query()
+			all_orgs = self.mc.orgs_for_add_query()
 			html += '''									<select "style=width:100%;" size="'''+str(len(all_orgs))+'''" id="org_selector" name="org_selector">'''
 			for o in all_orgs:
-				html += '''									<option value="'''+o['id']+'''">'''+o['name']+'''</option>'''
+				html += '''									<option value="'''+o.id+'''">'''+o.name+'''</option>'''
 			html += '''									</select>
+														<br><br>
+														<button type="button" class="btn btn-success btn-lg btn-block" style="width:80%;position:relative;left:7.5%;" onClick="javascript: job_add_org()">Add Organization</button>
 													</div>
 											</div>
 											<input type="hidden" name="redirect" id="redirect" value="'''+redirect+'''"></input>
+											<input type="hidden" name="job_add_skills_i" id="job_add_skills_i" value="False"></input>
+											<input type="hidden" name="job_max_skills" id="job_max_skills" value="0"></input>
+											<input type="hidden" name="job_add_org_i" id="job_add_org_i" value="False"></input>
+											<input type="hidden" name="job_add_address_i" id="job_add_address_i" value="False"></input>
 											<div class="row">
 												<div class="col-sm-10 mx-auto">
 													<input type="submit" value="Submit" style="display:none">
 												</div>
 											</div>
+											<hr>
+											<div class="container" id="job_new_org_parent" style="visibility:hidden;height:0px;">
+												<div class="row">
+													<h6>Add New Organization</h6>
+												</div>
+												<hr>
+												<div class="container" id="job_add_org_div">
+													<div class="row">
+														<button type="button" class="close", onClick="javascript: job_remove_org()" style="margin-left:auto;margin-right:0;">
+															<span aria-hidden="true">&times;</span>
+														</button>
+													</div>
+													<div class="row" style="padding-top:15px;">
+														<div class="col-12">
+															<label for="j_o_name">Name</label><br>
+															<input type="text" name="j_o_name" id="j_o_name" placeholder="Oragnization name"></input>
+														</div>
+													</div>
+													<div class="row" style="padding-top:15px;">
+														<div class="col-12">
+															<label for="j_o_phone">Phone number</label><br>
+															<input type="text" name="j_o_phone" id="j_o_phone" placeholder="555-555-5555"></input>
+														</div>
+													</div>
+													<div class="row" style="padding-top:15px;">
+														<div class="col-12">
+															<label for="j_o_website">Website</label><br>
+															<input type="text" name="j_o_website" id="j_o_website" placeholder="Website URL"></input>
+														</div>
+													</div>
+													<div class="row" style="padding-top:15px;">
+														<div class="col-12">
+															<label for="j_o_desc_short">Description</label><br>
+															<textarea name="j_o_desc_short" id="j_o_desc_short" form="create_job" placeholder="Description of organization" style="width:95%;height:100px;" ></textarea>
+														</div>
+													</div>
+													<div class="row" style="padding-top:15px;">
+														<div class="col-12">
+															<label for="j_o_icon">Icon Image</label>
+															<input type="file" onChange="upload_img('j_o_icon')"  name="j_o_icon" id="j_o_icon" accept="image/png, image/jpeg"></input>
+															<input type="hidden" name="j_o_icon_val" id="j_o_icon_val"></input>
+														</div>
+													</div>
+													<div class="row" style="padding-top:15px;">
+														<div class="col-12">
+															<label for="j_o_header">Header Image</label>
+															<input type="file" onChange="upload_img('j_o_header')"  name="j_o_header" id="j_o_header" accept="image/png, image/jpeg"></input>
+															<input type="hidden" name="j_o_header_val" id="j_o_header_val" value=""></input>
+														</div>
+													</div>
+													<div class="row" style="padding-top:15px;">
+														<div class="col-12">
+															<label for="j_o_address_selector">Address</label>'''
+			all_addresses = retrieve_all_addresses(self.dbm)
+			html += '''										<select style="min-width:95%;max-width:95%;" size="4" id="j_o_address_selector" name="j_o_address_selector">'''
+			for a in all_addresses:
+				html += '''									<option value="''' + a.id + '''">''' + a.name +'''</option>'''
+			html += '''										</select>
+															<br><br>
+															<button type="button" class="btn btn-success btn-lg btn-block" style="width:80%;position:relative;left:7.5%;" onClick="javascript: job_new_address()">Add Address</button>
+														</div>
+													</div>
+													<div class="row" style="padding-top:15px;">
+														<div class="col-12">
+															<div id="job_new_address_div" style="visibility:hidden; height:0px; left:0px;">
+																<button type="button" class="close", onClick="javascript: job_remove_address()" style="margin-left:auto;margin-right:0;">
+																<span aria-hidden="true">&times;</span>
+																</button>
+																<br>
+																<label for="j_o_new_address">New Address</label>
+																<input type="text" name="j_o_new_address" id="j_o_new_address" placeholder="123 Street Ave, City, State 12345" style="width:95%;"></input>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+											<hr>
+	  									  	<div class="container" id="job_new_skill_parent" style="visibility:hidden;height:0px;">
+	  										  <div class="row">
+	  											  <h6>Add New Skill(s)</h6>
+	  										  </div>
+	  										  <hr>
+	  										  <div class="container" id="job_add_skill_div">
+
+
+	  										  </div>
+	  										  <hr>
+	  									  	</div>
 								      </div>
 								      <div class="modal-footer">
 									  	<button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close">
@@ -1067,98 +1163,180 @@ class CRender:
 		return html
 
 	def render_err (self, session, resource):
-		
-			
-	
-		html = '''	<div class="jumbotron">
-						<div style="position:relative;left:12.5%;">
-							<div class="card w-75">
-								<div class="card-body">
-									<ul class="list-group list-group-flush">
-										<li class="list-group-item">
-											<h1>404 Error</h1>
-											<h6>We were unable to locate the requested resource.</h6><br>
-											<p>It looks like you were attempting to access a
-											"''' + resource + '''" that does not exist. You can try again or feel free to check out the below similar resources that do exist.</p>
-											<p>Or return <a href="/home">Home</a>.
-										</li>
-										<li class="list-group-item">
-											<h3>''' + resource + '''s</h3>'''
-		if resource == 'Job':
-			similar = self.mc.home_jobs_query()
-			uri = '/jobs'
-		elif resource == 'Education':
-			similar = self.mc.home_edu_query()
-			uri = '/edus'
-		elif resource == 'Organization':
-			similar = self.mc.orgs_for_add_query()
-			if len(similar) == 0:
-				similar = None
-			else:
-				similar = similar[:4]
-			uri = '/orgs'
-		elif resource == 'Skill':
-			similar = self.mc.skills_for_add_query()
-			if len(similar) == 0:
-				similar = None
-			else:
-				similar = similar[:6]
-			uri = '/skills'
-		else:
-			similar = None
-		if similar == None:
-			html +=	'''						<p><i>We couldn't find any similar resources. Perhaps you need to login as a member to add one?</i><p>
-											<p>Or feel free to return to <a href='/home'>Home</a>.'''
-		else:
-			html += '''						<div class="row">'''
-			for s in similar:
-				if resource == 'Job':
-					name = s.title
-				elif resource == 'Education':
-					name = s.degree
-				elif resource == 'Organization':
-					name = s.name
-				elif resource == 'Skill':
-					name = s.name
+		if not session['mobile']:
+			html = '''	<div class="jumbotron">
+							<div style="position:relative;left:12.5%;">
+								<div class="card w-75">
+									<div class="card-body">
+										<ul class="list-group list-group-flush">
+											<li class="list-group-item">
+												<h1>404 Error</h1>
+												<h6>We were unable to locate the requested resource.</h6><br>
+												<p>It looks like you were attempting to access a
+												"''' + resource + '''" that does not exist. You can try again or feel free to check out the below similar resources that do exist.</p>
+												<p>Or return <a href="/home">Home</a>.
+											</li>
+											<li class="list-group-item">
+												<h3>''' + resource + '''s</h3>'''
+			if resource == 'Job':
+				similar = self.mc.home_jobs_query()
+				uri = '/jobs'
+			elif resource == 'Education':
+				similar = self.mc.home_edu_query()
+				uri = '/edus'
+			elif resource == 'Organization':
+				similar = self.mc.orgs_for_add_query()
+				if len(similar) == 0:
+					similar = None
 				else:
-					name = "Unknown resource"
-				html += '''						<div class="col-sm-6">
-													<a href="''' + uri + '''/''' + s.id + '''">
-														''' + resource + ''': ''' + name + '''
-													</a>
-												</div>'''
-			html +=	'''						</div>'''	
-		html += '''						</li>
-										<li class="list-group-item">
-											<h5>Session Details</h5>
-											<div class="row">
-												<div class="col-sm-4">
-													<b>Authenticated username: </b><br>
-													<i>''' + session['username'] + '''
-													</i>
+					similar = similar[:4]
+				uri = '/orgs'
+			elif resource == 'Skill':
+				similar = self.mc.skills_for_add_query()
+				if len(similar) == 0:
+					similar = None
+				else:
+					similar = similar[:6]
+				uri = '/skills'
+			else:
+				similar = None
+			if similar == None:
+				html +=	'''						<p><i>We couldn't find any similar resources. Perhaps you need to login as a member to add one?</i><p>
+												<p>Or feel free to return to <a href='/home'>Home</a>.'''
+			else:
+				html += '''						<div class="row">'''
+				for s in similar:
+					if resource == 'Job':
+						name = s.title
+					elif resource == 'Education':
+						name = s.degree
+					elif resource == 'Organization':
+						name = s.name
+					elif resource == 'Skill':
+						name = s.name
+					else:
+						name = "Unknown resource"
+					html += '''						<div class="col-sm-6">
+														<a href="''' + uri + '''/''' + s.id + '''">
+															''' + resource + ''': ''' + name + '''
+														</a>
+													</div>'''
+				html +=	'''						</div>'''
+			html += '''						</li>
+											<li class="list-group-item">
+												<h5>Session Details</h5>
+												<div class="row">
+													<div class="col-sm-4">
+														<b>Authenticated username: </b><br>
+														<i>''' + session['username'] + '''
+														</i>
+													</div>
+													<div class="col-sm-4">
+														<b>Authenticated user ID: </b><br>
+														<i>''' + session['uid'] + '''
+														</i>
+													</div>
+													<div class="col-sm-4">
+														<b>Authenticated user group ID: </b><br>
+														<i>''' + session['gid'] + '''</i>
+													</div>
 												</div>
-												<div class="col-sm-4">
-													<b>Authenticated user ID: </b><br>
-													<i>''' + session['uid'] + '''
-													</i>
-												</div>
-												<div class="col-sm-4">
-													<b>Authenticated user group ID: </b><br>
-													<i>''' + session['gid'] + '''</i>
-												</div>
-											</div>
-										</li>
-									</ul>
+											</li>
+										</ul>
+									</div>
 								</div>
 							</div>
-						</div>
-					</div>'''
+						</div>'''
+		else:
+			html = '''	<div class="jumbotron">
+							<div style="position:relative;">
+								<div class="card w-100">
+									<div class="card-body">
+										<ul class="list-group list-group-flush">
+											<li class="list-group-item">
+												<h1>404 Error</h1>
+												<h6>We were unable to locate the requested resource.</h6><br>
+												<p>It looks like you were attempting to access a
+												"''' + resource + '''" that does not exist. You can try again or feel free to check out the below similar resources that do exist.</p>
+												<p>Or return <a href="/home">Home</a>.
+											</li>
+											<li class="list-group-item">
+												<h3>''' + resource + '''s</h3>'''
+			if resource == 'Job':
+				similar = self.mc.home_jobs_query()
+				uri = '/jobs'
+			elif resource == 'Education':
+				similar = self.mc.home_edu_query()
+				uri = '/edus'
+			elif resource == 'Organization':
+				similar = self.mc.orgs_for_add_query()
+				if len(similar) == 0:
+					similar = None
+				else:
+					similar = similar[:4]
+				uri = '/orgs'
+			elif resource == 'Skill':
+				similar = self.mc.skills_for_add_query()
+				if len(similar) == 0:
+					similar = None
+				else:
+					similar = similar[:6]
+				uri = '/skills'
+			else:
+				similar = None
+			if similar == None:
+				html +=	'''						<p><i>We couldn't find any similar resources. Perhaps you need to login as a member to add one?</i><p>
+												<p>Or feel free to return to <a href='/home'>Home</a>.'''
+			else:
+				html += '''						<div class="row">'''
+				for s in similar:
+					if resource == 'Job':
+						name = s.title
+					elif resource == 'Education':
+						name = s.degree
+					elif resource == 'Organization':
+						name = s.name
+					elif resource == 'Skill':
+						name = s.name
+					else:
+						name = "Unknown resource"
+					html += '''						<div class="col-sm-6">
+														<a href="''' + uri + '''/''' + s.id + '''">
+															''' + resource + ''': ''' + name + '''
+														</a>
+													</div>'''
+				html +=	'''						</div>'''
+			html += '''						</li>
+											<li class="list-group-item">
+												<h5>Session Details</h5>
+												<div class="row">
+													<div class="col-sm-4">
+														<b>Authenticated username: </b><br>
+														<i>''' + session['username'] + '''
+														</i>
+													</div>
+													<div class="col-sm-4">
+														<b>Authenticated user ID: </b><br>
+														<i>''' + session['uid'] + '''
+														</i>
+													</div>
+													<div class="col-sm-4">
+														<b>Authenticated user group ID: </b><br>
+														<i>''' + session['gid'] + '''</i>
+													</div>
+												</div>
+											</li>
+										</ul>
+									</div>
+								</div>
+							</div>
+						</div>'''
 		return html
-	
+
 	def render_restore (self, session, redirect):
 		html = ''
 		location = redirect.replace('_', '/')
-		
+
 		if not session['mobile']:
 			html += '''	<script type="text/javascript">
 							function Redirect() {
@@ -1166,7 +1344,7 @@ class CRender:
 							}
 							setTimeout('Redirect()', 3000);
 						</script>
-			
+
 						<div style="position:relative;width:100%;height:100%;">
 							<div style="position:relative;width:100%;height:10%;top:45%;">
 								<div class="row">
@@ -1182,7 +1360,7 @@ class CRender:
 								</div>
 							</div>
 						<div>'''
-								
+
 		else:
 			html += '''	<script type="text/javascript">
 							function Redirect() {
@@ -1190,15 +1368,15 @@ class CRender:
 							}
 							setTimeout('Redirect()', 3000);
 						</script>
-			
+
 						<div style="position:relative;width:100%;height:100%;">
-							<div style="position:relative;width:100%;height:10%;top:45%;">
+							<div style="position:relative;width:100%;height:10%;top:35%;">
 								<div class="row">
-									<div class="col-sm-12 mx-auto" style="text-align:center;">
+									<div class="col-sm-12 mx-auto" style="text-align:center;width:100%;">
 										<h2>Processing Operation</h2>
 									</div>
-									<div class="col-sm-12 mx-auto" style="padding-top:15px;">
-										<img src="/static/loading.gif" height="40" width="40" style="position:relative;left:49%;" />
+									<div class="col-sm-12 mx-auto" style="padding-top:15px;width:100%;">
+										<img src="/static/loading.gif" height="40" width="40" style="position:relative;left:45%;" />
 									</div>
 									<div class="col-sm-12 mx-auto" style="text-align:center;padding-top:15px;">
 										<h6>Restoring site data to original</h6>
@@ -1206,11 +1384,11 @@ class CRender:
 								</div>
 							</div>
 						<div>'''
-						
+
 		self.dbm.restore_from_backup()
 		return html
-			
-	
+
+
 	def render_go_between (self, type, form_data, session):
 		html = ''
 		if type == 'job':
@@ -1219,10 +1397,10 @@ class CRender:
 			location = '/edus/' + form_data['edu']['id']
 		else:
 			location = '/home'
-			
+
 		cb = NoneAccount()
 		cb.retrieve(self.dbm, id=session['uid'])
-		
+
 		if not session['mobile']:
 			html += '''	<script type="text/javascript">
 							function Redirect() {
@@ -1230,7 +1408,7 @@ class CRender:
 							}
 							setTimeout('Redirect()', 3000);
 						</script>
-			
+
 						<div style="position:relative;width:100%;height:100%;">
 							<div style="position:relative;width:100%;height:10%;top:45%;">
 								<div class="row">
@@ -1246,7 +1424,7 @@ class CRender:
 								</div>
 							</div>
 						<div>'''
-								
+
 		else:
 			html += '''	<script type="text/javascript">
 							function Redirect() {
@@ -1254,14 +1432,14 @@ class CRender:
 							}
 							setTimeout('Redirect()', 3000);
 						</script>
-			
+
 						<div style="position:relative;width:100%;height:100%;">
-							<div style="position:relative;width:100%;height:10%;top:45%;">
+							<div style="position:relative;width:100%;height:10%;top:35%;">
 								<div class="row">
-									<div class="col-sm-12 mx-auto" style="text-align:center;">
+									<div class="col-sm-12 mx-auto" style="text-align:center;width:100%;">
 										<h2>Processing Operation</h2>
 									</div>
-									<div class="col-sm-12 mx-auto" style="padding-top:15px;">
+									<div class="col-sm-12 mx-auto" style="padding-top:15px;width:100%;">
 										<img src="/static/loading.gif" height="40" width="40" style="position:relative;left:49%;" />
 									</div>
 									<div class="col-sm-12 mx-auto" style="text-align:center;padding-top:15px;">
@@ -1270,8 +1448,8 @@ class CRender:
 								</div>
 							</div>
 						<div>'''
-						
-		
+
+
 		if cb.group.name == 'Owners':
 			bak = DBM('../dat/db.sqlite.bak.sqlite')
 		if type == 'job':
@@ -1279,13 +1457,13 @@ class CRender:
 				if 'address' in form_data:
 					a = Address(form_data['address']['id'], form_data['address']['name'], form_data['address']['uri'], cb, cb)
 					a.create(self.dbm)
-					
+
 					if cb.group.name == 'Owners':
 						a.create(bak)
 				else:
 					a = NoneAddress()
 					a.retrieve(self.dbm, id=form_data['org']['address'])
-					
+
 				if form_data['org']['logo'] == None:
 					logo = self.dbm.imgtobin('static/placeholder-logo.png')
 				else:
@@ -1294,44 +1472,44 @@ class CRender:
 					image_head = self.dbm.imgtobin('static/placeholder-header.png')
 				else:
 					image_head = form_data['org']['image_head']
-					
+
 				o = Org(form_data['org']['id'], form_data['org']['name'], a, form_data['org']['phone'], form_data['org']['desc_short'], form_data['org']['website'], logo, image_head, cb, cb)
 				o.create(self.dbm)
-				
+
 				if cb.group.name == 'Owners':
 					o.create(bak)
-					
+
 			else:
 				o = NoneOrg()
 				o.retrieve(self.dbm, id=form_data['job']['org_id'])
-				
+
 			if 'skills' in form_data:
 				for s in form_data['skills']:
 					if s['icon'] == None:
 						icon = self.dbm.imgtobin('static/placeholder-logo.png')
 					else:
 						icon = s['icon']
-						
+
 					new_s = Skill(s['id'], s['name'], s['exposure'], s['soft_or_hard'], s['reference'], icon, s['category'], s['desc_short'], s['desc_long'], cb, cb)
 					new_s.create(self.dbm)
-					
+
 					if cb.group.name == 'Owners':
 						new_s.create(bak)
-			
+
 			j = Job(form_data['job']['id'], form_data['job']['title'], form_data['job']['present'], form_data['job']['date_start'], form_data['job']['date_stop'], form_data['job']['desc_short'], form_data['job']['desc_long'], form_data['job']['skill_ids'], o, cb, cb)
 			j.create(self.dbm)
-			
+
 			if cb.group.name == 'Owners':
 				j.create(bak)
-			
+
 		elif type == 'edu':
 			o = NoneOrg()
 			o.retrieve(self.dbm, id=form_data['org_id'])
-			
+
 			e = Education(form_data['id'], o, form_data['degree'], form_data['gpa'], form_data['skill_ids'], form_data['date_end'], form_data['desc_short'], form_data['desc_long'], cb, cb)
 			e.create(self.dbm)
-			
+
 			if cb.group.name == 'Owners':
 				o.create(bak)
-		
+
 		return html

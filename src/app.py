@@ -137,7 +137,7 @@ def org_by_id(org_id):
 
 	html = cr.render_html_head('/orgs/'+org_id, session['mobile'])
 	html += cr.render_header(session['name'], '/orgs', '/orgs/' + org_id, session)
-
+	print(str(orgs))
 	html += cr.org_htmlify(orgs, session['mobile'])
 	html += '''	</div>
 			</div>
@@ -165,7 +165,7 @@ def skill_by_id(skill_id):
 def jobs_general():
 	if session.get('username') == None:
 		return redirect('/reauth?r=_jobs')
-		
+
 	jid = cr.mc.jobs_general_query()
 	if jid == None:
 		# return 404
@@ -177,7 +177,7 @@ def jobs_general():
 def edus_general():
 	if session.get('username') == None:
 		return redirect('/reauth?r=_edus')
-	
+
 	eid = cr.mc.edus_general_query()
 	if eid == None:
 		# return 404
@@ -224,11 +224,11 @@ def about():
 		</html>'''
 
 	return html
-	
+
 @app.route('/err', methods=['GET'])
 def err ():
 	resource = request.args.get('resource')
-		
+
 	html = cr.render_html_head('/err?resource=' + resource, session['mobile'])
 	html += cr.render_header(session['name'], '/err', '/err?resource=' + resource , session)
 	html += cr.render_err(session, resource)
@@ -299,13 +299,13 @@ def logout():
 		session['mobile'] = False
 
 	return redirect(r)
-	
+
 @app.route('/restore', methods=['GET'])
 def restore ():
 	r = request.args.get('r')
 	if r == None:
 		r = '_home'
-		
+
 	html = cr.render_html_head('/restore', session['mobile'])
 	html += cr.render_header(session['name'], '/restore', '/restore', session)
 	html += cr.render_restore(session, r)
@@ -315,7 +315,7 @@ def restore ():
 def create_job():
 	skills = ""
 	form_data = {}
-	
+
 	d = list(request.form.lists())
 	for s in d:
 		if s[0] == 'skill_selector':
@@ -326,11 +326,11 @@ def create_job():
 		present = True
 	else:
 		present = False
-		
+
 	if request.form['job_add_skills_i'] == "True":
 		skills_to_add = []
 		max_skill_no = int(request.form['job_max_skills'])
-		
+
 		for i in range(1, max_skill_no + 1):
 			ele1 = 'j_s_name' + str(i)
 			if ele1 in request.form:
@@ -351,7 +351,7 @@ def create_job():
 					v8 = 0
 				else:
 					v8 = 1
-				
+
 				nsid = dbm.genid()
 				new_skill = {
 								'id': nsid,
@@ -367,11 +367,11 @@ def create_job():
 				skills_to_add.append(new_skill)
 				skills += nsid + ','
 		form_data['skills'] = skills_to_add
-	
-	
-	
+
+
+
 	id = dbm.genid()
-	
+
 	new_job = {
 		'id': id,
 		'title': request.form['title'],
@@ -382,8 +382,8 @@ def create_job():
 		'desc_long': request.form['desc_long'],
 		'skill_ids': skills[:len(skills)-1],
 	}
-	
-	
+
+
 	if request.form['job_add_org_i'] == "True":
 		oid = dbm.genid()
 		new_job['org_id'] = oid
@@ -408,7 +408,7 @@ def create_job():
 				new_org['image_head'] = bytes(request.form['j_o_header_val'], 'utf-8')
 		else:
 			new_org['image_head'] = None
-		
+
 		if request.form['job_add_address_i'] == "True":
 			aid = dbm.genid()
 			new_org['address'] = aid
@@ -425,12 +425,12 @@ def create_job():
 		form_data['org'] = new_org
 	else:
 		new_job['org_id'] = request.form['org_selector']
-	
-	
+
+
 	form_data['job'] = new_job
-	
-	
-	
+
+
+
 	html = ''
 	html += cr.render_html_head('/job', session['mobile'])
 	html += cr.render_header(session['name'], '/create/job', '/create/job/' + id, session)
@@ -458,7 +458,7 @@ def create_edu():
 		'org_id': request.form['org_selector'],
 		'skill_ids': skills[:len(skills)-1]
 	}
-	
+
 	html = ''
 	html += cr.render_html_head('/edu', session['mobile'])
 	html += cr.render_header(session['name'], '/create/edu', '/create/edu/' + id, session)
@@ -467,4 +467,4 @@ def create_edu():
 	return html
 
 if __name__ == '__main__':
-	app.run(host='127.0.0.1',port='80',debug=True)
+	app.run(host='resume.tomesser.biz',port='5000',debug=True)

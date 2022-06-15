@@ -12,10 +12,10 @@ from educations import Education
 class SkillRenderer:
 	def __init__ (self, dbm):
 		self.dbm = dbm
-		
+
 	def render_skills_general (self, all_skills, mobile):
 		html = ''
-		
+
 		if not mobile:
 			html += '''	<div class="jumbotron">
 							<div class="row">
@@ -143,14 +143,14 @@ class SkillRenderer:
 								</div>
 							</div>
 						</div>'''
-	
-											
+
+
 		return html
-		
+
 	def render_skills_page (self, skill, similar, appears_in, mobile):
 		src = "data:image/png;base64," + skill.icon.decode('utf-8')
 		html = ''
-		
+
 		if not mobile:
 			html = '''	<div class="jumbotron">
 							<div class="row">
@@ -287,7 +287,7 @@ class SkillRenderer:
 																</a>
 															</span>
 														</div>'''
-					html += '''						</div>'''		
+					html += '''						</div>'''
 			html += '''							</li>
 											</ul>
 										</div>
@@ -295,10 +295,10 @@ class SkillRenderer:
 								</div>
 							</div>
 						</div>'''
-		
+
 		else:
 			src = "data:image/png;base64," + skill.icon.decode('utf-8')
-			
+
 			html += '''	<div class="jumbotron">
 							<div class="row">
 								<div class="col-sm-8 mx-auto">
@@ -320,7 +320,7 @@ class SkillRenderer:
 															<h6>Comments</h6>
 														</div>
 														<div class="col-sm-8">
-															''' + str(skill_desc_long) + '''
+															''' + str(skill.desc_long) + '''
 														</div>
 													</div>
 													<br>
@@ -380,9 +380,9 @@ class SkillRenderer:
 					if len(name) > 16:
 						name = name[:14] + '...'
 					html += '''							<div class="col-sm-6">
-															<a href="/skills/'''+s['id']+'''">
+															<a href="/skills/'''+s.id+'''">
 																<span style="display:inline;">
-																	<img src="''' + img + '''" width="25" height="25" />
+																	<img src="''' + src + '''" width="25" height="25" />
 																	<span class="badge badge-pill badge-dark">'''+name+'''</span>
 																</span>
 															</a>
@@ -436,7 +436,7 @@ class SkillRenderer:
 																</a>
 															</span>
 														</div>'''
-					html += '''						</div>'''		
+					html += '''						</div>'''
 			html += '''							</li>
 											</ul>
 										</div>
@@ -444,6 +444,5 @@ class SkillRenderer:
 								</div>
 							</div>
 						</div>'''
-			
+
 		return html
-			
