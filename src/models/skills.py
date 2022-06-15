@@ -158,15 +158,16 @@ def retrieve_all_skills (dbm):
 	if result != None:
 		result = dbm.cur.fetchall()
 		if len(result) > 0:
-			cb = accounts.NoneAccount()
-			if not cb.retrieve(dbm, id=result[0][9]):
+			for row in result:
 				cb = accounts.NoneAccount()
-			mb = accounts.NoneAccount()
-			if not mb.retrieve(dbm, id=result[0][10]):
+				if not cb.retrieve(dbm, id=row[9]):
+					cb = accounts.NoneAccount()
 				mb = accounts.NoneAccount()
-				
-		s = Skill(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], cb, mb)
-		all_skills.append(s)
+				if not mb.retrieve(dbm, id=row[10]):
+					mb = accounts.NoneAccount()
+					
+				s = Skill(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], cb, mb)
+				all_skills.append(s)
 	
 	return all_skills
 	
@@ -222,15 +223,16 @@ def retrieve_skills (dbm, **kwargs):
 	if result != None:
 		result = dbm.cur.fetchall()
 		if len(result) > 0:
-			cb = accounts.NoneAccount()
-			if not cb.retrieve(dbm, id=result[0][9]):
+			for row in result:
 				cb = accounts.NoneAccount()
-			mb = accounts.NoneAccount()
-			if not mb.retrieve(dbm, id=result[0][10]):
+				if not cb.retrieve(dbm, id=row[9]):
+					cb = accounts.NoneAccount()
 				mb = accounts.NoneAccount()
+				if not mb.retrieve(dbm, id=row[10]):
+					mb = accounts.NoneAccount()
 				
-		s = Skill(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], cb, mb)
-		ss.append(s)
+				s = Skill(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], cb, mb)
+				ss.append(s)
 	
 	return ss
 	
@@ -242,14 +244,15 @@ def retrieve_skills_custom (dbm, sql):
 	if result != None:
 		result = dbm.cur.fetchall()
 		if len(result) > 0:
-			cb = accounts.NoneAccount()
-			if not cb.retrieve(dbm, id=result[0][9]):
+			for row in result:
 				cb = accounts.NoneAccount()
-			mb = accounts.NoneAccount()
-			if not mb.retrieve(dbm, id=result[0][10]):
+				if not cb.retrieve(dbm, id=row[9]):
+					cb = accounts.NoneAccount()
 				mb = accounts.NoneAccount()
-				
-		s = Skill(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], cb, mb)
-		ss.append(s)
+				if not mb.retrieve(dbm, id=row[10]):
+					mb = accounts.NoneAccount()
+			
+				s = Skill(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], cb, mb)
+				ss.append(s)
 	
 	return ss

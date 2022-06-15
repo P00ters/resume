@@ -37,18 +37,18 @@ class Address:
 		created_by = kwargs.get('created_by', None)
 		modified_by = kwargs.get('modified_by', None)
 		
-		query = "SELECT * FROM 'Addresses' WHERE "
+		query = "SELECT Addresses.id, Addresses.name, Addresses.uri, Addresses.created_by, Addresses.modified_by FROM 'Addresses' WHERE "
 		if id != None or name != None or uri != None or created_by != None or modified_by != None:
 			if id != None:
-				query += 'id="' + id + '" AND '
+				query += 'Addresses.id="' + id + '" AND '
 			if name != None:
-				query += 'name="' + name + '" AND '
+				query += 'Addresses.name="' + name + '" AND '
 			if uri != None:
-				query += 'uri="' + uri + '" AND '
+				query += 'Addresses.uri="' + uri + '" AND '
 			if created_by != None:
-				query += 'created_by="' + created_by + '" AND '
+				query += 'Addresses.created_by="' + created_by + '" AND '
 			if modified_by != None:
-				query += 'modified_by="' + modified_by + '";'
+				query += 'Addresses.modified_by="' + modified_by + '";'
 				
 			if query[-4:] == 'AND ':
 				query = query[:-4]
@@ -153,15 +153,15 @@ def retrieve_addresses (dbm, **kwargs):
 	if id != None or name != none or uri != None or created_by != None or modified_by != None:
 		query += ' WHERE '
 		if id != None:
-			query += 'id="' + id + '" AND '
+			query += 'Addresses.id="' + id + '" AND '
 		if name != None:
-			query += 'name="' + name + '" AND '
+			query += 'Addresses.name="' + name + '" AND '
 		if uri != None:
-			query += 'uri="' + uri + '" AND '
+			query += 'Addresses.uri="' + uri + '" AND '
 		if created_by != None:
-			query += 'created_by="' + created_by + '" AND '
+			query += 'Addresses.created_by="' + created_by + '" AND '
 		if modified_by != None:
-			query += 'modified_by="' + modified_by + '";'
+			query += 'Addresses.modified_by="' + modified_by + '";'
 	else:
 		query += ';'
 		

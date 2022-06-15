@@ -42,17 +42,17 @@ class Account:
 		query = "SELECT Accounts.id, Accounts.username, Accounts.password, Accounts.salt, Accounts.name, Groups.id, Groups.name, Groups.auth_key FROM Accounts, Groups WHERE Accounts.group_id = Groups.id AND "
 		if id != None or name != None or username != None or password != None or salt != None or group_id != None:
 			if id != None:
-				query += 'id="' + id + '" AND '
+				query += 'Accounts.id="' + id + '" AND '
 			if name != None:
-				query += 'name="' + name + '" AND '
+				query += 'Accounts.name="' + name + '" AND '
 			if username != None:
-				query += 'username="' + username + '" AND '
+				query += 'Accounts.username="' + username + '" AND '
 			if password != None:
-				query += 'password="' + password + '" AND '
+				query += 'Accounts.password="' + password + '" AND '
 			if salt != None:
-				query += 'salt="' + salt + '" AND '
+				query += 'Accounts.salt="' + salt + '" AND '
 			if group_id != None:
-				query += 'group_id="' + group_id + '";'
+				query += 'Accounts.group_id="' + group_id + '";'
 				
 		if query[-4:] == 'AND ':
 			query = query[:-4]
@@ -130,17 +130,17 @@ def retrieve_accounts (dbm, **kwargs):
 	if id != None or username != None or password != None or salt != None or name != None or group_id != None:
 		query += ' WHERE '
 		if id != None:
-			query += 'id="' + id + '" AND '
+			query += 'Accounts.id="' + id + '" AND '
 		if username != None:
-			query += 'username="' + username + '" AND '
+			query += 'Accounts.username="' + username + '" AND '
 		if password != None:
-			query += 'password="' + password + '" AND '
+			query += 'Accounts.password="' + password + '" AND '
 		if salt != None:
-			query += 'salt="' + salt + '" AND '
+			query += 'Accounts.salt="' + salt + '" AND '
 		if name != None:
-			query += 'name="' + name + '" AND '
+			query += 'Accounts.name="' + name + '" AND '
 		if group_id != None:
-			query += 'group_id="' + group_id + '";'		
+			query += 'Accounts.group_id="' + group_id + '";'		
 	else:
 		query += ';'
 		
@@ -161,7 +161,7 @@ def retrieve_accounts (dbm, **kwargs):
 	
 	
 def retrieve_accounts_custom (dbm, sql):
-	query = "SELECT Accounts.id, Accounts.username, Accounts.password, Accounts.salt, Accounts.name, Groups.id, Groups.name, Groups.auth_key FROM Accounts, Groups WHERE Accounts.group_id = Groups.id AND " + sql
+	query = "SELECT Accounts.id, Accounts.username, Accounts.password, Accounts.salt, Accounts.name, Groups.id, Groups.name, Groups.auth_key FROM Accounts, Groups WHERE Accounts.group_id=Groups.id AND " + sql
 	
 	if query[-4:] == 'AND ':
 		query = query[:-4]

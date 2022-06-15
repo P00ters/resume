@@ -2,6 +2,7 @@ import base64
 import datetime
 import hashlib
 import os
+import shutil
 import sqlite3
 from urllib.parse import urlencode
 import uuid
@@ -60,6 +61,40 @@ class DBM:
 		if os.path.exists(self.db_path):
 			os.remove(self.db_path)
 			self.instantiate()
+			
+	def is_intact (self):
+		owner_id = None
+		query = '''SELECT Accounts.id 
+					FROM Accounts, Groups
+					WHERE Accounts.group_id = Groups.id
+						AND Groups.name="Owners";'''
+		result = self.execute(query)
+		if result != None:
+			result = self.cur.fetchall()
+			if len(result) > 0:
+				owner_id = result[0][0]
+		
+		if owner_id == None:
+			return False
+						
+		tables = ['Addresses', 'Education', 'Jobs', 'Orgs', 'Skills']
+		query = '''SELECT id, created_by, modified_by FROM '''
+		
+		for t in tables:
+			q = query + t + ' WHERE created_by<>' + owner_id + ' OR modified_by<>' + owner_id + ';'
+			result = self.execute(q)
+			if result != None:
+				result = self.cur.fetchall()
+				if len(result) > 0:
+					return False
+		
+		backuppath = self.db_path + '.bak.sqlite'
+		md5_backup = hashlib.md5(open(backuppath, 'rb').read()).hexdigest()
+		md5_current = hashlib.md5(open(self.db_path, 'rb').read()).hexdigest()
+		if md5_backup != md5_current:
+			return False
+		
+		return True
 
 	def instantiate(self):
 		db = open(self.db_path, "x")
@@ -76,6 +111,16 @@ class DBM:
 		
 		if (self.init):
 			p.custom_population()
+		
+		self.do_backup()
+	
+	def do_backup (self):
+		backuppath = self.db_path + '.bak.sqlite'
+		shutil.copy(self.db_path, backuppath)
+		
+	def restore_from_backup (self):
+		backuppath = self.db_path + '.bak.sqlite'
+		shutil.copy(backuppath, self.db_path)
 		
 	def imgtobin(self, path):
 		file = open(path, 'rb').read()

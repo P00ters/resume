@@ -355,3 +355,10 @@ def retrieve_educations_custom (dbm, sql):
 				
 	return es
 	
+def edus_date_sort (edu_list):
+	n = len(edu_list)
+	for i in range(n):
+		for j in range(0, n-i-1):
+			if edu_list[j].date_stop > edu_list[j+1].date_stop:
+				edu_list[j], edu_list[j+1] = edu_list[j+1], edu_list[j]
+	

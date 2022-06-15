@@ -48,7 +48,7 @@ class Org:
 		created_by = kwargs.get('created_by', None)
 		modified_by = kwargs.get('modified_by', None)
 		
-		query = "SELECT Orgs.id, Orgs.name, Addresses.id, Addresses.name, Addresses.uri, Addresses.created_by, Addresses.modified_by, Orgs.phone, Orgs.desc_short, Orgs.website, Orgs.logo, Orgs.image_head, Orgs.created_by, Orgs.modified_by FROM Orgs, Addresses  FROM Orgs, Addresses WHERE Orgs.address=Addresses.id AND "
+		query = "SELECT Orgs.id, Orgs.name, Addresses.id, Addresses.name, Addresses.uri, Addresses.created_by, Addresses.modified_by, Orgs.phone, Orgs.desc_short, Orgs.website, Orgs.logo, Orgs.image_head, Orgs.created_by, Orgs.modified_by FROM Orgs, Addresses WHERE Orgs.address=Addresses.id AND "
 		if id != None or name != None or address != None or phone != None or desc_short != None or website != None or logo != None or image_head != None or created_by != None or modified_by != None:
 			if id != None:
 				query += 'Orgs.id="' + id + '" AND '
@@ -82,23 +82,27 @@ class Org:
 				if len(result) == 1:
 					self.id = result[0][0]
 					self.name = result[0][1]
-					self.address = Address(result[0][2], result[0][3], result[0][4], result[0][5], result[0][6])
+					adr = addresses.NoneAddress()
+					if not adr.retrieve(dbm, id=result[0][2]):
+						adr = addresses.NoneAddress()
 					self.phone = result[0][7]
 					self.desc_short = result[0][8]
 					self.website = result[0][9]
 					self.logo = result[0][10]
 					self.image_head = result[0][11]
 					cb = accounts.NoneAccount()
-					if not cb.retrieve(dbm, id=row[12]):
+					if not cb.retrieve(dbm, id=result[0][12]):
 						cb = accounts.NoneAccount()
 					mb = accounts.NoneAccount()
-					if not mb.retrieve(dbm, id=row[13]):
+					if not mb.retrieve(dbm, id=result[0][13]):
 						mb = accounts.NoneAccount()
+					
 					
 					self.created_by = cb
 					self.modified_by = mb
+					self.address = adr
 					return True
-
+					
 			return False
 			
 	def is_empty (self):
@@ -190,7 +194,7 @@ def retrieve_all_orgs (dbm):
 		if len(result) > 0:
 			for row in result:
 				addr = addresses.NoneAddress()
-				if not addr.retrieve(dbm, row[2]):
+				if not addr.retrieve(dbm, id=row[2]):
 					addr = addresses.NoneAddress()
 				cb = accounts.NoneAccount()
 				if not cb.retrieve(dbm, id=row[8]):

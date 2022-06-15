@@ -1,3 +1,8 @@
+import accounts
+import addresses
+import orgs
+import skills
+
 from orgs import Org
 from accounts import Account
 from addresses import Address
@@ -92,6 +97,9 @@ class Job:
 					mb = accounts.NoneAccount()
 					if not mb.retrieve(dbm, id=result[0][9]):
 						mb = accounts.NoneAccount()
+					o = orgs.NoneOrg()
+					if not o.retrieve(dbm, id=result[0][10]):
+						o = orgs.NoneOrg()
 				
 					self.id = result[0][0]
 					self.title = result[0][1]
@@ -103,19 +111,8 @@ class Job:
 					self.skill_ids = result[0][7]
 					self.created_by = cb
 					self.modified_by = mb
+					self.org = o
 					
-					cb1 =  accounts.NoneAccount()
-					if not cb1.retrieve(dbm, id=result[0][17]):
-						cb1 = accounts.NoneAccount()
-					mb1 = accounts.NoneAccount()
-					if not mb1.retrieve(dbm, id=result[0][18]):
-						mb1 = accounts.NoneAccount()
-					cb2 =  accounts.NoneAccount()
-					addr = addresses.NoneAddress()
-					if not addr.retrieve(dbm, id=result[0][19]):
-						addr = addresses.NoneAccount()
-					
-					self.org = Org(result[0][10], result[0][11], addr, result[0][12], result[0][13], result[0][14], result[0][15], result[0][16], cb1, mb1)
 					return True
 		
 		return False
@@ -250,7 +247,7 @@ def NoneJob ():
 	return Job(None, None, None, None, None, None, None, None, None, None, None)
 	
 def retrieve_all_jobs (dbm):
-	query = "SELECT id, title, present, date_start, date_stop, desc_short, desc_long, skill_ids, created_by, modified_by, org FROM Jobs;"
+	query = "SELECT Jobs.id, Jobs.title, Jobs.present, Jobs.date_start, Jobs.date_stop, Jobs.desc_short, Jobs.desc_long, Jobs.skill_ids, Jobs.created_by, Jobs.modified_by, Jobs.org FROM Jobs;"
 	
 	all_jobs = []
 	result = dbm.execute(query)
@@ -364,3 +361,11 @@ def retrieve_jobs_custom (dbm, sql):
 				js.append(j)
 	
 	return js
+	
+	
+def jobs_date_sort (job_list):
+	n = len(job_list)
+	for i in range(n):
+		for j in range(0, n-i-1):
+			if job_list[j].date_start > job_list[j+1].date_start:
+				job_list[j], job_list[j+1] = job_list[j+1], job_list[j]

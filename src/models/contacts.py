@@ -171,7 +171,7 @@ class Contact:
 			print(str(obj))
 			
 def retrieve_all_contacts (dbm):
-	query = "SELECT * FROM Contacts;"
+	query = "SELECT * FROM Contact;"
 	
 	all_contacts = []
 	result = dbm.execute(query)
