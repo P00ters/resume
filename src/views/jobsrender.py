@@ -15,7 +15,7 @@ class JobRenderer:
 	def __init__ (self, dbm):
 		self.dbm = dbm
 
-	def render_home_tile (self, j, mobile):
+	def render_home_tile (self, j, mobile, auth):
 		# Set logo source
 		if j.org.logo != None and j.org.logo != '':
 			org_logo_src = "data:image/png;base64," + j.org.logo.decode('utf-8')
@@ -43,15 +43,34 @@ class JobRenderer:
 				<div class="card w-75">
 					<div class="card-header">
 						<div class="row">
-							<div class="col-1">
+							<div class="col-1 d-flex align-items-center">
 								<img width="30" height="30" src="''' + org_logo_src + '''" />
 							</div>
-							<div class="col-6">
+							<div class="col-6 d-flex align-items-center">
 								<a href="/orgs/''' + str(j.org.id) + '''" style="color:black;">
 									<h6 style="margin-top:5px;">''' + str(j.org.name) + '''</h6>
 								</a>
-							</div>
-						</div>
+							</div>'''
+			if auth:
+				short_desc = j.desc_short.replace("'", "\\'")
+				long_desc = j.desc_long.replace("'", "\\'")
+				a_edit = "'" + j.id + "', '" + j.org.id + "', '" + j.org.name + "', '" + j.title + "', " + str(j.present) + ", '" + str(j.date_start) + "', '" + str(j.date_stop) + "', '" + short_desc + "', '" + long_desc + "', " + str(len(j.skills(self.dbm)))
+				
+				if len(j.skills(self.dbm)) > 0:
+					eskills = j.skills(self.dbm)
+					html += '''			<form id="'''+j.id+'''" style="display:none;">'''
+					for i in range(len(eskills)):
+						html +=			'''<input type="hidden" id="job_skill''' + str(i) + '''" value="'''+eskills[i].id+''','''+eskills[i].name+'''"></input>'''
+					html += '''			</form>'''
+				html += '''	<div style="margin-right:25; margin-left:auto;">
+								<a href="javascript:void(0)" data-toggle="modal" data-target="#deleteModal" style="margin-right:0; margin-left:auto;">
+									<button style="position:relative;width:50px;margin-left:auto;margin-right:10;display:inline;" type="button" class="btn btn-outline-danger btn-lg btn-block"><img src='/static/delete.png' width="30"/></button>
+								</a>
+								<a href="javascript:void(0)" data-toggle="modal" data-target="#editJobModal" style="margin-right:0; margin-left:auto;">
+										<button style="position:relative;width:50px;margin-left:auto;margin-right:0;display:inline;" type="button" class="btn btn-outline-warning btn-lg btn-block" onClick="edit_job('''+a_edit+''')"><img src='/static/edit.png' width="30"/></button>
+								</a>
+							</div>'''
+			html += '''	</div>
 					</div>
 					<div class="card-body">
 						<ul class="list-group list-group-flush">
@@ -101,30 +120,53 @@ class JobRenderer:
 									<div class="col-1">
 										<img width="30" height="30" src="''' + str(org_logo_src) + '''" />
 									</div>
-									<div class="col-11">
+									<div class="col-8">
 										<a href="/orgs/''' + str(j.org.id) + '''" style="color:black;">
 											<h6 style="margin-top:5px;"><u>''' + str(j.org.name) + '''</u></h6>
 										</a>
-									</div>
-								</div>
+									</div>'''
+			if auth:
+				html += '''			<div class="col-3" style="position:relative;top:-5px;display:inline;margin-right:0px;">'''
+				short_desc = j.desc_short.replace("'", "\\'")
+				long_desc = j.desc_long.replace("'", "\\'")
+				a_edit = "'" + j.id + "', '" + j.org.id + "', '" + j.org.name + "', '" + j.title + "', " + str(j.present) + ", '" + str(j.date_start) + "', '" + str(j.date_stop) + "', '" + short_desc + "', '" + long_desc + "', " + str(len(j.skills(self.dbm)))
+				
+				if len(j.skills(self.dbm)) > 0:
+					eskills = j.skills(self.dbm)
+					html += '''			<form id="'''+j.id+'''" style="display:none;">'''
+					for i in range(len(eskills)):
+						html +=			'''<input type="hidden" id="job_skill''' + str(i) + '''" value="'''+eskills[i].id+''','''+eskills[i].name+'''"></input>'''
+					html += '''			</form>'''
+						
+				html += '''			<ul class="navbar-nav mr-auto" style="width:100%; display:inline;">
+										<li class="nav-item dropdown" style="width:100%;">
+											<a class="nav-link dropdown-toggle" href="javascript:void(0)" id="dropdown08" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="text-align:right;position:relative;width:100%;">Change</a>
+											<div class="dropdown-menu", aria-labelledby="dropdown08">
+												<a class="dropdown-item" href="javascript:void(0)" data-toggle="modal" onClick="edit_job('''+a_edit+''')"  data-target="#editJobModal">Edit</a>
+												<a class="dropdown-item" href="javascript:void(0)" data-toggle="modal" data-target="#deleteJobModal">Delete</a>
+											</div>
+										</li>
+									</ul>
+									</div>'''
+			html += '''			</div>
 							</div>
 							<div class="card-body">
 								<ul class="list-group list-group-flush">
 									<li class="list-group-item">
 										<div class="row">
-											<div class="col-7">
+											<div class="col-8 d-flex align-items-center">
 												<a href="/jobs/''' + str(j.id) + '''" style="color:black">
-													<h5 class="card-title"><u>''' + str(j.title) + '''</u></h5>
+													<h5 class="card-title" ><u>''' + str(j.title) + '''</u></h5>
 												</a>
 											</div>
-											<div class="col-5" style="text-align:right;">
-												<i style="margin-top:5px;">
+											<div class="col-4" style="text-align:right;">
+												<i>
 													'''+ date_start_str + ''' - ''' + date_stop_str + '''
 												</i>
 											</div>
 										</div>
 
-										<p class="card-text">''' + str(j.desc_short) + '''</p>
+										<p class="card-text" style="padding-top:10px;">''' + str(j.desc_short) + '''</p>
 										<div style="position:relative;left:25%;width:75%;font-size:8px;text-align:right">
 											<a href="/jobs/''' + str(j.id) + '''">
 												''' + str(j.id) + '''

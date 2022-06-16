@@ -48,8 +48,8 @@ class ContactRenderer:
 
 				</div>
 				<br>'''
-			html +='''	<div class="row" style="overflow:hidden;">
-					<div class="col-sm-5" style="padding-left:40px;">
+			html +='''	<div class="row" style="overflow:hidden;padding-left:25px;">
+					<div class="col-sm-5">
 						<h2 class="mb-4">Objective</h2>
 							<div class="card w-75">
 								<div class="card-body">
@@ -111,7 +111,11 @@ class ContactRenderer:
 			html += '''
 							<div class="card">
 								<div class="card-header">
-									<h4 style="padding-left:20px;">Objective</h4>
+									<div class="row">
+										<div class="col-8">
+											<h4>Objective</h4>
+										</div>
+									</div>
 								</div>
 								<div class="card-body">
 									<ul class="list-group list-group-flush">

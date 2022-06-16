@@ -15,7 +15,7 @@ class EduRenderer:
 	def __init__ (self, dbm):
 		self.dbm = dbm
 		
-	def render_home_tile (self, e, mobile):
+	def render_home_tile (self, e, mobile, auth):
 		# Set logo source
 		src = "data:image/png;base64," + e.org.logo.decode('utf-8')
 		date_stop = datetime.datetime.strptime(e.date_stop, '%Y-%m-%d')
@@ -26,15 +26,35 @@ class EduRenderer:
 			html += '''	<div class="card w-75">
 							<div class="card-header">
 								<div class="row">
-									<div class="col-1">
+									<div class="col-1 d-flex align-items-center">
 										<img width="30" height="30" src="''' + src + '''" />
 									</div>
-									<div class="col-6">
+									<div class="col-7 d-flex align-items-center">
 										<a href="/orgs/''' + str(e.org.id) + '''" style="color:black;">
 											<h6 style="margin-top:5px;">''' + str(e.org.name) + '''</h6>
 										</a>
-									</div>
-								</div>
+									</div>'''
+			if auth:
+				short_desc = e.desc_short.replace("'", "\\'")
+				long_desc = e.desc_long.replace("'", "\\'")
+				a_edit = "'" + e.id + "', '" + e.org.id + "', '" + e.org.name + "', '" + e.degree + "', " + str(e.gpa) + ", '" + e.date_stop + "', '" + short_desc + "', '" + long_desc + "', " + str(len(e.skills(self.dbm)))
+				
+				if len(e.skills(self.dbm)) > 0:
+					eskills = e.skills(self.dbm)
+					html += '''			<form id="'''+e.id+'''">'''
+					for i in range(len(eskills)):
+						html +=			'''<input type="hidden" id="edu_skill''' + str(i) + '''" value="'''+eskills[i].id+''','''+eskills[i].name+'''"></input>'''
+					html += '''			</form>'''
+						
+				html += '''			<div style="margin-right:25; margin-left:auto;">
+										<a href="javascript:void(0)" data-toggle="modal" data-target="#deleteModal">
+											<button style="position:relative;width:50px;margin-left:auto;margin-right:10;display:inline;" type="button" class="btn btn-outline-danger btn-lg btn-block"><img src='/static/delete.png' width="30"/></button>
+										</a>
+										<a href="javascript: void(0)" data-toggle="modal" data-target="#editEduModal">
+											<button style="position:relative;width:50px;margin-left:auto;margin-right:0;display:inline;" type="button" class="btn btn-outline-warning btn-lg btn-block" onClick="edit_edu('''+a_edit+''')"><img src='/static/edit.png' width="30"/></button>
+										</a>
+									</div>'''
+			html += '''			</div>
 							</div>
 							<div class="card-body">
 								<ul class="list-group list-group-flush">
@@ -71,6 +91,7 @@ class EduRenderer:
 							</div>
 						</div>
 						<br>'''
+		
 		else:
 			html += '''	<div class="card w-100">
 							<div class="card-header">
@@ -78,12 +99,37 @@ class EduRenderer:
 									<div class="col-1">
 										<img width="30" height="30" src="''' + src + '''" />
 									</div>
-									<div class="col-11">
+									<div class="col-8">
 										<a href="/orgs/'''+str(e.org.id)+'''" style="color:black;">
 										<h6 style="margin-top:5px;"><u>''' + str(e.org.name) + '''</u></h6>
 										</a>
 									</div>
-								</div>
+									
+								'''
+			if auth:
+				html += '''			<div class="col-3" style="position:relative;top:-5px;display:inline;margin-right:0px;">'''
+				short_desc = e.desc_short.replace("'", "\\'")
+				long_desc = e.desc_long.replace("'", "\\'")
+				a_edit = "'" + e.id + "', '" + e.org.id + "', '" + e.org.name + "', '" + e.degree + "', " + str(e.gpa) + ", '" + e.date_stop + "', '" + short_desc + "', '" + long_desc + "', " + str(len(e.skills(self.dbm)))
+				
+				if len(e.skills(self.dbm)) > 0:
+					eskills = e.skills(self.dbm)
+					html += '''			<form id="'''+e.id+'''" style="display:none;">'''
+					for i in range(len(eskills)):
+						html +=			'''<input type="hidden" id="edu_skill''' + str(i) + '''" value="'''+eskills[i].id+''','''+eskills[i].name+'''"></input>'''
+					html += '''			</form>'''
+						
+				html += '''			<ul class="navbar-nav mr-auto" style="width:100%; display:inline;">
+										<li class="nav-item dropdown" style="width:100%;">
+											<a class="nav-link dropdown-toggle" href="javascript:void(0)" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="text-align:right;position:relative;width:100%;">Change</a>
+											<div class="dropdown-menu", aria-labelledby="dropdown04">
+												<a class="dropdown-item" href="javascript:void(0)" data-toggle="modal" onClick="edit_edu('''+a_edit+''')"  data-target="#editEduModal">Edit</a>
+												<a class="dropdown-item" href="javascript:void(0)" data-toggle="modal" data-target="#deleteEduModal">Delete</a>
+											</div>
+										</li>
+									</ul>
+									</div>'''
+			html += '''			</div>
 							</div>
 							<div class="card-body">
 								<ul class="list-group list-group-flush">

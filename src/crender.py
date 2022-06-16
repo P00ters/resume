@@ -24,7 +24,7 @@ from jobsrender import JobRenderer
 from jobs import Job, retrieve_all_jobs, jobs_date_sort, NoneJob
 from orgsrender import OrgRenderer
 from orgs import Org, retrieve_all_orgs, NoneOrg
-from educations import Education, retrieve_all_educations, edus_date_sort
+from educations import Education, retrieve_all_educations, edus_date_sort, NoneEducation
 from edusrender import EduRenderer
 from skillsrender import SkillRenderer
 from skills import retrieve_skills_custom, NoneSkill, Skill, retrieve_skills, retrieve_all_skills
@@ -49,6 +49,8 @@ class CRender:
 	"""
 
 	def home_home_htmlify (self, contact, home_edus, home_jobs, session):
+		auth = session.get('auth_key') != self.mc.auth_keys['Readers']
+	
 		html = ""
 		html += self.contactrenderer.render_home_contact(contact, session['mobile'])
 
@@ -60,12 +62,12 @@ class CRender:
 							</div>
 							<div class="col">'''
 			if session.get('auth_key') != self.mc.auth_keys['Readers']:
-				html +=	'''<a href="javascript:void(0)" data-toggle="modal" data-target="#addEduModal"><button style="position:relative;width:50px;margin-left:auto;margin-right:0;" type="button" class="btn btn-success btn-lg btn-block">+</button></a>'''
+				html +=	'''<a href="javascript:void(0)" data-toggle="modal" data-target="#addEduModal"><button style="position:relative;width:50px;margin-left:auto;margin-right:0;" type="button" class="btn btn-outline-success btn-lg btn-block"><img src="/static/add.png" width="30" /></button></a>'''
 			html +=					'''</div>
 						</div>
 								'''
 			for edu in home_edus:
-				html += self.edurenderer.render_home_tile(edu, False)
+				html += self.edurenderer.render_home_tile(edu, False, auth)
 			html+=			'''
 					<span style="display:inline-block;border-left:1px solid #ccc;height:100%;position:relative;top:-100%;left:90%;"></span>
 					</div>
@@ -77,11 +79,11 @@ class CRender:
 							</div>
 							<div class="col">'''
 			if session.get('auth_key') != self.mc.auth_keys['Readers']:
-				html +=	'''<a href="javascript:void(0)" data-toggle="modal" data-target="#addJobModal"><button type="button" style="position:relative;width:50px;margin-left:auto;margin-right:0;" class="btn btn-success btn-lg btn-block">+</button></a>'''
+				html +=	'''<a href="javascript:void(0)" data-toggle="modal" data-target="#addJobModal"><button type="button" style="position:relative;width:50px;margin-left:auto;margin-right:0;" class="btn btn-outline-success btn-lg btn-block"><img src="/static/add.png" width="30" /></button></a>'''
 			html +=					'''</div>
 								</div>'''
 			for j in home_jobs:
-				html += self.jobrenderer.render_home_tile(j, False)
+				html += self.jobrenderer.render_home_tile(j, False, auth)
 
 			html +=		'''</div>
 						</div>
@@ -90,33 +92,48 @@ class CRender:
 
 		else:
 			html += '''	<div class="card w-100">
-						<div class="card-header">
-							<div style="position:relative; width:100%; height:100%; margin-bottom:35px;">
-								<div style="position:absolute;left:0%;width:85%; height:100%;">
-									<h4 style="padding-left:20px; height:100%;">Experience</h4>
-								</div>
-								<div style="position:absolute;left:85%;width:15%;top:-7.5px;">
+							<div class="card-header">
+								<div class="row">
+										<div class="col-8">
+											<h4>Experience</h4>
+										</div>
+									<div class="col-4">
 										'''
 			if session.get('auth_key') != self.mc.auth_keys['Readers']:
-				html +=	'''			<a href="javascript:void(0)" data-toggle="modal" data-target="#addJobModal"><button type="button" class="btn btn-success btn-lg btn-block">+</button></a>'''
+					html +=	'''			<ul class="navbar-nav mr-auto" style="width:100%;">
+											<li class="nav-item dropdown" style="width:100%;">
+												<a class="nav-link dropdown-toggle" href="javascript:void(0)" id="dropdown06" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="text-align:right;position:relative;width:100%;">New</a>
+												<div class="dropdown-menu", aria-labelledby="dropdown06">
+													<a class="dropdown-item" href="javascript:void(0)" data-toggle="modal" data-target="#addJobModal">Job</a>
+												</div>
+											</li>
+										</ul>
+									</div>'''
 			html += '''			</div>
 							</div>
-						</div>
-					</div>'''
+						</div>'''
 
 
 			for j in home_jobs:
-				html += self.jobrenderer.render_home_tile(j, True)
-			html += '''<div class="card w-100">
+				html += self.jobrenderer.render_home_tile(j, True, auth)
+			html += '''<div class="card w-100" style="width:100%;">
 							<div class="card-header">
-								<div style="position:relative; width:100%; height:100%; margin-bottom:35px;">
-									<div style="position:absolute;left:0%;width:85%; height:100%;">
-										<h4 style="padding-left:20px; height:100%;">Education</h4>
+								<div class="row">
+									<div class="col-8">
+										<h4>Education</h4>
 									</div>
-								<div style="position:absolute;left:85%;width:15%;top:-7.5px;">
+								<div class="col-4">
 										'''
 			if session.get('auth_key') != self.mc.auth_keys['Readers']:
-				html +=	'''			<a href="javascript:void(0)"><button type="button" class="btn btn-success btn-lg btn-block">+</button></a>'''
+				html +=	'''			<ul class="navbar-nav mr-auto" style="width:100%;">
+										<li class="nav-item dropdown" style="width:100%;">
+											<a class="nav-link dropdown-toggle" href="javascript:void(0)" id="dropdown05" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="text-align:right;position:relative;width:100%;">New</a>
+											<div class="dropdown-menu", aria-labelledby="dropdown05">
+												<a class="dropdown-item" href="javascript:void(0)" data-toggle="modal" data-target="#addEduModal">Education</a>
+											</div>
+										</li>
+									</ul>
+									'''
 			html += '''			</div>
 							</div>
 						</div>
@@ -124,9 +141,9 @@ class CRender:
 
 
 			for edu in home_edus:
-				html += self.edurenderer.render_home_tile(edu, True)
+				html += self.edurenderer.render_home_tile(edu, True, auth)
 			html+=			'''
-					<span style="display:inline-block;border-left:1px solid #ccc;height:100%;position:relative;top:-100%;left:90%;"></span>
+					
 					</body>
 				</html>'''
 
@@ -259,19 +276,19 @@ class CRender:
 							<div style="padding-left:10px;">
 								<div class="row">
 
-									<img src="/static/logo.png" width="30" height="30" class="d-inline-block align-top" alt="">'''
+									<img src="/static/logo.png" width="30" height="30" class="d-inline-block align-top" alt="" style="z-index:10;">'''
 			if page == '/':
-				html += '''			<a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color:white;position:relative;top:-5px;">Home</a>'''
+				html += '''			<a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color:white;position:relative;top:-5px;z-index:10;">Home</a>'''
 			elif page == '/jobs':
-				html += '''			<a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color:white;position:relative;top:-5px;">Jobs</a>'''
+				html += '''			<a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color:white;position:relative;top:-5px;z-index:10;">Jobs</a>'''
 			elif page == '/edus':
-				html += '''			<a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color:white;position:relative;top:-5px;">Education</a>'''
+				html += '''			<a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color:white;position:relative;top:-5px;z-index:10;">Education</a>'''
 			elif page == '/skills':
-				html += '''			<a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color:white;position:relative;top:-5px;">Skills</a>'''
+				html += '''			<a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color:white;position:relative;top:-5px;z-index:10;">Skills</a>'''
 			elif page == '/orgs':
-				html += '''			<a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color:white;position:relative;top:-5px;">Organizations</a>'''
+				html += '''			<a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color:white;position:relative;top:-5px;z-index:10;">Organizations</a>'''
 			elif page == '/about':
-				html += '''			<a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color:white;position:relative;top:-5px;">About</a>'''
+				html += '''			<a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color:white;position:relative;top:-5px;z-index:10;">About</a>'''
 
 			html += '''				<div class="dropdown-menu", aria-labelledby="dropdown04">
 									'''
@@ -303,18 +320,20 @@ class CRender:
 
 			html += '''
 									</div>
-									<div style="position:absolute;width:35%;left:62%;">
-										<ul class="navbar-nav mr-auto" style="width:100%;">
-											<li class="nav-item dropdown" style="width:100%;">
-												<a class="nav-link dropdown-toggle" href="javascript:void(0)" id="dropdown03" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="text-align:right;position:relative;width:100%;">Welcome, ''' + user + '''</a>
-												<div class="dropdown-menu", aria-labelledby="dropdown03">
-													<a class="dropdown-item" href="javascript:void(0)" data-toggle="modal" data-target="#loginModal">Login</a>'''
+									<div style="position:absolute;margin-right:0;margin-left:auto;width:95%;margin-top:-5px;">
+										<div style="margin-right:0;margin-left:auto;width:40%;">
+											<ul class="navbar-nav mr-auto" style="width:100%;position:relative;">
+												<li class="nav-item dropdown" style="width:100%;">
+													<a class="nav-link dropdown-toggle" href="javascript:void(0)" id="dropdown03" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="text-align:right;position:relative;width:100%;">Welcome, ''' + user + '''</a>
+													<div class="dropdown-menu", aria-labelledby="dropdown03">
+														<a class="dropdown-item" href="javascript:void(0)" data-toggle="modal" data-target="#loginModal">Login</a>'''
 			if s['auth_key'] == self.mc.auth_keys['Contributors'] or s['auth_key'] == self.mc.auth_keys['Owners']:
-				html +=						'''<a class="dropdown-item" href="/logout?r='''+redirect.replace('/','_')+'''">Logout</a>'''
+				html +=									'''<a class="dropdown-item" href="/logout?r='''+redirect.replace('/','_')+'''">Logout</a>'''
 			html += '''
-												</div>
-											</li>
-										</ul>
+													</div>
+												</li>
+											</ul>
+										</div>
 									</div>
 								</div>
 							</div>
@@ -552,11 +571,11 @@ class CRender:
 							</div>
 
 
-							<div class="modal fade" id="addEduModal" tabindex="-1" role="dialog" aria-labelledby="addJobModal" aria-hidden="true" style="position:fixed; width:50%; left:25%; top:15%;" >
-							  <div class="modal-dialog" role="document">
+							<div class="modal fade" id="addEduModal" tabindex="-1" role="dialog" aria-labelledby="addEduModal" aria-hidden="true" style="position:fixed; width:50%; left:25%; top:15%; height:75%;" >
+							<div class="modal-dialog" role="document">
 								<div class="modal-content" style="position:absolute; width:150%; left:-25%;">
 								  <div class="modal-header">
-									<h5 class="modal-title" id="addJobModal">New Education</h5>
+									<h5 class="modal-title" id="addEduModal">New Education</h5>
 
 									<button type="button" class="close" data-dismiss="modal" data-toggle="modal" aria-label="Close">
 									  <span aria-hidden="true">&times;</span>
@@ -593,20 +612,24 @@ class CRender:
 												<div class="col-sm-6 mx-auto">
 													<label for="skill_selector">Select Skills <i>(CTRL + Click for multiple)</i></label><br>'''
 			all_skills = self.mc.skills_for_add_query()
-			html += '''								<select style="min-width:80%;" size="6" id="skill_selector" name="skill_selector" multiple>'''
+			html += '''								<select style="min-width:95%;" size="6" id="skill_selector" name="skill_selector" multiple>'''
 			for s in all_skills:
 				html +=	'''								<option value="''' + s.id + '''">''' + s.name + '''</option>'''
 			html+= '''								</select>
+													<br><br>
+													<button type="button" class="btn btn-success btn-lg btn-block" style="width:80%;position:relative;left:7.5%;" id="edu_add_skill_button" onClick="edu_add_skill(0, 0)">Add Skill</button>
 												</div>
 
 
 													<div class="col-sm-6 mx-auto">
-														<label for="org_select">Select Organization</label><br>'''
+														<label for="edu_org_selector">Select Organization</label><br>'''
 			all_orgs = self.mc.orgs_for_add_query()
-			html += '''									<select style="min-width:80%;" size="6" id="org_selector" name="org_selector" required>'''
+			html += '''									<select style="min-width:95%;" size="6" id="edu_org_selector" name="edu_org_selector" required>'''
 			for o in all_orgs:
 				html += '''									<option value="''' + o.id + '''">''' + o.name + '''</option>'''
 			html += '''									</select>
+														<br><br>
+														<button type="button" class="btn btn-success btn-lg btn-block" style="width:80%;position:relative;left:7.5%;" onClick="javascript: edu_add_org()">Add Organization</button>
 														</div>
 												</div>
 												<input type="hidden" name="redirect" id="redirect" value="'''+redirect+'''"></input>
@@ -614,6 +637,96 @@ class CRender:
 													<div class="col-sm-10 mx-auto">
 														<input type="submit" value="Submit" style="display:none">
 													</div>
+												</div>
+												<input type="hidden" name="redirect" id="redirect" value="'''+redirect+'''"></input>
+											<input type="hidden" name="edu_add_skills_i" id="edu_add_skills_i" value="False"></input>
+											<input type="hidden" name="edu_max_skills" id="edu_max_skills" value="0"></input>
+											<input type="hidden" name="edu_add_org_i" id="edu_add_org_i" value="False"></input>
+											<input type="hidden" name="edu_add_address_i" id="edu_add_address_i" value="False"></input>
+											<div class="row">
+												<div class="col-sm-10 mx-auto">
+													<input type="submit" value="Submit" style="display:none">
+												</div>
+											</div>
+											<hr>
+											<div class="container" id="edu_new_org_parent" style="visibility:hidden;height:0px;">
+												<div class="row">
+													<h6>Add New Organization</h6>
+												</div>
+												<hr>
+												<div class="container" id="edu_add_org_div">
+													<div class="row">
+														<button type="button" class="close", onClick="javascript: edu_remove_org()" style="margin-left:auto;margin-right:0;">
+															<span aria-hidden="true">&times;</span>
+														</button>
+													</div>
+													<div class="row" style="padding-top:15px;">
+														<div class="col-6">
+															<label for="e_o_name">Name</label><br>
+															<input type="text" name="e_o_name" id="e_o_name" placeholder="Oragnization name"></input>
+														</div>
+														<div class="col-6">
+															<label for="e_o_phone">Phone number</label><br>
+															<input type="text" name="e_o_phone" id="e_o_phone" placeholder="555-555-5555"></input>
+														</div>
+													</div>
+													<div class="row" style="padding-top:15px;">
+														<div class="col-6">
+															<label for="e_o_website">Website</label><br>
+															<input type="text" name="e_o_website" id="e_o_website" placeholder="Website URL"></input>
+														</div>
+														<div class="col-6">
+															<label for="e_o_desc_short">Description</label><br>
+															<textarea name="e_o_desc_short" id="e_o_desc_short" form="create_edu" placeholder="Description of organization" style="width:95%;height:100px;" ></textarea>
+														</div>
+													</div>
+													<div class="row" style="padding-top:15px;">
+														<div class="col-6">
+															<label for="e_o_icon">Icon Image</label>
+															<input type="file" onChange="upload_img('e_o_icon')"  name="e_o_icon" id="e_o_icon" accept="image/png, image/jpeg"></input>
+															<input type="hidden" name="e_o_icon_val" id="e_o_icon_val"></input>
+														</div>
+														<div class="col-6">
+															<label for="e_o_header">Header Image</label>
+															<input type="file" onChange="upload_img('e_o_header')"  name="e_o_header" id="e_o_header" accept="image/png, image/jpeg"></input>
+															<input type="hidden" name="e_o_header_val" id="e_o_header_val" value=""></input>
+														</div>
+													</div>
+													<div class="row" style="padding-top:15px;">
+														<div class="col-6">
+															<label for="e_o_address_selector">Address</label>'''
+			all_addresses = retrieve_all_addresses(self.dbm)
+			html += '''										<select style="min-width:95%;max-width:95%;" size="4" id="e_o_address_selector" name="e_o_address_selector">'''
+			for a in all_addresses:
+				html += '''									<option value="''' + a.id + '''">''' + a.name +'''</option>'''
+			html += '''										</select>
+															<br><br>
+															<button type="button" class="btn btn-success btn-lg btn-block" style="width:80%;position:relative;left:7.5%;" onClick="javascript: edu_new_address()">Add Address</button>
+														</div>
+														<div class="col-6">
+															<div id="edu_new_address_div" style="visibility:hidden; height:0px; left:0px;">
+																<button type="button" class="close", onClick="javascript: edu_remove_address()" style="margin-left:auto;margin-right:0;">
+																<span aria-hidden="true">&times;</span>
+																</button>
+																<br>
+																<label for="e_o_new_address">New Address</label>
+																<input type="text" name="e_o_new_address" id="e_o_new_address" placeholder="123 Street Ave, City, State 12345" style="width:95%;"></input>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+												<hr>
+												<div class="container" id="edu_new_skill_parent" style="visibility:hidden;height:0px;">
+													<div class="row">
+														<h6>Add New Skill(s)</h6>
+													</div>
+													<hr>
+													<div class="container" id="edu_add_skill_div">
+
+
+													</div>
+													<hr>
 												</div>
 										  </div>
 										  <div class="modal-footer">
@@ -626,6 +739,146 @@ class CRender:
 									</div>
 								  </div>
 								</div>
+								
+								
+							<div class="modal fade" id="editEduModal" tabindex="-1" role="dialog" aria-labelledby="editEduModal" aria-hidden="true" style="position:fixed; width:50%; left:25%; top:15%; height:75%;" >
+							<div class="modal-dialog" role="document">
+								<div class="modal-content" style="position:absolute; width:150%; left:-25%;">
+								  <div class="modal-header">
+									<h5 class="modal-title" id="editEduModal">Edit Education</h5>
+
+									<button type="button" class="close" data-dismiss="modal" data-toggle="modal" aria-label="Close">
+									  <span aria-hidden="true">&times;</span>
+									</button>
+								  </div>
+								  <form action='/update/edu' method='post' id="update_edu">
+										<input type="hidden" id="e_e_id" name="e_e_id" value=""></input>
+										<div class="container" id="edu_edit_div">
+											<div class="row" style="padding-top:15px;">
+												<div class="col-4">
+													<label for="e_e_degree">Degree</label><br>
+													<input id="e_e_degree" name="e_e_degree" type="text" value=""></input>
+												</div>
+												<div class="col-4">
+													<label for="e_e_gpa">GPA</label><br>
+													<input id="e_e_gpa" name="e_e_gpa" type="text" value=""></input>
+												</div>
+												<div class="col-4">
+													<label for="e_e_date_stop">Graduation Date</label><br>
+													<input id="e_e_date_stop" name="e_e_date_stop" type="date" value=""></input>
+												</div>
+											</div>
+											<div class="row" style="padding-top:15px;">
+												<div class="col-6">
+													<label for="e_e_desc_short">Short Description</label><br>
+													<textarea name="e_e_desc_short" form="update_edu" id="e_e_desc_short" value="" style="width:95%; min-height:100px;"></textarea>
+												</div>
+												<div class="col-6">
+													<label for="e_e_desc_long">Long Description</label><br>
+													<textarea name="e_e_desc_long" form="update_edu" id="e_e_desc_long" value="" style="width:95%; min-height:100px;"></textarea>
+												</div>
+											</div>
+											<div class="row" style="padding-top:15px;">
+												<div class="col-6">
+													<label for="e_e_skill_selector">Select Skills <i>(CTRL + Click for multiple)</i></label>
+													<select style="min-width:95%;max-width:95%;" size="6" id="e_e_skill_selector" name="e_e_skill_selector" multiple>'''
+			for s in all_skills:
+				html +=	'''								<option id="e_e_''' + s.id + '''" value="''' + s.id + '''">''' + s.name + '''</option>'''
+			html+= '''								</select>
+												</div>
+												<div class="col-6">
+													<label for="e_e_org_selector">Select Organization</label>
+													<select style="min-width:95%;max-width:95%;" size="6" id="e_e_org_selector" name="e_e_org_selector">'''
+			for o in all_orgs:
+				html += '''								<option value="''' + o.id + '''">''' + o.name + '''</option>'''
+			html += '''								</select>
+												</div>
+											</div>
+										</div>
+										<br>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close">
+											  <span aria-hidden="true">Cancel</span>
+											</button>
+											<input type="submit" class="btn btn-primary" value="Save & Exit"></button>
+										</div>
+									</form>
+								</div>
+							</div>
+							</div>
+							
+							<!-- Job Edit Popup -->
+							<div class="modal fade" id="editJobModal" tabindex="-1" role="dialog" aria-labelledby="editJobModal" aria-hidden="true" style="position:fixed; width:50%; left:25%; top:15%; height:75%;" >
+							<div class="modal-dialog" role="document">
+								<div class="modal-content" style="position:absolute; width:150%; left:-25%;">
+								  <div class="modal-header">
+									<h5 class="modal-title" id="editJobModal">Edit Work Experience</h5>
+
+									<button type="button" class="close" data-dismiss="modal" data-toggle="modal" aria-label="Close">
+									  <span aria-hidden="true">&times;</span>
+									</button>
+								  </div>
+								  <form action='/update/job' method='post' id="update_job">
+										<input type="hidden" id="e_j_id" name="e_j_id" value=""></input>
+										<div class="container" id="edu_edit_div">
+											<div class="row" style="padding-top:15px;">
+												<div class="col-6">
+													<label for="e_j_title">Title</label><br>
+													<input id="e_j_title" name="e_j_title" type="text" value=""></input>
+												</div>
+												<div class="col-6">
+													<label for="e_j_present">Present</label><br>
+													<input id="e_j_present" name="e_j_present" type="checkbox" value=""></input>
+												</div>
+											</div>
+											<div class="row" style="padding-top:15px;">
+												<div class="col-6">
+													<label for="e_j_date_start">Start Date</label><br>
+													<input id="e_j_date_start" name="e_j_date_start" type="date" value=""></input>
+												</div>
+												<div class="col-6">
+													<label for="e_j_date_stop">Stop Date</label><br>
+													<input id="e_j_date_stop" name="e_j_date_stop" type="date" value=""></input>
+												</div>
+											</div>
+											<div class="row" style="padding-top:15px;">
+												<div class="col-6">
+													<label for="e_j_desc_short">Short Description</label><br>
+													<textarea name="e_j_desc_short" form="update_job" id="e_j_desc_short" value="" style="width:95%; min-height:100px;"></textarea>
+												</div>
+												<div class="col-6">
+													<label for="e_j_desc_long">Long Description</label><br>
+													<textarea name="e_j_desc_long" form="update_job" id="e_j_desc_long" value="" style="width:95%; min-height:100px;"></textarea>
+												</div>
+											</div>
+											<div class="row" style="padding-top:15px;">
+												<div class="col-6">
+													<label for="e_j_skill_selector">Select Skills <i>(CTRL + Click for multiple)</i></label>
+													<select style="min-width:95%;max-width:95%;" size="6" id="e_j_skill_selector" name="e_j_skill_selector" multiple>'''
+			for s in all_skills:
+				html +=	'''								<option id="e_e_''' + s.id + '''" value="''' + s.id + '''">''' + s.name + '''</option>'''
+			html+= '''								</select>
+												</div>
+												<div class="col-6">
+													<label for="e_j_org_selector">Select Organization</label>
+													<select style="min-width:95%;max-width:95%;" size="6" id="e_j_org_selector" name="e_j_org_selector">'''
+			for o in all_orgs:
+				html += '''								<option value="''' + o.id + '''">''' + o.name + '''</option>'''
+			html += '''								</select>
+												</div>
+											</div>
+										</div>
+										<br>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close">
+											  <span aria-hidden="true">Cancel</span>
+											</button>
+											<input type="submit" class="btn btn-primary" value="Save & Exit"></button>
+										</div>
+									</form>
+								</div>
+							</div>
+							</div>
 					'''
 		else:
 			html = '''
@@ -728,7 +981,7 @@ class CRender:
 												<div class="col-sm-12 mx-auto">
 													<label for="skill_selector">Select Skills</label><br>'''
 			all_skills = self.mc.skills_for_add_query()
-			html += '''								<select "style=width:100%;" size="'''+str(len(all_skills))+'''" id="skill_selector" name="skill_selector" multiple>'''
+			html += '''								<select "style=width:100%;" size="6" id="skill_selector" name="skill_selector" multiple>'''
 			for s in all_skills:
 				html +=	'''								<option value="'''+s.id+'''">'''+s.name+'''</option>'''
 			html+= '''								</select>
@@ -740,7 +993,7 @@ class CRender:
 													<div class="col-sm-12 mx-auto">
 														<label for="org_select">Select Organization</label><br>'''
 			all_orgs = self.mc.orgs_for_add_query()
-			html += '''									<select "style=width:100%;" size="'''+str(len(all_orgs))+'''" id="org_selector" name="org_selector">'''
+			html += '''									<select "style=width:100%;" size="6" id="org_selector" name="org_selector">'''
 			for o in all_orgs:
 				html += '''									<option value="'''+o.id+'''">'''+o.name+'''</option>'''
 			html += '''									</select>
@@ -857,6 +1110,342 @@ class CRender:
 							    </div>
 							  </div>
 							</div>
+							
+							
+							<div class="modal fade" id="addEduModal" tabindex="-1" role="dialog" aria-labelledby="addEduModal" aria-hidden="true" style="position:fixed; top:5%; width:80%; left:10%; height:90%;" >
+							<div class="modal-dialog" role="document">
+								<div class="modal-content">
+								  <div class="modal-header">
+									<h5 class="modal-title" id="addEduModal">New Education</h5>
+
+									<button type="button" class="close" data-dismiss="modal" data-toggle="modal" aria-label="Close">
+									  <span aria-hidden="true">&times;</span>
+									</button>
+								  </div>
+								  <form action='/create/edu' method='post' id="create_edu">
+									  <div class="modal-body">
+											<div class="row">
+												<div class="col-sm-12 mx-auto">
+													<label for="title">Degree</label><br>
+													<input id="title" type="text" name="degree" placeholder="Degree" required></input>
+												</div>
+											</div>
+											<div class="row" style="padding-top:15px;">
+												<div class="col-sm-12 mx-auto">
+													<label for="title">GPA</label><br>
+													<input id="title" type="text" name="gpa" placeholder="GPA" required></input>
+												</div>
+											</div>
+											<div class="row" style="padding-top:15px;">
+												<div class="col-sm-12 mx-auto">
+													<label for="date_stop">Graduation Date</label><br>
+													<input id="date_stop" type="date" name="date_stop" value="'''+now.strftime("%Y-%m-%d")+'''" required></input>
+												</div>
+											</div><br>
+
+											<div class="row" style="padding-top:15px;">
+												<div class="col-sm-12 mx-auto">
+													<label for="desc_short">Short Description</label><br>
+													<textarea name="desc_short" form="create_edu" placeholder="Short description of education." style="width:95%;height:100px;" required></textarea>
+												</div>
+											</div>
+											<div class="row" style="padding-top:15px;">
+												<div class="col-sm-12 mx-auto">
+													<label for="desc_long">Long Description</label><br>
+													<textarea name="desc_long" form="create_edu" placeholder="Long description of education." style="width:95%;height:100px;" required></textarea>
+												</div>
+											</div><br>
+											<div class="row" style="padding-top:15px;">
+												<div class="col-sm-12 mx-auto">
+													<label for="skill_selector">Select Skills</label><br>'''
+			all_skills = self.mc.skills_for_add_query()
+			html += '''								<select style="min-width:95%;" size="6" id="skill_selector" name="skill_selector" multiple>'''
+			for s in all_skills:
+				html +=	'''								<option value="''' + s.id + '''">''' + s.name + '''</option>'''
+			html+= '''								</select>
+													<br><br>
+													<button type="button" class="btn btn-success btn-lg btn-block" style="width:80%;position:relative;left:7.5%;" id="edu_add_skill_button" onClick="edu_add_skill(0, 0)">Add Skill</button>
+												</div>
+											</div>
+											<div class="row" style="padding-top:15px;">
+													<div class="col-sm-12 mx-auto">
+														<label for="edu_org_selector">Select Organization</label><br>'''
+			all_orgs = self.mc.orgs_for_add_query()
+			html += '''									<select style="min-width:95%;" size="6" id="edu_org_selector" name="edu_org_selector" required>'''
+			for o in all_orgs:
+				html += '''									<option value="''' + o.id + '''">''' + o.name + '''</option>'''
+			html += '''									</select>
+														<br><br>
+														<button type="button" class="btn btn-success btn-lg btn-block" style="width:80%;position:relative;left:7.5%;" onClick="javascript: edu_add_org()">Add Organization</button>
+														</div>
+												</div>
+												<input type="hidden" name="redirect" id="redirect" value="'''+redirect+'''"></input>
+												<div class="row">
+													<div class="col-sm-10 mx-auto">
+														<input type="submit" value="Submit" style="display:none">
+													</div>
+												</div>
+												<input type="hidden" name="redirect" id="redirect" value="'''+redirect+'''"></input>
+											<input type="hidden" name="edu_add_skills_i" id="edu_add_skills_i" value="False"></input>
+											<input type="hidden" name="edu_max_skills" id="edu_max_skills" value="0"></input>
+											<input type="hidden" name="edu_add_org_i" id="edu_add_org_i" value="False"></input>
+											<input type="hidden" name="edu_add_address_i" id="edu_add_address_i" value="False"></input>
+											<div class="row">
+												<div class="col-sm-10 mx-auto">
+													<input type="submit" value="Submit" style="display:none">
+												</div>
+											</div>
+											<hr>
+											<div class="container" id="edu_new_org_parent" style="visibility:hidden;height:0px;">
+												<div class="row">
+													<h6>Add New Organization</h6>
+												</div>
+												<hr>
+												<div class="container" id="edu_add_org_div">
+													<div class="row">
+														<button type="button" class="close", onClick="javascript: edu_remove_org()" style="margin-left:auto;margin-right:0;">
+															<span aria-hidden="true">&times;</span>
+														</button>
+													</div>
+													<div class="row" style="padding-top:15px;">
+														<div class="col-sm-12 mx-auto">
+															<label for="e_o_name">Name</label><br>
+															<input type="text" name="e_o_name" id="e_o_name" placeholder="Oragnization name"></input>
+														</div>
+													</div>
+													<div class="row" style="padding-top:15px;">
+														<div class="col-sm-12 mx-auto">
+															<label for="e_o_phone">Phone number</label><br>
+															<input type="text" name="e_o_phone" id="e_o_phone" placeholder="555-555-5555"></input>
+														</div>
+													</div>
+													<div class="row" style="padding-top:15px;">
+														<div class="col-sm-12 mx-auto">
+															<label for="e_o_website">Website</label><br>
+															<input type="text" name="e_o_website" id="e_o_website" placeholder="Website URL"></input>
+														</div>
+													</div>
+													<div class="row" style="padding-top:15px;">
+														<div class="col-sm-12 mx-auto">
+															<label for="e_o_desc_short">Description</label><br>
+															<textarea name="e_o_desc_short" id="e_o_desc_short" form="create_edu" placeholder="Description of organization" style="width:95%;height:100px;" ></textarea>
+														</div>
+													</div>
+													<div class="row" style="padding-top:15px;">
+														<div class="col-sm-12 mx-auto">
+															<label for="e_o_icon">Icon Image</label>
+															<input type="file" onChange="upload_img('e_o_icon')"  name="e_o_icon" id="e_o_icon" accept="image/png, image/jpeg"></input>
+															<input type="hidden" name="e_o_icon_val" id="e_o_icon_val"></input>
+														</div>
+													</div>
+													<div class="row" style="padding-top:15px;">
+														<div class="col-sm-12 mx-auto">
+															<label for="e_o_header">Header Image</label>
+															<input type="file" onChange="upload_img('e_o_header')"  name="e_o_header" id="e_o_header" accept="image/png, image/jpeg"></input>
+															<input type="hidden" name="e_o_header_val" id="e_o_header_val" value=""></input>
+														</div>
+													</div>
+													<div class="row" style="padding-top:15px;">
+														<div class="col-sm-12 mx-auto">
+															<label for="e_o_address_selector">Address</label>'''
+			all_addresses = retrieve_all_addresses(self.dbm)
+			html += '''										<select style="min-width:95%;max-width:95%;" size="4" id="e_o_address_selector" name="e_o_address_selector">'''
+			for a in all_addresses:
+				html += '''									<option value="''' + a.id + '''">''' + a.name +'''</option>'''
+			html += '''										</select>
+															<br><br>
+															<button type="button" class="btn btn-success btn-lg btn-block" style="width:80%;position:relative;left:7.5%;" onClick="javascript: edu_new_address()">Add Address</button>
+														</div>
+													</div>
+													<div class="row">
+														<div class="col-sm-12 mx-auto">
+															<div id="edu_new_address_div" style="visibility:hidden; height:0px; left:0px;">
+																<button type="button" class="close", onClick="javascript: edu_remove_address()" style="margin-left:auto;margin-right:0;">
+																<span aria-hidden="true">&times;</span>
+																</button>
+																<br>
+																<label for="e_o_new_address">New Address</label>
+																<input type="text" name="e_o_new_address" id="e_o_new_address" placeholder="123 Street Ave, City, State 12345" style="width:95%;"></input>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+												<hr>
+												<div class="container" id="edu_new_skill_parent" style="visibility:hidden;height:0px;">
+													<div class="row">
+														<h6>Add New Skill(s)</h6>
+													</div>
+													<hr>
+													<div class="container" id="edu_add_skill_div">
+
+
+													</div>
+													<hr>
+												</div>
+										  </div>
+										  <div class="modal-footer">
+											<button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close">
+											  <span aria-hidden="true">Cancel</span>
+											</button>
+											<input type="submit" class="btn btn-primary" value="Save & Exit"></button>
+										  </div>
+									   </form>
+									</div>
+								</div>
+							</div>
+							<div class="modal fade" id="editEduModal" tabindex="-1" role="dialog" aria-labelledby="editEduModal" aria-hidden="true" style="position:fixed; top:5%; width:80%; left:10%; height:90%;" >
+							<div class="modal-dialog" role="document">
+								<div class="modal-content">
+									 <div class="modal-header">
+										<h5 class="modal-title" id="editEduModal">Edit Education</h5>
+
+										<button type="button" class="close" data-dismiss="modal" data-toggle="modal" aria-label="Close">
+										  <span aria-hidden="true">&times;</span>
+										</button>
+									  </div>
+									  <form action='/update/edu' method='post' id="update_edu">
+											<input type="hidden" id="e_e_id" name="e_e_id" value=""></input>
+											<div class="container" id="edu_edit_div">
+												<div class="row" style="padding-top:15px;">
+													<div class="col-12">
+														<label for="e_e_degree">Degree</label><br>
+														<input id="e_e_degree" name="e_e_degree" type="text" value=""></input>
+													</div>
+												</div>
+												<div class="row" style="padding-top:15px;">
+													<div class="col-12">
+														<label for="e_e_gpa">GPA</label><br>
+														<input id="e_e_gpa" name="e_e_gpa" type="text" value=""></input>
+													</div>
+												</div>
+												<div class="row" style="padding-top:15px;">
+													<div class="col-12">
+														<label for="e_e_date_stop">Graduation Date</label><br>
+														<input id="e_e_date_stop" name="e_e_date_stop" type="date" value=""></input>
+													</div>
+												</div>
+												<div class="row" style="padding-top:15px;">
+													<div class="col-12">
+														<label for="e_e_desc_short">Short Description</label><br>
+														<textarea name="e_e_desc_short" form="update_edu" id="e_e_desc_short" value="" style="width:95%; min-height:100px;"></textarea>
+													</div>
+												</div>
+												<div class="row" style="padding-top:15px;">
+													<div class="col-12">
+														<label for="e_e_desc_long">Long Description</label><br>
+														<textarea name="e_e_desc_long" form="update_edu" id="e_e_desc_long" value="" style="width:95%; min-height:100px;"></textarea>
+													</div>
+												</div>
+												<div class="row" style="padding-top:15px;">
+													<div class="col-12">
+														<label for="e_e_skill_selector">Select Skills</label>
+														<select style="min-width:95%;max-width:95%;" size="6" id="e_e_skill_selector" name="e_e_skill_selector" multiple>'''
+			for s in all_skills:
+				html +=	'''								<option id="e_e_''' + s.id + '''" value="''' + s.id + '''">''' + s.name + '''	</option>'''
+			html+= '''								</select>
+													</div>
+												</div>
+												<div class="row" style="padding-top:15px;">
+													<div class="col-12">
+														<label for="e_e_org_selector">Select Organization</label>
+														<select style="min-width:95%;max-width:95%;" size="6" id="e_e_org_selector" name="e_e_org_selector">'''
+			for o in all_orgs:
+				html += '''								<option value="''' + o.id + '''">''' + o.name + '''</option>'''
+			html += '''									</select>
+													</div>
+												</div>
+											</div>
+											<br>
+											<div class="modal-footer">
+											<button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close">
+											  <span aria-hidden="true">Cancel</span>
+											</button>
+											<input type="submit" class="btn btn-primary" value="Save & Exit"></button>
+										</div>
+									</form>
+								</div>
+							</div>
+							</div>
+							
+							<!-- Job Edit Popup -->
+							<div class="modal fade" id="editJobModal" tabindex="-1" role="dialog" aria-labelledby="editJobModal" aria-hidden="true" style="position:fixed; top:5%; width:80%; left:10%; height:90%;" >
+							<div class="modal-dialog" role="document">
+								<div class="modal-content">
+									 <div class="modal-header">
+										<h5 class="modal-title" id="editJobModal">Edit Work Experience</h5>
+
+									<button type="button" class="close" data-dismiss="modal" data-toggle="modal" aria-label="Close">
+									  <span aria-hidden="true">&times;</span>
+									</button>
+								  </div>
+								  <form action='/update/job' method='post' id="update_job">
+										<input type="hidden" id="e_j_id" name="e_j_id" value=""></input>
+										<div class="container" id="edu_edit_div">
+											<div class="row" style="padding-top:15px;">
+												<div class="col-12">
+													<label for="e_j_title">Title</label><br>
+													<input id="e_j_title" name="e_j_title" type="text" value=""></input>
+												</div>
+											</div>
+											<div class="row" style="padding-top:15px;">
+												<div class="col-12">
+													<label for="e_j_present">Present</label><br>
+													<input id="e_j_present" name="e_j_present" type="checkbox" value=""></input>
+												</div>
+											</div>
+											<div class="row" style="padding-top:15px;">
+												<div class="col-12">
+													<label for="e_j_date_start">Start Date</label><br>
+													<input id="e_j_date_start" name="e_j_date_start" type="date" value=""></input>
+												</div>
+											</div>
+											<div class="row" style="padding-top:15px;">
+												<div class="col-12">
+													<label for="e_j_date_stop">Stop Date</label><br>
+													<input id="e_j_date_stop" name="e_j_date_stop" type="date" value=""></input>
+												</div>
+											</div>
+											<div class="row" style="padding-top:15px;">
+												<div class="col-12">
+													<label for="e_j_desc_short">Short Description</label><br>
+													<textarea name="e_j_desc_short" form="update_job" id="e_j_desc_short" value="" style="width:95%; min-height:100px;"></textarea>
+												</div>
+											</div>
+											<div class="row" style="padding-top:15px;">
+												<div class="col-12">
+													<label for="e_j_desc_long">Long Description</label><br>
+													<textarea name="e_j_desc_long" form="update_job" id="e_j_desc_long" value="" style="width:95%; min-height:100px;"></textarea>
+												</div>
+											</div>
+											<div class="row" style="padding-top:15px;">
+												<div class="col-12">
+													<label for="e_j_skill_selector">Select Skills <i>(CTRL + Click for multiple)</i></label>
+													<select style="min-width:95%;max-width:95%;" size="6" id="e_j_skill_selector" name="e_j_skill_selector" multiple>'''
+			for s in all_skills:
+				html +=	'''								<option id="e_e_''' + s.id + '''" value="''' + s.id + '''">''' + s.name + '''</option>'''
+			html+= '''								</select>
+												</div>
+												<div class="col-12">
+													<label for="e_j_org_selector">Select Organization</label>
+													<select style="min-width:95%;max-width:95%;" size="6" id="e_j_org_selector" name="e_j_org_selector">'''
+			for o in all_orgs:
+				html += '''								<option value="''' + o.id + '''">''' + o.name + '''</option>'''
+			html += '''								</select>
+												</div>
+											</div>
+										</div>
+										<br>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close">
+											  <span aria-hidden="true">Cancel</span>
+											</button>
+											<input type="submit" class="btn btn-primary" value="Save & Exit"></button>
+										</div>
+									</form>
+								</div>
+							</div>
+							</div>
 						'''
 		return html
 
@@ -938,19 +1527,19 @@ class CRender:
 											<div class="row" style="padding-left:45px;">
 												<p>Add skill commentary.</p>
 												<div style="padding-left:10px;position:relative;top:3px;">
-													<span class="badge badge-pill badge-warning">Up Next</span>
+													<span class="badge badge-pill badge-info">In Progress</span>
 												</div>
 											</div>
 											<div class="row" style="padding-left:45px;">
-												<p>Add long descriptions to education and work experience.</p>
+												<p style="text-decoration:line-through;">Add long descriptions to education and work experience.</p>
 												<div style="padding-left:10px;position:relative;top:3px;">
-													<span class="badge badge-pill badge-info">In Progress</span>
+													<span class="badge badge-pill badge-success">Completed</span>
 												</div>
 											</div>
 											<div class="row" style="padding-left:15px;">
-												<p>Circle back on implementation of custom 404 pages and error handling on queries on non-existant data.</p>
+												<p style="text-decoration:line-through;">Circle back on implementation of custom 404 pages and error handling on queries on non-existant data.</p>
 												<div style="padding-left:10px;position:relative;top:3px;">
-													<span class="badge badge-pill badge-info">In Progress</span>
+													<span class="badge badge-pill badge-success">Completed</span>
 												</div>
 											</div>
 											<div class="row" style="padding-left:15px;">
@@ -960,27 +1549,21 @@ class CRender:
 												</div>
 											</div>
 											<div class="row" style="padding-left:15px;">
-												<p>Implement Jenkins pipelines for new feature additions once base functions are established.</p>
+												<p style="text-decoration:line-through;">Implement controllers for data integrity - allow for reversion to actual resume data when present state is altered by a guest.</p>
 												<div style="padding-left:10px;position:relative;top:3px;">
-													<span class="badge badge-pill badge-warning">Up Next</span>
-												</div>
-											</div>
-											<div class="row" style="padding-left:15px;">
-												<p>Implement controllers for data integrity - allow for reversion to actual resume data when present state is altered by a guest.</p>
-												<div style="padding-left:10px;position:relative;top:3px;">
-													<span class="badge badge-pill badge-warning">Up Next</span>
+													<span class="badge badge-pill badge-success">Completed</span>
 												</div>
 											</div>
 											<div class="row" style="padding-left:15px;">
 												<p>Implement CRUD operations within the view portion of the application using existing authentication and access control structures.</p>
 												<div style="padding-left:10px;position:relative;top:3px;">
-													<span class="badge badge-pill badge-danger">Pending</span>
+													<span class="badge badge-pill badge-info">In Progress</span>
 												</div>
 											</div>
 											<div class="row" style="padding-left:15px;">
 												<p>Extend the application into a full RESTful API to GET any resume data via JSON.</p>
 												<div style="padding-left:10px;position:relative;top:3px;">
-													<span class="badge badge-pill badge-danger">Pending</span>
+													<span class="badge badge-pill badge-warning">Up Next</span>
 												</div>
 											</div>
 											<div class="row" style="padding-left:15px;">
@@ -1083,7 +1666,7 @@ class CRender:
 											</div>
 											<div class="row" style="padding-left:45px;">
 												<div class="col-sm-2">
-													<span class="badge badge-pill badge-warning">Up Next</span>
+													<span class="badge badge-pill badge-info">In Progress</span>
 												</div>
 												<div class="col-sm-8">
 													<p>Add skill commentary.</p>
@@ -1091,18 +1674,18 @@ class CRender:
 											</div>
 											<div class="row" style="padding-left:45px;">
 												<div class="col-sm-2">
-													<span class="badge badge-pill badge-info">In Progress</span>
+													<span class="badge badge-pill badge-success">Completed</span>
 												</div>
 												<div class="col-sm-8">
-													<p>Add long descriptions to education and work experience.</p>
+													<p style="text-decoration:line-through;">Add long descriptions to education and work experience.</p>
 												</div>
 											</div>
 											<div class="row" style="padding-left:15px;">
 												<div class="col-sm-2">
-													<span class="badge badge-pill badge-info">In Progress</span>
+													<span class="badge badge-pill badge-success">Completed</span>
 												</div>
 												<div class="col-sm-8">
-													<p>Circle back on implementation of custom 404 pages and error handling on queries on non-existant data.</p>
+													<p style="text-decoration:line-through;">Circle back on implementation of custom 404 pages and error handling on queries on non-existant data.</p>
 												</div>
 											</div>
 											<div class="row" style="padding-left:15px;">
@@ -1115,23 +1698,15 @@ class CRender:
 											</div>
 											<div class="row" style="padding-left:15px;">
 												<div class="col-sm-2">
-													<span class="badge badge-pill badge-warning">Up Next</span>
+													<span class="badge badge-pill badge-success">Completed</span>
 												</div>
 												<div class="col-sm-8">
-													<p>Implement Jenkins pipelines for new feature additions once base functions are established.</p>
+													<p style="text-decoration:line-through;">Implement controllers for data integrity - allow for reversion to actual resume data when present state is altered by a guest.</p>
 												</div>
 											</div>
 											<div class="row" style="padding-left:15px;">
 												<div class="col-sm-2">
-													<span class="badge badge-pill badge-warning">Up Next</span>
-												</div>
-												<div class="col-sm-8">
-													<p>Implement controllers for data integrity - allow for reversion to actual resume data when present state is altered by a guest.</p>
-												</div>
-											</div>
-											<div class="row" style="padding-left:15px;">
-												<div class="col-sm-2">
-													<span class="badge badge-pill badge-danger">Pending</span>
+													<span class="badge badge-pill badge-info">In Progress</span>
 												</div>
 												<div class="col-sm-8">
 													<p>Implement CRUD operations within the view portion of the application using existing authentication and access control structures.</p>
@@ -1139,7 +1714,7 @@ class CRender:
 											</div>
 											<div class="row" style="padding-left:15px;">
 												<div class="col-sm-2">
-													<span class="badge badge-pill badge-danger">Pending</span>
+													<span class="badge badge-pill badge-warning">Up Next</span>
 												</div>
 												<div class="col-sm-8">
 													<p>Extend the application into a full RESTful API to GET any resume data via JSON.</p>
@@ -1389,12 +1964,20 @@ class CRender:
 		return html
 
 
-	def render_go_between (self, type, form_data, session):
+	def render_go_between (self, method, type, form_data, session):
 		html = ''
-		if type == 'job':
+		if type == 'job' and method == 'add':
 			location = '/jobs/' + form_data['job']['id']
-		elif type == 'edu':
+			id = form_data['job']['id']
+		elif type == 'job' and method == 'update':
+			location = '/jobs/' + form_data['id']
+			id = form_data['id']
+		elif type == 'edu' and method == 'add':
 			location = '/edus/' + form_data['edu']['id']
+			id = form_data['edu']['id']
+		elif type == 'edu' and method == 'update':
+			location = '/edus/' + form_data['id']
+			id = form_data['id']
 		else:
 			location = '/home'
 
@@ -1418,9 +2001,12 @@ class CRender:
 									<div class="col-sm-12 mx-auto" style="padding-top:15px;">
 										<img src="/static/loading.gif" height="40" width="40" style="position:relative;left:49%;" />
 									</div>
-									<div class="col-sm-12 mx-auto" style="text-align:center;padding-top:15px;">
-										<h6>Adding new \'''' + type + '''\' with <i>id</i> of <b>''' + form_data['job']['id'] + '''</b></h6>
-									</div>
+									<div class="col-sm-12 mx-auto" style="text-align:center;padding-top:15px;">'''
+			if method == 'add':
+				html += '''				<h6>Adding new \'''' + type + '''\' with <i>id</i> of <b>''' + id + '''</b></h6>'''
+			elif method == 'update':
+				html += '''				<h6>Updating \'''' + type + '''\' with <i>id</i> of <b>''' + id + '''</b></h6>'''
+			html += '''				</div>
 								</div>
 							</div>
 						<div>'''
@@ -1442,9 +2028,12 @@ class CRender:
 									<div class="col-sm-12 mx-auto" style="padding-top:15px;width:100%;">
 										<img src="/static/loading.gif" height="40" width="40" style="position:relative;left:49%;" />
 									</div>
-									<div class="col-sm-12 mx-auto" style="text-align:center;padding-top:15px;">
-										<h6>Adding new \'''' + type + '''\' with <i>id</i> of <b>''' + form_data['job']['id'] + '''</b></h6>
-									</div>
+									<div class="col-sm-12 mx-auto" style="text-align:center;padding-top:15px;">'''
+			if method == 'add':
+				html += '''				<h6>Adding new \'''' + type + '''\' with <i>id</i> of <b>''' + id + '''</b></h6>'''
+			elif method == 'update':
+				html += '''				<h6>Updating \'''' + type + '''\' with <i>id</i> of <b>''' + id + '''</b></h6>'''
+			html += '''				</div>
 								</div>
 							</div>
 						<div>'''
@@ -1452,7 +2041,8 @@ class CRender:
 
 		if cb.group.name == 'Owners':
 			bak = DBM('../dat/db.sqlite.bak.sqlite')
-		if type == 'job':
+			
+		if type == 'job' and method == 'add':
 			if 'org' in form_data:
 				if 'address' in form_data:
 					a = Address(form_data['address']['id'], form_data['address']['name'], form_data['address']['uri'], cb, cb)
@@ -1502,14 +2092,95 @@ class CRender:
 			if cb.group.name == 'Owners':
 				j.create(bak)
 
-		elif type == 'edu':
+		elif type == 'job' and method == 'update':
 			o = NoneOrg()
-			o.retrieve(self.dbm, id=form_data['org_id'])
+			o.retrieve(self.dbm, id=form_data['org'])
+			
+			j = NoneJob()
+			j.retrieve(self.dbm, id=form_data['id'])
+			j.title = form_data['title']
+			j.present = form_data['present']
+			j.date_start = form_data['date_start']
+			j.date_stop = form_data['date_stop']
+			j.desc_short = form_data['desc_short']
+			j.desc_long = form_data['desc_long']
+			j.org = o
+			j.skill_ids = form_data['skill_ids']
+			j.modified_by = cb
+			
+			j.update(self.dbm)
+			
+			if cb.group.name == 'Owners':
+				j.update(bak)
 
-			e = Education(form_data['id'], o, form_data['degree'], form_data['gpa'], form_data['skill_ids'], form_data['date_end'], form_data['desc_short'], form_data['desc_long'], cb, cb)
+		elif type == 'edu' and method == 'add':
+			if 'org' in form_data:
+				if 'address' in form_data:
+					a = Address(form_data['address']['id'], form_data['address']['name'], form_data['address']['uri'], cb, cb)
+					a.create(self.dbm)
+
+					if cb.group.name == 'Owners':
+						a.create(bak)
+				else:
+					a = NoneAddress()
+					a.retrieve(self.dbm, id=form_data['org']['address'])
+
+				if form_data['org']['logo'] == None:
+					logo = self.dbm.imgtobin('static/placeholder-logo.png')
+				else:
+					logo = form_data['org']['logo']
+				if form_data['org']['image_head'] == None:
+					image_head = self.dbm.imgtobin('static/placeholder-header.png')
+				else:
+					image_head = form_data['org']['image_head']
+
+				o = Org(form_data['org']['id'], form_data['org']['name'], a, form_data['org']['phone'], form_data['org']['desc_short'], form_data['org']['website'], logo, image_head, cb, cb)
+				o.create(self.dbm)
+
+				if cb.group.name == 'Owners':
+					o.create(bak)
+
+			else:
+				o = NoneOrg()
+				o.retrieve(self.dbm, id=form_data['edu']['org'])
+
+			if 'skills' in form_data:
+				for s in form_data['skills']:
+					if s['icon'] == None:
+						icon = self.dbm.imgtobin('static/placeholder-logo.png')
+					else:
+						icon = s['icon']
+
+					new_s = Skill(s['id'], s['name'], s['exposure'], s['soft_or_hard'], s['reference'], icon, s['category'], s['desc_short'], s['desc_long'], cb, cb)
+					new_s.create(self.dbm)
+
+					if cb.group.name == 'Owners':
+						new_s.create(bak)
+
+			e = Education(form_data['edu']['id'], o, form_data['edu']['degree'], form_data['edu']['gpa'], form_data['edu']['skill_ids'], form_data['edu']['date_stop'], form_data['edu']['desc_short'], form_data['edu']['desc_long'], cb, cb)
 			e.create(self.dbm)
 
 			if cb.group.name == 'Owners':
-				o.create(bak)
+				e.create(bak)
+
+		elif type == 'edu' and method == 'update':
+			o = NoneOrg()
+			o.retrieve(self.dbm, id=form_data['org'])
+			
+			e = NoneEducation()
+			e.retrieve(self.dbm, id=form_data['id'])
+			e.degree = form_data['degree']
+			e.gpa = form_data['gpa']
+			e.date_stop = form_data['date_stop']
+			e.desc_short = form_data['desc_short']
+			e.desc_long = form_data['desc_long']
+			e.org = o
+			e.skill_ids = form_data['skill_ids']
+			e.modified_by = cb
+			
+			e.update(self.dbm)
+			
+			if cb.group.name == 'Owners':
+				e.update(bak)
 
 		return html

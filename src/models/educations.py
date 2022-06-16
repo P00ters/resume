@@ -86,6 +86,7 @@ class Education:
 			if result != None:
 				result = dbm.cur.fetchall()
 				if len(result) == 1:
+					row = result[0]
 					o = orgs.NoneOrg()
 					if not o.retrieve(dbm, id=row[1]):
 						o = orgs.NoneOrg()

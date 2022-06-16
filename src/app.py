@@ -434,7 +434,7 @@ def create_job():
 	html = ''
 	html += cr.render_html_head('/job', session['mobile'])
 	html += cr.render_header(session['name'], '/create/job', '/create/job/' + id, session)
-	html += cr.render_go_between('job', form_data, session)
+	html += cr.render_go_between('add', 'job', form_data, session)
 
 
 	return html
@@ -442,29 +442,198 @@ def create_job():
 @app.route('/create/edu', methods=['POST'])
 def create_edu():
 	skills = ""
+	form_data = {}
+	print(str(request.form))
+
 	d = list(request.form.lists())
 	for s in d:
 		if s[0] == 'skill_selector':
 			for a in s[1]:
 				skills += str(a) + ','
+
+	if request.form['edu_add_skills_i'] == "True":
+		skills_to_add = []
+		max_skill_no = int(request.form['edu_max_skills'])
+
+		for i in range(1, max_skill_no + 1):
+			ele1 = 'e_s_name' + str(i)
+			if ele1 in request.form:
+				v1 = request.form[ele1]
+				v2 = request.form['e_s_exposure' + str(i)]
+				v3 = request.form['e_s_reference' + str(i)]
+				v4 = request.form['e_s_category' + str(i)]
+				v5 = request.form['e_s_desc_short' + str(i)]
+				v6 = request.form['e_s_desc_long' + str(i)]
+				if 'e_s_icon' + str(i) in request.form:
+					if request.form['e_s_icon' + str(i)] == '':
+						v7 = None
+					else:
+						v7 = bytes(request.form['e_s_icon' + str(i) + '_val'], 'utf-8')
+				else:
+					v7 = None
+				if 'e_s_soft' + str(i) in request.form:
+					v8 = 0
+				else:
+					v8 = 1
+
+				nsid = dbm.genid()
+				new_skill = {
+								'id': nsid,
+								'name': v1,
+								'exposure': v2,
+								'reference': v3,
+								'category': v4,
+								'desc_short': v5,
+								'desc_long': v6,
+								'icon': v7,
+								'soft_or_hard': v8
+							}
+				skills_to_add.append(new_skill)
+				skills += nsid + ','
+		form_data['skills'] = skills_to_add
+
+
+
 	id = dbm.genid()
-	form_data = {
+
+	new_edu = {
 		'id': id,
 		'degree': request.form['degree'],
 		'gpa': request.form['gpa'],
-		'date_end': request.form['date_stop'],
+		'date_stop': request.form['date_stop'],
 		'desc_short': request.form['desc_short'],
 		'desc_long': request.form['desc_long'],
-		'org_id': request.form['org_selector'],
-		'skill_ids': skills[:len(skills)-1]
+		'skill_ids': skills[:len(skills)-1],
 	}
+
+
+	if request.form['edu_add_org_i'] == "True":
+		oid = dbm.genid()
+		new_edu['org'] = oid
+		new_org = 	{
+						'id': oid,
+						'name': request.form['e_o_name'],
+						'phone': request.form['e_o_phone'],
+						'website': request.form['e_o_website'],
+						'desc_short': request.form['e_o_desc_short'],
+					}
+		if 'e_o_icon' in request.form:
+			if request.form['e_o_icon'] == '':
+				new_org['logo'] = None
+			else:
+				new_org['logo'] = bytes(request.form['e_o_icon_val'], 'utf-8')
+		else:
+			new_org['logo'] = None
+		if 'e_o_header' in request.form:
+			if request.form['e_o_header'] == '':
+				new_org['image_head'] = None
+			else:
+				new_org['image_head'] = bytes(request.form['e_o_header_val'], 'utf-8')
+		else:
+			new_org['image_head'] = None
+
+		if request.form['edu_add_address_i'] == "True":
+			aid = dbm.genid()
+			new_org['address'] = aid
+			param = [("q", request.form['e_o_new_address'])]
+			uri = "https://www.google.com/search?" + urlencode(param)
+			new_adr = 	{
+							'id': aid,
+							'name': request.form['e_o_new_address'],
+							'uri': uri
+						}
+			form_data['address'] = new_adr
+		else:
+			new_org['address'] = request.form['e_o_address_selector']
+		form_data['org'] = new_org
+	else:
+		new_edu['org'] = request.form['edu_org_selector']
+
+
+	form_data['edu'] = new_edu
+
+
 
 	html = ''
 	html += cr.render_html_head('/edu', session['mobile'])
 	html += cr.render_header(session['name'], '/create/edu', '/create/edu/' + id, session)
-	html += cr.render_go_between('edu', form_data, session)
+	html += cr.render_go_between('add', 'edu', form_data, session)
+
 
 	return html
 
+@app.route('/update/edu', methods=['POST'])
+def update_edu():
+	skills = ""
+	form_data = {}
+
+	d = list(request.form.lists())
+	for s in d:
+		if s[0] == 'e_e_skill_selector':
+			for a in s[1]:
+				skills += str(a) + ','
+	
+	o = request.form['e_e_org_selector']
+	
+	form_data = {
+					'id' : request.form['e_e_id'],
+					'degree' : request.form['e_e_degree'],
+					'gpa' : request.form['e_e_gpa'],
+					'date_stop' : request.form['e_e_date_stop'],
+					'desc_short' : request.form['e_e_desc_short'],
+					'desc_long' : request.form['e_e_desc_long'],
+					'org' : o,
+					'skill_ids' : skills
+				}
+	
+	html = ''
+	html += cr.render_html_head('/edu', session['mobile'])
+	html += cr.render_header(session['name'], '/update/edu', '/update/edu/' + form_data['id'], session)
+	html += cr.render_go_between('update', 'edu', form_data, session)
+	
+	return html
+	
+@app.route('/update/job', methods=['POST'])
+def update_job():
+	skills = ""
+	form_data = {}
+	
+	d = list(request.form.lists())
+	for s in d:
+		if s[0] == 'e_j_skill_selector':
+			for a in s[1]:
+				skills += str(a) + ','
+	
+	o = request.form['e_j_org_selector']
+	
+	if request.form['e_j_date_stop'] == "" or request.form['e_j_date_stop'] == None:
+		date_stop = None
+	else:
+		date_stop = ['e_j_date_stop']
+		
+	if 'e_j_present' in request.form:
+		present = 1
+	else:
+		present = 0
+	
+	form_data = {
+					'id': request.form['e_j_id'],
+					'title': request.form['e_j_title'],
+					'present': present,
+					'date_start': request.form['e_j_date_start'],
+					'date_stop': date_stop,
+					'desc_short': request.form['e_j_desc_short'],
+					'desc_long': request.form['e_j_desc_long'],
+					'org': o,
+					'skill_ids': skills
+				}
+	
+	html = ''
+	html += cr.render_html_head('/job', session['mobile'])
+	html += cr.render_header(session['name'], '/update/job', '/update/job' + form_data['id'], session)
+	html += cr.render_go_between('update', 'job', form_data, session)
+	
+	return html
+
 if __name__ == '__main__':
-	app.run(host='resume.tomesser.biz',port='80',debug=True)
+	app.run(host='127.0.0.1',port='80',debug=True)
