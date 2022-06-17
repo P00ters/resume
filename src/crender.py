@@ -50,7 +50,7 @@ class CRender:
 
 	def home_home_htmlify (self, contact, home_edus, home_jobs, session):
 		auth = session.get('auth_key') != self.mc.auth_keys['Readers']
-	
+
 		html = ""
 		html += self.contactrenderer.render_home_contact(contact, session['mobile'])
 
@@ -143,7 +143,7 @@ class CRender:
 			for edu in home_edus:
 				html += self.edurenderer.render_home_tile(edu, True, auth)
 			html+=			'''
-					
+
 					</body>
 				</html>'''
 
@@ -739,8 +739,8 @@ class CRender:
 									</div>
 								  </div>
 								</div>
-								
-								
+
+
 							<div class="modal fade" id="editEduModal" tabindex="-1" role="dialog" aria-labelledby="editEduModal" aria-hidden="true" style="position:fixed; width:50%; left:25%; top:15%; height:75%;" >
 							<div class="modal-dialog" role="document">
 								<div class="modal-content" style="position:absolute; width:150%; left:-25%;">
@@ -806,7 +806,7 @@ class CRender:
 								</div>
 							</div>
 							</div>
-							
+
 							<!-- Job Edit Popup -->
 							<div class="modal fade" id="editJobModal" tabindex="-1" role="dialog" aria-labelledby="editJobModal" aria-hidden="true" style="position:fixed; width:50%; left:25%; top:15%; height:75%;" >
 							<div class="modal-dialog" role="document">
@@ -946,7 +946,7 @@ class CRender:
 											<div class="row">
 												<div class="col-sm-12 mx-auto">
 													<label for="title">Title</label><br>
-													<input id="title" type="text" name="title" placeholder="Job title"></input><br><br>
+													<input id="title" type="text" name="title" placeholder="Job title" required></input><br><br>
 												</div>
 											</div>
 											<div class="row">
@@ -958,7 +958,7 @@ class CRender:
 											<div class="row">
 												<div class="col-sm-6">
 													<label for="date_start">Start Date</label><br>
-													<input id="date_start" type="date" name="date_start" value="'''+now.strftime("%Y-%m-%d")+'''"></input><br><br>
+													<input id="date_start" type="date" name="date_start" value="'''+now.strftime("%Y-%m-%d")+'''" required></input><br><br>
 												</div>
 												<div class="col-sm-6">
 													<label for="date_stop">Stop Date</label><br>
@@ -968,13 +968,13 @@ class CRender:
 											<div class="row">
 												<div class="col-sm-12 mx-auto">
 													<label for="desc_short">Short Description</label><br>
-													<textarea name="desc_short" form="create_job" placeholder="Short description of job."></textarea>
+													<textarea name="desc_short" form="create_job" placeholder="Short description of job." required></textarea>
 												</div>
 											</div><br>
 											<div class="row">
 												<div class="col-sm-12 mx-auto">
 													<label for="desc_long">Long Description</label><br>
-													<textarea name="desc_long" form="create_job" placeholder="Long description of job."></textarea>
+													<textarea name="desc_long" form="create_job" placeholder="Long description of job." required></textarea>
 												</div>
 											</div><br>
 											<div class="row">
@@ -993,7 +993,7 @@ class CRender:
 													<div class="col-sm-12 mx-auto">
 														<label for="org_select">Select Organization</label><br>'''
 			all_orgs = self.mc.orgs_for_add_query()
-			html += '''									<select "style=width:100%;" size="6" id="org_selector" name="org_selector">'''
+			html += '''									<select "style=width:100%;" size="6" id="org_selector" name="org_selector" required>'''
 			for o in all_orgs:
 				html += '''									<option value="'''+o.id+'''">'''+o.name+'''</option>'''
 			html += '''									</select>
@@ -1110,8 +1110,8 @@ class CRender:
 							    </div>
 							  </div>
 							</div>
-							
-							
+
+
 							<div class="modal fade" id="addEduModal" tabindex="-1" role="dialog" aria-labelledby="addEduModal" aria-hidden="true" style="position:fixed; top:5%; width:80%; left:10%; height:90%;" >
 							<div class="modal-dialog" role="document">
 								<div class="modal-content">
@@ -1367,7 +1367,7 @@ class CRender:
 								</div>
 							</div>
 							</div>
-							
+
 							<!-- Job Edit Popup -->
 							<div class="modal fade" id="editJobModal" tabindex="-1" role="dialog" aria-labelledby="editJobModal" aria-hidden="true" style="position:fixed; top:5%; width:80%; left:10%; height:90%;" >
 							<div class="modal-dialog" role="document">
@@ -2040,8 +2040,8 @@ class CRender:
 
 
 		if cb.group.name == 'Owners':
-			bak = DBM('../dat/db.sqlite.bak.sqlite')
-			
+			bak = DBM('../dat/db.sqlite.bak.sqlite', False)
+
 		if type == 'job' and method == 'add':
 			if 'org' in form_data:
 				if 'address' in form_data:
@@ -2095,7 +2095,7 @@ class CRender:
 		elif type == 'job' and method == 'update':
 			o = NoneOrg()
 			o.retrieve(self.dbm, id=form_data['org'])
-			
+
 			j = NoneJob()
 			j.retrieve(self.dbm, id=form_data['id'])
 			j.title = form_data['title']
@@ -2107,9 +2107,9 @@ class CRender:
 			j.org = o
 			j.skill_ids = form_data['skill_ids']
 			j.modified_by = cb
-			
+
 			j.update(self.dbm)
-			
+
 			if cb.group.name == 'Owners':
 				j.update(bak)
 
@@ -2166,7 +2166,7 @@ class CRender:
 		elif type == 'edu' and method == 'update':
 			o = NoneOrg()
 			o.retrieve(self.dbm, id=form_data['org'])
-			
+
 			e = NoneEducation()
 			e.retrieve(self.dbm, id=form_data['id'])
 			e.degree = form_data['degree']
@@ -2177,9 +2177,9 @@ class CRender:
 			e.org = o
 			e.skill_ids = form_data['skill_ids']
 			e.modified_by = cb
-			
+
 			e.update(self.dbm)
-			
+
 			if cb.group.name == 'Owners':
 				e.update(bak)
 
