@@ -8,6 +8,7 @@ import sqlite3
 import uuid
 import datetime
 import sys
+from urllib.parse import urlencode
 
 from flask import Flask, session, render_template, request, redirect
 
@@ -19,12 +20,13 @@ from mastercontroller import MasterController
 from dbm import DBM
 from accounts import NoneAccount
 from addresses import retrieve_all_addresses, Address, NoneAddress
+from contacts import NoneContact
 from contactsrender import ContactRenderer
 from jobsrender import JobRenderer
-from jobs import Job, retrieve_all_jobs, jobs_date_sort, NoneJob
+from jobs import Job, retrieve_all_jobs, jobs_date_sort, NoneJob, retrieve_jobs
 from orgsrender import OrgRenderer
-from orgs import Org, retrieve_all_orgs, NoneOrg
-from educations import Education, retrieve_all_educations, edus_date_sort, NoneEducation
+from orgs import Org, retrieve_all_orgs, NoneOrg, retrieve_orgs
+from educations import Education, retrieve_all_educations, edus_date_sort, NoneEducation, retrieve_educations
 from edusrender import EduRenderer
 from skillsrender import SkillRenderer
 from skills import retrieve_skills_custom, NoneSkill, Skill, retrieve_skills, retrieve_all_skills
@@ -52,7 +54,7 @@ class CRender:
 		auth = session.get('auth_key') != self.mc.auth_keys['Readers']
 
 		html = ""
-		html += self.contactrenderer.render_home_contact(contact, session['mobile'])
+		html += self.contactrenderer.render_home_contact(contact, session['mobile'], auth)
 
 		if not session['mobile']:
 			html += '''
@@ -150,19 +152,25 @@ class CRender:
 		return html
 
 	def jobs_jobs_htmlify (self, jobs, mobile):
-		html = self.orgrenderer.render_org_tile(mobile, this_job=jobs[0], next_job=jobs[1], last_job=jobs[2])
+		auth = session.get('auth_key') != self.mc.auth_keys['Readers']
+	
+		html = self.orgrenderer.render_org_tile(mobile, auth, this_job=jobs[0], next_job=jobs[1], last_job=jobs[2])
 		html += self.jobrenderer.render_job_page(jobs[0], jobs[1], jobs[2], mobile)
 
 		return html
 
 	def edus_edus_htmlify (self, edus, mobile):
-		html = self.orgrenderer.render_org_tile(mobile, this_edu=edus[0], next_edu=edus[1], last_edu=edus[2])
+		auth = session.get('auth_key') != self.mc.auth_keys['Readers']
+	
+		html = self.orgrenderer.render_org_tile(mobile, auth, this_edu=edus[0], next_edu=edus[1], last_edu=edus[2])
 		html += self.edurenderer.render_edu_page(edus[0], edus[1], edus[2], mobile)
 
 		return html
 
 	def org_htmlify (self, orgs, mobile):
-		return self.orgrenderer.render_org_tile(mobile, this_org=orgs[0], next_org=orgs[1], last_org=orgs[2])
+		auth = session.get('auth_key') != self.mc.auth_keys['Readers']
+	
+		return self.orgrenderer.render_org_tile(mobile, auth, this_org=orgs[0], next_org=orgs[1], last_org=orgs[2])
 
 	def skills_general_htmlify (self, all_skills, mobile):
 		return self.skillrenderer.render_skills_general(all_skills, mobile)
@@ -879,6 +887,273 @@ class CRender:
 								</div>
 							</div>
 							</div>
+							
+							<!-- Edu Delete Popup -->
+							<div class="modal fade" id="delEduModal" tabindex="-1" role="dialog" aria-labelledby="delEduModal" aria-hidden="true" style="position:fixed; width:50%; left:25%; top:15%; height:75%;" >
+							<div class="modal-dialog" role="document">
+								<div class="modal-content" style="position:absolute; width:150%; left:-25%;">
+									<div class="modal-header">
+										<h5 class="modal-title" id="delEduModal">Delete Education</h5>
+
+										<button type="button" class="close" data-dismiss="modal" data-toggle="modal" aria-label="Close">
+										  <span aria-hidden="true">&times;</span>
+										</button>
+									</div>
+									<form action='/delete/edu' method='post' id="delete_edu">	
+										<div class="container">
+											<div class="row">
+												<div class="col-12 d-flex align-items-center" style="margin-top:20px;">
+													<h6>Are you really sure you want to delete the education entry with the below data?</h6>
+												</div>
+											</div>
+											<hr>
+											<div class="row">
+												<div class="col-6">
+													<label for="d_e_id">Education ID</label><br>
+													<input type="text" id="d_e_id" name="d_e_id" value="" style="width:90%;" disabled required></input>
+												</div>
+												<div class="col-6">
+													<label for="d_e_degree">Degree</label><br>
+													<input type="text" id="d_e_degree" name="d_e_degree" value="" style="width:90%;" disabled></input>
+												</div>
+											</div>
+										</div>
+										<div class="container" id="d_e_dangle_org" >
+											<hr>
+											<div class="row">
+												<div class="col-12">
+													Deleting this education will leave the below organization dangling with no referenced activity:
+												</div>
+											</div>
+											<div class="row" style="padding-top:15px;">
+												<div class="col-6">
+													<label for="d_e_oid">Organization ID</label><br>
+													<input type="text" id="d_e_oid" name="d_e_oid" value="" style="width:90%;" disabled></input>
+												</div>
+												<div class="col-6">
+													<label for="d_e_oname">Name</label><br>
+													<input type="text" id="d_e_oname" name="d_e_oname" value="" style="width:90%;" disabled></input>
+												</div>
+											</div>
+											<div class="row" style="padding-top:25px;">
+												<div class="col-12">
+													<label for="d_e_del_org" style="padding-top:5px;">Do you want to delete this organization as well?</label>
+													<select id="d_e_del_org" name="d_e_del_org" style="position:relative; left:10px;">
+														<option id="d_e_del_org_n" name="d_e_del_org_n" value="false">No</option>
+														<option id="d_e_del_org_y" name="d_e_del_org_y" value="true">Yes</option>
+													</select>
+												</div>
+											</div>
+										<hr>
+										</div>
+										<div class="container" id="d_e_dangle_addr" style="visibility:hidden;display:none;">
+											<div class="row">
+												<div class="col-12">
+													Deleting this organization will leave the below address dangling with no referenced organization: 
+												</div>
+											</div>
+											<div class="row" style="padding-top:15px;">
+												<div class="col-6">
+													<label for="d_e_aid">Address ID</label><br>
+													<input type="text" id="d_e_aid" name="d_e_aid" value="" style="width:90%;" disabled></input>
+												</div>
+												<div class="col-6">
+													<label for="d_e_aname">Name</label><br>
+													<input type="text" id="d_e_aname" name="d_e_aname" value="" style="width:90%;" disabled></input>
+												</div>
+											</div>
+											<div class="row" style="padding-top:25px;">
+												<div class="col-12">
+													<label for="d_e_del_addr" style="padding-top:5px;">Do you want to delete this address as well?</label>
+													<select id="d_e_del_addr" name="d_e_del_addr" style="position:relative; left:10px;">
+														<option id="d_e_del_addr_n" name="d_e_del_addr_n" value="false">No</option>
+														<option id="d_e_del_addr_y" name="d_e_del_addr_y" value="true">Yes</option>
+													</select>
+												</div>
+											</div>
+										</div>
+										<br>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close">
+											  <span aria-hidden="true">Cancel</span>
+											</button>
+											<input type="submit" class="btn btn-danger" value="Delete & Close" onClick="del_edu_enable()"></button>
+										</div>
+									</form>
+								</div>
+							</div>
+							</div>
+							
+							<!-- Job Delete Popup -->
+							<div class="modal fade" id="delJobModal" tabindex="-1" role="dialog" aria-labelledby="delJobModal" aria-hidden="true" style="position:fixed; width:50%; left:25%; top:15%; height:75%;" >
+							<div class="modal-dialog" role="document">
+								<div class="modal-content" style="position:absolute; width:150%; left:-25%;">
+									<div class="modal-header">
+										<h5 class="modal-title" id="delJobModal">Delete Work Experience</h5>
+
+										<button type="button" class="close" data-dismiss="modal" data-toggle="modal" aria-label="Close">
+										  <span aria-hidden="true">&times;</span>
+										</button>
+									</div>
+									<form action='/delete/job' method='post' id="delete_job">	
+										<div class="container">
+											<div class="row">
+												<div class="col-12 d-flex align-items-center" style="margin-top:20px;">
+													<h6>Are you really sure you want to delete the job entry with the below data?</h6>
+												</div>
+											</div>
+											<hr>
+											<div class="row">
+												<div class="col-6">
+													<label for="d_j_id">Job ID</label><br>
+													<input type="text" id="d_j_id" name="d_j_id" value="" style="width:90%;" disabled required></input>
+												</div>
+												<div class="col-6">
+													<label for="d_j_title">Title</label><br>
+													<input type="text" id="d_j_title" name="d_j_title" value="" style="width:90%;" disabled></input>
+												</div>
+											</div>
+										</div>
+										<div class="container" id="d_j_dangle_org" >
+											<hr>
+											<div class="row">
+												<div class="col-12">
+													Deleting this job will leave the below organization dangling with no referenced activity:
+												</div>
+											</div>
+											<div class="row" style="padding-top:15px;">
+												<div class="col-6">
+													<label for="d_j_oid">Organization ID</label><br>
+													<input type="text" id="d_j_oid" name="d_j_oid" value="" style="width:90%;" disabled></input>
+												</div>
+												<div class="col-6">
+													<label for="d_j_oname">Name</label><br>
+													<input type="text" id="d_j_oname" name="d_j_oname" value="" style="width:90%;" disabled></input>
+												</div>
+											</div>
+											<div class="row" style="padding-top:25px;">
+												<div class="col-12">
+													<label for="d_j_del_org" style="padding-top:5px;">Do you want to delete this organization as well?</label>
+													<select id="d_j_del_org" name="d_j_del_org" style="position:relative; left:10px;">
+														<option id="d_j_del_org_n" name="d_j_del_org_n" value="false">No</option>
+														<option id="d_j_del_org_y" name="d_j_del_org_y" value="true">Yes</option>
+													</select>
+												</div>
+											</div>
+										<hr>
+										</div>
+										<div class="container" id="d_j_dangle_addr" style="visibility:hidden;display:none;">
+											<div class="row">
+												<div class="col-12">
+													Deleting this organization will leave the below address dangling with no referenced organization: 
+												</div>
+											</div>
+											<div class="row" style="padding-top:15px;">
+												<div class="col-6">
+													<label for="d_j_aid">Address ID</label><br>
+													<input type="text" id="d_j_aid" name="d_j_aid" value="" style="width:90%;" disabled></input>
+												</div>
+												<div class="col-6">
+													<label for="d_j_aname">Name</label><br>
+													<input type="text" id="d_j_aname" name="d_j_aname" value="" style="width:90%;" disabled></input>
+												</div>
+											</div>
+											<div class="row" style="padding-top:25px;">
+												<div class="col-12">
+													<label for="d_j_del_addr" style="padding-top:5px;">Do you want to delete this address as well?</label>
+													<select id="d_j_del_addr" name="d_j_del_addr" style="position:relative; left:10px;">
+														<option id="d_j_del_addr_n" name="d_j_del_addr_n" value="false">No</option>
+														<option id="d_j_del_addr_y" name="d_j_del_addr_y" value="true">Yes</option>
+													</select>
+												</div>
+											</div>
+										</div>
+										<br>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close">
+											  <span aria-hidden="true">Cancel</span>
+											</button>
+											<input type="submit" class="btn btn-danger" value="Delete & Close" onClick="del_job_enable()"></button>
+										</div>
+									</form>
+								</div>
+							</div>
+							</div>
+							
+							<!-- Contact Edit Popup -->
+							<div class="modal fade" id="editContactModal" tabindex="-1" role="dialog" aria-labelledby="editContactModal" aria-hidden="true" style="position:fixed; width:50%; left:25%; top:15%; height:75%;" >
+							<div class="modal-dialog" role="document">
+								<div class="modal-content" style="position:absolute; width:150%; left:-25%;">
+									<div class="modal-header">
+										<h5 class="modal-title" id="editContactModal">Edit Contact Information</h5>
+
+										<button type="button" class="close" data-dismiss="modal" data-toggle="modal" aria-label="Close">
+										  <span aria-hidden="true">&times;</span>
+										</button>
+									</div>
+									<form action='/update/contact' method='post' id="update_contact">
+									<input type="hidden" id="e_c_id" name="e_c_id" value=""></input>
+										<div class="container" style="position:relative;left:10px;">
+											<div class="row" style="padding-top:15px;">
+												<div class="col-6">
+													<label for="e_c_name">Name</label><br>
+													<input type="text" id="e_c_name" name="e_c_name" value="" required></input>
+												</div>
+												<div class="col-6">
+													<label for="e_c_phone1">Phone A</label><br>
+													<input type="text" id="e_c_phone1" name="e_c_phone1" value="" required></input>
+												</div>
+											</div>
+											<div class="row" style="padding-top:15px;">
+												<div class="col-6">
+													<label for="e_c_email">Email</label><br>
+													<input type="text" id="e_c_email" name="e_c_email" value="" required></input>
+												</div>
+												<div class="col-6">
+													<label for="e_c_phone2">Phone B</label><br>
+													<input type="text" id="e_c_phone2" name="e_c_phone2" value="" required></input>
+												</div>
+											</div>
+											<div class="row" style="padding-top:15px;">
+												<div class="col-6">
+													<input type="hidden" id="contact_add_address_i" name="contact_add_address_i" value="False"></input>
+													<label for="e_c_address_selector">Address</label><br>
+													<select style="min-width:95%;max-width:95%;" size="4" id="e_c_address_selector" name="e_c_address_selector" required>'''
+			for a in all_addresses:
+				html += '''								<option value="''' + a.id + '''">''' + a.name +'''</option>'''
+			html += '''									</select>
+														<br><br>
+														<button type="button" class="btn btn-success btn-lg btn-block" style="width:80%;position:relative;left:7.5%;" onClick="javascript: contact_new_address()">Add Address</button>
+												</div>
+												<div class="col-6">
+													<label for="e_c_objective">Objective</label><br>
+													<textarea name="e_c_objective" form="update_contact" id="e_c_objective" value="" style="width:95%; min-height:100px;" required></textarea>
+												</div>
+											</div>
+											<div class="row" style="padding-top:15px;">
+												<div class="col-6">
+													<div id="contact_new_address_div" style="visibility:hidden; height:0px; left:0px;">
+														<button type="button" class="close", onClick="javascript: contact_remove_address()" style="margin-left:auto;margin-right:0;">
+														<span aria-hidden="true">&times;</span>
+														</button>
+														<br>
+														<label for="e_c_new_address">New Address</label>
+														<input type="text" name="e_c_new_address" id="e_c_new_address" placeholder="123 Street Ave, City, State 12345" style="width:95%;"></input>
+													</div>
+												</div>
+											</div>
+										</div>
+										<br>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close">
+											  <span aria-hidden="true">Cancel</span>
+											</button>
+											<input type="submit" class="btn btn-primary" value="Save & Close"></button>
+										</div>
+									</form>
+								</div>
+							</div>
+							</div>
 					'''
 		else:
 			html = '''
@@ -1446,6 +1721,292 @@ class CRender:
 								</div>
 							</div>
 							</div>
+							
+							<!-- Edu Delete Popup -->
+							<div class="modal fade" id="delEduModal" tabindex="-1" role="dialog" aria-labelledby="delEduModal" aria-hidden="true" style="position:fixed; top:5%; width:80%; left:10%; height:90%;" >
+							<div class="modal-dialog" role="document">
+								<div class="modal-content" >
+									<div class="modal-header">
+										<h5 class="modal-title" id="delEduModal">Delete Education</h5>
+
+										<button type="button" class="close" data-dismiss="modal" data-toggle="modal" aria-label="Close">
+										  <span aria-hidden="true">&times;</span>
+										</button>
+									</div>
+									<form action='/delete/edu' method='post' id="delete_edu">	
+										<div class="container">
+											<div class="row">
+												<div class="col-12 d-flex align-items-center" style="margin-top:20px;">
+													<h6>Are you really sure you want to delete the education entry with the below data?</h6>
+												</div>
+											</div>
+											<hr>
+											<div class="row">
+												<div class="col-12">
+													<label for="d_e_id">Education ID</label><br>
+													<input type="text" id="d_e_id" name="d_e_id" value="" style="width:90%;" disabled required></input>
+												</div>
+											</div>
+											<div class="row" style="padding-top:15px;">
+												<div class="col-12">
+													<label for="d_e_degree">Degree</label><br>
+													<input type="text" id="d_e_degree" name="d_e_degree" value="" style="width:90%;" disabled></input>
+												</div>
+											</div>
+										</div>
+										<div class="container" id="d_e_dangle_org" >
+											<hr>
+											<div class="row">
+												<div class="col-12">
+													Deleting this education will leave the below organization dangling with no referenced activity:
+												</div>
+											</div>
+											<div class="row" style="padding-top:15px;">
+												<div class="col-12">
+													<label for="d_e_oid">Organization ID</label><br>
+													<input type="text" id="d_e_oid" name="d_e_oid" value="" style="width:90%;" disabled></input>
+												</div>
+											</div>
+											<div class="row" style="padding-top:15px;">
+												<div class="col-12">
+													<label for="d_e_oname">Name</label><br>
+													<input type="text" id="d_e_oname" name="d_e_oname" value="" style="width:90%;" disabled></input>
+												</div>
+											</div>
+											<div class="row" style="padding-top:25px;">
+												<div class="col-12">
+													<label for="d_e_del_org" style="padding-top:5px;">Do you want to delete this organization as well?</label>
+													<select id="d_e_del_org" name="d_e_del_org" style="position:relative; left:10px;">
+														<option id="d_e_del_org_n" name="d_e_del_org_n" value="false">No</option>
+														<option id="d_e_del_org_y" name="d_e_del_org_y" value="true">Yes</option>
+													</select>
+												</div>
+											</div>
+										<hr>
+										</div>
+										<div class="container" id="d_e_dangle_addr" style="visibility:hidden;display:none;">
+											<div class="row">
+												<div class="col-12">
+													Deleting this organization will leave the below address dangling with no referenced organization: 
+												</div>
+											</div>
+											<div class="row" style="padding-top:15px;">
+												<div class="col-12">
+													<label for="d_e_aid">Address ID</label><br>
+													<input type="text" id="d_e_aid" name="d_e_aid" value="" style="width:90%;" disabled></input>
+												</div>
+											</div>
+											<div class="row" style="padding-top:15px;">
+												<div class="col-12">
+													<label for="d_e_aname">Name</label><br>
+													<input type="text" id="d_e_aname" name="d_e_aname" value="" style="width:90%;" disabled></input>
+												</div>
+											</div>
+											<div class="row" style="padding-top:25px;">
+												<div class="col-12">
+													<label for="d_e_del_org" style="padding-top:5px;">Do you want to delete this address as well?</label>
+													<select id="d_e_del_addr" name="d_e_del_addr" style="position:relative; left:10px;">
+														<option id="d_e_del_addr_n" name="d_e_del_addr_n" value="false">No</option>
+														<option id="d_e_del_addr_y" name="d_e_del_addr_y" value="true">Yes</option>
+													</select>
+												</div>
+											</div>
+										</div>
+										<br>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close">
+											  <span aria-hidden="true">Cancel</span>
+											</button>
+											<input type="submit" class="btn btn-danger" value="Delete & Close" onClick="del_edu_enable()"></button>
+										</div>
+									</form>
+								</div>
+							</div>
+							</div>
+							
+							<!-- Job Delete Popup -->
+							<div class="modal fade" id="delJobModal" tabindex="-1" role="dialog" aria-labelledby="delJobModal" aria-hidden="true" style="position:fixed; top:5%; width:80%; left:10%; height:90%;" >
+							<div class="modal-dialog" role="document">
+								<div class="modal-content" >
+									<div class="modal-header">
+										<h5 class="modal-title" id="delJobModal">Delete Work Experience</h5>
+
+										<button type="button" class="close" data-dismiss="modal" data-toggle="modal" aria-label="Close">
+										  <span aria-hidden="true">&times;</span>
+										</button>
+									</div>
+									<form action='/delete/job' method='post' id="delete_job">	
+										<div class="container">
+											<div class="row">
+												<div class="col-12 d-flex align-items-center" style="margin-top:20px;">
+													<h6>Are you really sure you want to delete the job entry with the below data?</h6>
+												</div>
+											</div>
+											<hr>
+											<div class="row">
+												<div class="col-12">
+													<label for="d_j_id">Job ID</label><br>
+													<input type="text" id="d_j_id" name="d_j_id" value="" style="width:90%;" disabled required></input>
+												</div>
+											</div>
+											<div class="row" style="padding-top:15px;">
+												<div class="col-12">
+													<label for="d_j_title">Title</label><br>
+													<input type="text" id="d_j_title" name="d_j_title" value="" style="width:90%;" disabled></input>
+												</div>
+											</div>
+										</div>
+										<div class="container" id="d_j_dangle_org" >
+											<hr>
+											<div class="row">
+												<div class="col-12">
+													Deleting this job will leave the below organization dangling with no referenced activity:
+												</div>
+											</div>
+											<div class="row" style="padding-top:15px;">
+												<div class="col-12">
+													<label for="d_j_oid">Organization ID</label><br>
+													<input type="text" id="d_j_oid" name="d_j_oid" value="" style="width:90%;" disabled></input>
+												</div>
+											</div>
+											<div class="row" style="padding-top:15px;">
+												<div class="col-12">
+													<label for="d_j_oname">Name</label><br>
+													<input type="text" id="d_j_oname" name="d_j_oname" value="" style="width:90%;" disabled></input>
+												</div>
+											</div>
+											<div class="row" style="padding-top:25px;">
+												<div class="col-12">
+													<label for="d_j_del_org" style="padding-top:5px;">Do you want to delete this organization as well?</label>
+													<select id="d_j_del_org" name="d_j_del_org" style="position:relative; left:10px;">
+														<option id="d_j_del_org_n" name="d_j_del_org_n" value="false">No</option>
+														<option id="d_j_del_org_y" name="d_j_del_org_y" value="true">Yes</option>
+													</select>
+												</div>
+											</div>
+										<hr>
+										</div>
+										<div class="container" id="d_j_dangle_addr" style="visibility:hidden;display:none;">
+											<div class="row">
+												<div class="col-12">
+													Deleting this organization will leave the below address dangling with no referenced organization: 
+												</div>
+											</div>
+											<div class="row" style="padding-top:15px;">
+												<div class="col-12">
+													<label for="d_j_aid">Address ID</label><br>
+													<input type="text" id="d_j_aid" name="d_j_aid" value="" style="width:90%;" disabled></input>
+												</div>
+											</div>
+											<div class="row" style="padding-top:15px;">
+												<div class="col-12">
+													<label for="d_j_aname">Name</label><br>
+													<input type="text" id="d_j_aname" name="d_j_aname" value="" style="width:90%;" disabled></input>
+												</div>
+											</div>
+											<div class="row" style="padding-top:25px;">
+												<div class="col-12">
+													<label for="d_j_del_addr" style="padding-top:5px;">Do you want to delete this address as well?</label>
+													<select id="d_j_del_addr" name="d_j_del_addr" style="position:relative; left:10px;">
+														<option id="d_j_del_addr_n" name="d_j_del_addr_n" value="false">No</option>
+														<option id="d_j_del_addr_y" name="d_j_del_addr_y" value="true">Yes</option>
+													</select>
+												</div>
+											</div>
+										</div>
+										<br>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close">
+											  <span aria-hidden="true">Cancel</span>
+											</button>
+											<input type="submit" class="btn btn-danger" value="Delete & Close" onClick="del_job_enable()"></button>
+										</div>
+									</form>
+								</div>
+							</div>
+							</div>
+							
+							<!-- Contact Edit Popup -->
+							<div class="modal fade" id="editContactModal" tabindex="-1" role="dialog" aria-labelledby="editContactModal" aria-hidden="true" style="position:fixed; top:5%; width:80%; left:10%; height:90%;" >
+							<div class="modal-dialog" role="document">
+								<div class="modal-content" >
+									<div class="modal-header">
+										<h5 class="modal-title" id="editContactModal">Edit Contact Information</h5>
+
+										<button type="button" class="close" data-dismiss="modal" data-toggle="modal" aria-label="Close">
+										  <span aria-hidden="true">&times;</span>
+										</button>
+									</div>
+									<form action='/update/contact' method='post' id="update_contact">
+									<input type="hidden" id="e_c_id" name="e_c_id" value=""></input>
+										<div class="container" style="position:relative;left:10px;">
+											<div class="row" style="padding-top:15px;">
+												<div class="col-12">
+													<label for="e_c_name">Name</label><br>
+													<input type="text" id="e_c_name" name="e_c_name" value="" required></input>
+												</div>
+											</div>
+											<div class="row" style="padding-top:15px;">
+												<div class="col-12">
+													<label for="e_c_phone1">Phone A</label><br>
+													<input type="text" id="e_c_phone1" name="e_c_phone1" value="" required></input>
+												</div>
+											</div>
+											<div class="row" style="padding-top:15px;">
+												<div class="col-12">
+													<label for="e_c_phone2">Phone B</label><br>
+													<input type="text" id="e_c_phone2" name="e_c_phone2" value="" required></input>
+												</div>
+											</div>
+											<div class="row" style="padding-top:15px;">
+												<div class="col-12">
+													<label for="e_c_email">Email</label><br>
+													<input type="text" id="e_c_email" name="e_c_email" value="" required></input>
+												</div>
+											</div>
+											
+											<div class="row" style="padding-top:15px;">
+												<div class="col-12">
+													<label for="e_c_objective">Objective</label><br>
+													<textarea name="e_c_objective" form="update_contact" id="e_c_objective" value="" style="width:95%; min-height:100px;" required></textarea>
+												</div>
+											</div>
+											<div class="row" style="padding-top:15px;">
+												<div class="col-12">
+													<input type="hidden" id="contact_add_address_i" name="contact_add_address_i" value="False"></input>
+													<label for="e_c_address_selector">Address</label><br>
+													<select style="min-width:95%;max-width:95%;" size="4" id="e_c_address_selector" name="e_c_address_selector" required>'''
+			for a in all_addresses:
+				html += '''								<option value="''' + a.id + '''">''' + a.name +'''</option>'''
+			html += '''									</select>
+														<br><br>
+														<button type="button" class="btn btn-success btn-lg btn-block" style="width:80%;position:relative;left:7.5%;" onClick="javascript: contact_new_address()">Add Address</button>
+												</div>
+											</div>
+											<div class="row" style="padding-top:15px;">
+												<div class="col-12">
+													<div id="contact_new_address_div" style="visibility:hidden; height:0px; left:0px;">
+														<button type="button" class="close", onClick="javascript: contact_remove_address()" style="margin-left:auto;margin-right:0;">
+														<span aria-hidden="true">&times;</span>
+														</button>
+														<br>
+														<label for="e_c_new_address">New Address</label>
+														<input type="text" name="e_c_new_address" id="e_c_new_address" placeholder="123 Street Ave, City, State 12345" style="width:95%;"></input>
+													</div>
+												</div>
+											</div>
+										</div>
+										<br>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close">
+											  <span aria-hidden="true">Cancel</span>
+											</button>
+											<input type="submit" class="btn btn-primary" value="Save & Close"></button>
+										</div>
+									</form>
+								</div>
+							</div>
+							</div>
 						'''
 		return html
 
@@ -1972,11 +2533,20 @@ class CRender:
 		elif type == 'job' and method == 'update':
 			location = '/jobs/' + form_data['id']
 			id = form_data['id']
+		elif type == 'job' and method == 'delete':
+			location = '/home'
+			id = form_data['jid']
 		elif type == 'edu' and method == 'add':
 			location = '/edus/' + form_data['edu']['id']
 			id = form_data['edu']['id']
 		elif type == 'edu' and method == 'update':
 			location = '/edus/' + form_data['id']
+			id = form_data['id']
+		elif type == 'edu' and method == 'delete':
+			location = '/home'
+			id = form_data['eid']
+		elif type == 'contact' and method =='update':
+			location = '/home'
 			id = form_data['id']
 		else:
 			location = '/home'
@@ -2006,6 +2576,8 @@ class CRender:
 				html += '''				<h6>Adding new \'''' + type + '''\' with <i>id</i> of <b>''' + id + '''</b></h6>'''
 			elif method == 'update':
 				html += '''				<h6>Updating \'''' + type + '''\' with <i>id</i> of <b>''' + id + '''</b></h6>'''
+			elif method == 'delete':
+				html += '''				<h6>Deleting \'''' + type + '''\' with <i>id</i> of <b>''' + id + '''</b></h6>'''
 			html += '''				</div>
 								</div>
 							</div>
@@ -2028,11 +2600,13 @@ class CRender:
 									<div class="col-sm-12 mx-auto" style="padding-top:15px;width:100%;">
 										<img src="/static/loading.gif" height="40" width="40" style="position:relative;left:49%;" />
 									</div>
-									<div class="col-sm-12 mx-auto" style="text-align:center;padding-top:15px;">'''
+									<div class="col-sm-10 mx-auto" style="text-align:center;padding-top:15px;">'''
 			if method == 'add':
 				html += '''				<h6>Adding new \'''' + type + '''\' with <i>id</i> of <b>''' + id + '''</b></h6>'''
 			elif method == 'update':
 				html += '''				<h6>Updating \'''' + type + '''\' with <i>id</i> of <b>''' + id + '''</b></h6>'''
+			elif method == 'delete':
+				html += '''				<h6>Deleting \'''' + type + '''\' with <i>id</i> of <b>''' + id + '''</b></h6>'''
 			html += '''				</div>
 								</div>
 							</div>
@@ -2113,6 +2687,30 @@ class CRender:
 			if cb.group.name == 'Owners':
 				j.update(bak)
 
+		elif type == 'job' and method == 'delete':
+			j = NoneJob()
+			if j.retrieve(self.dbm, id=form_data['jid']):
+				j.delete(self.dbm)
+				if cb.group.name == 'Owners':
+					j.delete(bak)
+			
+			if form_data['del_org'] == True:
+				o = NoneOrg();
+				if o.retrieve(self.dbm, id=form_data['oid']):
+					o.delete(self.dbm)
+					if cb.group.name == 'Owners':
+						o.delete(bak)
+						
+			if form_data['del_addr'] == True:
+				a = NoneAddress();
+				print(a.retrieve(self.dbm, id=form_data['aid']))
+				if a.retrieve(self.dbm, id=form_data['aid']):
+					a.delete(self.dbm)
+					if cb.group.name == 'Owners':
+						a.delete(bak)
+						
+			return html
+
 		elif type == 'edu' and method == 'add':
 			if 'org' in form_data:
 				if 'address' in form_data:
@@ -2182,5 +2780,57 @@ class CRender:
 
 			if cb.group.name == 'Owners':
 				e.update(bak)
+				
+		elif type == 'edu' and method == 'delete':	
+		
+			e = NoneEducation()
+			if e.retrieve(self.dbm, id=form_data['eid']):
+				e.delete(self.dbm)
+				if cb.group.name == 'Owners':
+					e.delete(bak)
+					
+			if form_data['del_org'] == True:
+				o = NoneOrg();
+				if o.retrieve(self.dbm, id=form_data['oid']):
+					o.delete(self.dbm)
+					if cb.group.name == 'Owners':
+						o.delete(bak)
+						
+			if form_data['del_addr'] == True:
+				a = NoneAddress();
+				print(a.retrieve(self.dbm, id=form_data['aid']))
+				if a.retrieve(self.dbm, id=form_data['aid']):
+					a.delete(self.dbm)
+					if cb.group.name == 'Owners':
+						a.delete(bak)
+		
+		elif type == 'contact' and method == 'update':
+			if form_data['new_address']:
+				aid = self.dbm.genid()
+				param = [("q", form_data['address'])]
+				uri = "https://www.google.com/search?" + urlencode(param)
+				a = Address(aid, form_data['address'], uri, cb, cb)
+				a.create(self.dbm)
+				if cb.group.name == 'Owners':
+					a.create(bak)
+					
+			else:
+				a = NoneAddress()
+				a.retrieve(self.dbm, id=form_data['address'])
+			
+			c = NoneContact()
+			c.retrieve(self.dbm, id=form_data['id'])
+			c.name = form_data['name']
+			c.phone1 = form_data['phone1']
+			c.phone2 = form_data['phone2']
+			c.email = form_data['email']
+			c.objective = form_data['objective']
+			c.address = a
+			c.modified_by = cb
+			c.update(self.dbm)
+			
+			if cb.group.name == 'Owners':
+				c.update(bak)
+			
 
 		return html

@@ -5,11 +5,13 @@ sys.path.append("../models")
 
 import dbm
 from dbm import DBM
+from educations import retrieve_educations
 import jobs
-from jobs import Job
+from jobs import Job, retrieve_jobs
+from orgs import retrieve_orgs
 import skills
 from skills import Skill
-from fmat import datereformat
+from fmat import datereformat, sanitize
 
 class JobRenderer:
 	def __init__ (self, dbm):
@@ -52,9 +54,8 @@ class JobRenderer:
 								</a>
 							</div>'''
 			if auth:
-				short_desc = j.desc_short.replace("'", "\\'")
-				long_desc = j.desc_long.replace("'", "\\'")
-				a_edit = "'" + j.id + "', '" + j.org.id + "', '" + j.org.name + "', '" + j.title + "', " + str(j.present) + ", '" + str(j.date_start) + "', '" + str(j.date_stop) + "', '" + short_desc + "', '" + long_desc + "', " + str(len(j.skills(self.dbm)))
+
+				a_edit = "'" + sanitize(j.id) + "', '" + sanitize(j.org.id) + "', '" + sanitize(j.org.name) + "', '" + sanitize(j.title) + "', " + str(j.present) + ", '" + str(j.date_start) + "', '" + str(j.date_stop) + "', '" + sanitize(j.desc_short) + "', '" + sanitize(j.desc_long) + "', " + str(len(j.skills(self.dbm)))
 				
 				if len(j.skills(self.dbm)) > 0:
 					eskills = j.skills(self.dbm)
@@ -62,9 +63,34 @@ class JobRenderer:
 					for i in range(len(eskills)):
 						html +=			'''<input type="hidden" id="job_skill''' + str(i) + '''" value="'''+eskills[i].id+''','''+eskills[i].name+'''"></input>'''
 					html += '''			</form>'''
+					
+				oid = j.org.id
+				odangle_count = 0
+				edangles = retrieve_educations(self.dbm, org=oid)
+				odangle_count += len(edangles)
+				jdangles = retrieve_jobs(self.dbm, org=oid)
+				odangle_count += len(jdangles)
+				if (odangle_count <= 1):
+					b_odangles = 1
+				else:
+					b_odangles = 0
+					b_adangles = 0
+					
+				if (b_odangles):
+					aid = j.org.address.id
+					adangle_count = 0
+					odangles = retrieve_orgs(self.dbm, address=aid)
+					adangle_count += len(odangles)
+					if adangle_count <= 1:
+						b_adangles = 1
+					else:
+						b_adangles = 0
+						
+				a_del = "'" + sanitize(j.id) + "', '" + sanitize(j.title) + "', " + str(b_odangles) + ", '" + sanitize(j.org.id) + "', '" + sanitize(j.org.name) + "', " + str(b_adangles) + ", '" + sanitize(j.org.address.id) + "', '" + sanitize(j.org.address.name) + "'"
+				
 				html += '''	<div style="margin-right:25; margin-left:auto;">
-								<a href="javascript:void(0)" data-toggle="modal" data-target="#deleteModal" style="margin-right:0; margin-left:auto;">
-									<button style="position:relative;width:50px;margin-left:auto;margin-right:10;display:inline;" type="button" class="btn btn-outline-danger btn-lg btn-block"><img src='/static/delete.png' width="30"/></button>
+								<a href="javascript:void(0)" data-toggle="modal" data-target="#delJobModal" style="margin-right:0; margin-left:auto;">
+									<button style="position:relative;width:50px;margin-left:auto;margin-right:10;display:inline;" type="button" class="btn btn-outline-danger btn-lg btn-block" onClick="del_job('''+a_del+''')"><img src='/static/delete.png' width="30"/></button>
 								</a>
 								<a href="javascript:void(0)" data-toggle="modal" data-target="#editJobModal" style="margin-right:0; margin-left:auto;">
 										<button style="position:relative;width:50px;margin-left:auto;margin-right:0;display:inline;" type="button" class="btn btn-outline-warning btn-lg btn-block" onClick="edit_job('''+a_edit+''')"><img src='/static/edit.png' width="30"/></button>
@@ -127,9 +153,8 @@ class JobRenderer:
 									</div>'''
 			if auth:
 				html += '''			<div class="col-3" style="position:relative;top:-5px;display:inline;margin-right:0px;">'''
-				short_desc = j.desc_short.replace("'", "\\'")
-				long_desc = j.desc_long.replace("'", "\\'")
-				a_edit = "'" + j.id + "', '" + j.org.id + "', '" + j.org.name + "', '" + j.title + "', " + str(j.present) + ", '" + str(j.date_start) + "', '" + str(j.date_stop) + "', '" + short_desc + "', '" + long_desc + "', " + str(len(j.skills(self.dbm)))
+				
+				a_edit = "'" + sanitize(j.id) + "', '" + sanitize(j.org.id) + "', '" + sanitize(j.org.name) + "', '" + sanitize(j.title) + "', " + str(j.present) + ", '" + str(j.date_start) + "', '" + str(j.date_stop) + "', '" + sanitize(j.desc_short) + "', '" + sanitize(j.desc_long) + "', " + str(len(j.skills(self.dbm)))
 				
 				if len(j.skills(self.dbm)) > 0:
 					eskills = j.skills(self.dbm)
@@ -137,13 +162,37 @@ class JobRenderer:
 					for i in range(len(eskills)):
 						html +=			'''<input type="hidden" id="job_skill''' + str(i) + '''" value="'''+eskills[i].id+''','''+eskills[i].name+'''"></input>'''
 					html += '''			</form>'''
+				
+				oid = j.org.id
+				odangle_count = 0
+				edangles = retrieve_educations(self.dbm, org=oid)
+				odangle_count += len(edangles)
+				jdangles = retrieve_jobs(self.dbm, org=oid)
+				odangle_count += len(jdangles)
+				if (odangle_count <= 1):
+					b_odangles = 1
+				else:
+					b_odangles = 0
+					b_adangles = 0
+					
+				if (b_odangles):
+					aid = j.org.address.id
+					adangle_count = 0
+					odangles = retrieve_orgs(self.dbm, address=aid)
+					adangle_count += len(odangles)
+					if adangle_count <= 1:
+						b_adangles = 1
+					else:
+						b_adangles = 0
 						
+				a_del = "'" + sanitize(j.id) + "', '" + sanitize(j.title) + "', " + str(b_odangles) + ", '" + sanitize(j.org.id) + "', '" + sanitize(j.org.name) + "', " + str(b_adangles) + ", '" + sanitize(j.org.address.id) + "', '" + sanitize(j.org.address.name) + "'"
+				
 				html += '''			<ul class="navbar-nav mr-auto" style="width:100%; display:inline;">
 										<li class="nav-item dropdown" style="width:100%;">
 											<a class="nav-link dropdown-toggle" href="javascript:void(0)" id="dropdown08" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="text-align:right;position:relative;width:100%;">Change</a>
 											<div class="dropdown-menu", aria-labelledby="dropdown08">
 												<a class="dropdown-item" href="javascript:void(0)" data-toggle="modal" onClick="edit_job('''+a_edit+''')"  data-target="#editJobModal">Edit</a>
-												<a class="dropdown-item" href="javascript:void(0)" data-toggle="modal" data-target="#deleteJobModal">Delete</a>
+												<a class="dropdown-item" href="javascript:void(0)" data-toggle="modal" data-target="#delJobModal" onClick="del_job('''+a_del+''')">Delete</a>
 											</div>
 										</li>
 									</ul>

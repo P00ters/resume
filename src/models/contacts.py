@@ -26,10 +26,10 @@ class Contact:
 		
 	def update (self, dbm):
 		query = '''UPDATE Contact
-					SET id=?, name=?, address=?, phone1=?, phone2=?, email=?, objective=?, created_by=?, modified_by=?)
+					SET id=?, name=?, address=?, phone1=?, phone2=?, email=?, objective=?, created_by=?, modified_by=?
 					WHERE id=?;'''
 					
-		dbm.execute_d(query, (self.id, self.name, self.address, self.phone1, self.phone2, self.email, self.objective, self.created_by.id, self.modified_by.id, self.id))
+		dbm.execute_d(query, (self.id, self.name, self.address.id, self.phone1, self.phone2, self.email, self.objective, self.created_by.id, self.modified_by.id, self.id))
 		
 	def delete (self, dbm):
 		query = 'DELETE FROM Contact WHERE id="' + self.id + '";'
@@ -169,6 +169,9 @@ class Contact:
 										}
 					}
 			print(str(obj))
+
+def NoneContact():
+	return Contact(None, None, None, None, None, None, None, None, None)
 			
 def retrieve_all_contacts (dbm):
 	query = "SELECT * FROM Contact;"

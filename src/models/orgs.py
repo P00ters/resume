@@ -267,7 +267,7 @@ def retrieve_orgs (dbm, **kwargs):
 				if not mb.retrieve(dbm, id=row[9]):
 					mb = accounts.NoneAccount()
 					
-				o = Org(row[0], row[1], addr, row[2], row[3], row[4], row[5], row[6], row[7], cb, mb)
+				o = Org(row[0], row[1], addr, row[3], row[4], row[5], row[6], row[7], cb, mb)
 				os.append(o)
 				
 	return os

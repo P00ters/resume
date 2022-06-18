@@ -635,5 +635,109 @@ def update_job():
 	
 	return html
 
+@app.route('/update/contact', methods=['POST'])
+def update_contact():
+	if request.form['contact_add_address_i'] == "True":
+		new_address = True
+	else:
+		new_address = False
+		
+	if new_address:
+		address = request.form['e_c_new_address']
+	else:
+		address = request.form['e_c_address_selector']
+		
+	form_data =	{
+					'id': request.form['e_c_id'],
+					'name': request.form['e_c_name'],
+					'phone1': request.form['e_c_phone1'],
+					'phone2': request.form['e_c_phone2'],
+					'email': request.form['e_c_email'],
+					'objective': request.form['e_c_objective'],
+					'new_address': new_address,
+					'address': address
+				}
+				
+	html = ''
+	html += cr.render_html_head('/contact', session['mobile'])
+	html += cr.render_header(session['name'], '/update/contact', '/update/contact' + form_data['id'], session)
+	html += cr.render_go_between('update', 'contact', form_data, session)
+	
+	return html
+
+@app.route('/delete/edu', methods=['POST'])
+def delete_edu():
+	del_org = False
+	del_addr = False
+	l = list(request.form.lists())
+	for item in l:
+		if (item[0] == 'd_e_del_org'):
+			if str(item[1][0]) == 'true':
+				del_org = True
+		if (item[0] == 'd_e_del_addr'):
+			if str(item[1][0]) == 'true':
+				del_addr = True
+				
+	eid = request.form['d_e_id']
+	if del_org:
+		oid = request.form['d_e_oid']
+	else:
+		oid = None
+	if del_addr:
+		aid = request.form['d_e_aid']
+	else:
+		aid = None
+		
+	form_data =	{
+					'eid': eid,
+					'del_org': del_org,
+					'oid': oid,
+					'del_addr': del_addr,
+					'aid': aid
+				}
+	
+	html = ''
+	html += cr.render_html_head('/edu', session['mobile'])
+	html += cr.render_header(session['name'], '/delete/edu', '/delete/edu' + form_data['eid'], session)
+	html += cr.render_go_between('delete', 'edu', form_data, session)
+	return html
+
+@app.route('/delete/job', methods=['POST'])
+def delete_job():
+	del_org = False
+	del_addr = False
+	l = list(request.form.lists())
+	for item in l:
+		if (item[0] == 'd_j_del_org'):
+			if str(item[1][0]) == 'true':
+				del_org = True
+		if (item[0] == 'd_j_del_addr'):
+			if str(item[1][0]) == 'true':
+				del_addr = True
+				
+	jid = request.form['d_j_id']
+	if del_org:
+		oid = request.form['d_j_oid']
+	else:
+		oid = None
+	if del_addr:
+		aid = request.form['d_j_aid']
+	else:
+		aid = None
+		
+	form_data =	{
+					'jid': jid,
+					'del_org': del_org,
+					'oid': oid,
+					'del_addr': del_addr,
+					'aid': aid
+				}
+				
+	html = ''
+	html += cr.render_html_head('/job', session['mobile'])
+	html += cr.render_header(session['name'], '/delete/job', '/delete/job' + form_data['jid'], session)
+	html += cr.render_go_between('delete', 'job', form_data, session)
+	return html
+
 if __name__ == '__main__':
-	app.run(host='resume.tomesser.biz',port='80',debug=True)
+	app.run(host='127.0.0.1',port='80',debug=True)

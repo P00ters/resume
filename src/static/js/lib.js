@@ -121,6 +121,38 @@ function edu_new_address() {
 	document.getElementById("edu_new_address_div").setAttribute("style", "visibility:visible;left:0px;");
 }
 
+function contact_new_address() {
+	document.getElementById('contact_add_address_i').setAttribute("value", "True");
+	document.getElementById('e_c_new_address').required = true;
+	document.getElementById('e_c_address_selector').required = false;
+	document.getElementById('e_c_address_selector').disabled = true;
+	document.getElementById('contact_new_address_div').setAttribute('style', 'visibility:visible;')
+}
+
+function contact_remove_address() {
+	document.getElementById('contact_add_address_i').setAttribute("value", "False");
+	document.getElementById("e_c_new_address").required = false;
+	document.getElementById("e_c_address_selector").required = true;
+	document.getElementById("e_c_address_selector").disabled = false;
+	document.getElementById("contact_new_address_div").setAttribute("style", "visibility:hidden;display:none;");
+}
+
+function edit_contact(cid, name, phone1, phone2, email, objective, aid, aname) {
+	document.getElementById('e_c_id').setAttribute('value', cid);
+	document.getElementById('e_c_name').setAttribute('value', name);
+	document.getElementById('e_c_phone1').setAttribute('value', phone1);
+	document.getElementById('e_c_phone2').setAttribute('value', phone2);
+	document.getElementById('e_c_email').setAttribute('value', email);
+	document.getElementById('e_c_objective').value = objective;
+	
+	var addr_selector = document.getElementById('e_c_address_selector');
+	for (var i = 0; i < addr_selector.options.length; i++) {
+		if (addr_selector.options[i].value == aid) {
+			addr_selector.options[i].selected = true;
+		}
+	}
+}
+
 function job_add_skill(number, mobile) {
 	number = number + 1;
 
@@ -720,6 +752,109 @@ function edit_job(jid, oid, oname, title, present, date_start, date_stop, desc_s
 			org_selector.options[i].selected = true;
 		}
 	}
+}
+
+function del_edu(eid, degree, org_dangles, oid, oname, addr_dangles, aid, aname) {
+
+	document.getElementById('d_e_aname').disabled = true;
+	document.getElementById('d_e_aid').disabled = true;
+	document.getElementById('d_e_oname').disabled = true;
+	document.getElementById('d_e_oid').disabled = true;
+	document.getElementById('d_e_degree').disabled = true;
+	document.getElementById('d_e_id').disabled = true;
+
+	document.getElementById('d_e_id').value = eid;
+	document.getElementById('d_e_degree').value = degree;
+	
+	if (org_dangles == 1) {
+		document.getElementById('d_e_dangle_org').setAttribute('style', 'visibility:visible');
+		document.getElementById('d_e_oid').value = oid;
+		document.getElementById('d_e_oname').value = oname;
+		if (addr_dangles == 1) {
+			document.getElementById('d_e_aid').value = aid;
+			document.getElementById('d_e_aname').value = aname;
+			document.getElementById('d_e_del_org').setAttribute('onChange', "del_edu_addr()");
+		}
+		else {
+			document.getElementById('d_e_dangle_addr').setAttribute('style', 'visibility:hidden;display:none;');
+			document.getElementById('d_e_del_org').setAttribute('onChange', "javascript:void(0)");
+		}
+	}
+	else {
+		document.getElementById('d_e_dangle_org').setAttribute('style', 'visibility:hidden;display:none;');
+		document.getElementById('d_e_dangle_addr').setAttribute('style', 'visibility:hidden;display:none;');
+	}
+}
+
+function del_edu_addr() {
+	var addr_container = document.getElementById('d_e_dangle_addr');
+	if (document.getElementById('d_e_del_org').options.selectedIndex == 0) {
+		addr_container.setAttribute('style', 'visibility:hidden;display:none;');
+		document.getElementById('d_e_del_addr').options.selectedIndex = 0;
+	}
+	else {
+		addr_container.setAttribute('style', 'visibility:visible;');
+	}
+}
+
+function del_edu_enable() {
+	document.getElementById('d_e_aname').disabled = false;
+	document.getElementById('d_e_aid').disabled = false;
+	document.getElementById('d_e_oname').disabled = false;
+	document.getElementById('d_e_oid').disabled = false;
+	document.getElementById('d_e_degree').disabled = false;
+	document.getElementById('d_e_id').disabled = false;
+}
+
+function del_job(jid, title, org_dangles, oid, oname, addr_dangles, aid, aname) {
+	document.getElementById('d_j_aname').disabled = true;
+	document.getElementById('d_j_aid').disabled = true;
+	document.getElementById('d_j_oname').disabled = true;
+	document.getElementById('d_j_oid').disabled = true;
+	document.getElementById('d_j_title').disabled = true;
+	document.getElementById('d_j_id').disabled = true;
+	
+	document.getElementById('d_j_id').value = jid;
+	document.getElementById('d_j_title').value = title;
+	
+	if (org_dangles == 1) {
+		document.getElementById('d_j_dangle_org').setAttribute('style', 'visibility:visible;');
+		document.getElementById('d_j_oid').value = oid;
+		document.getElementById('d_j_oname').value = oname;
+		if (addr_dangles == 1) {
+			document.getElementById('d_j_aid').value = aid;
+			document.getElementById('d_j_aname').value = aname;
+			document.getElementById('d_j_del_org').setAttribute('onChange', "del_job_addr()");
+		}
+		else {
+			document.getElementById('d_j_dangle_addr').setAttribute('style', 'visibility:hidden;display:none;');
+			document.getElementById('d_j_del_org').setAttribute('onChange', "javascript:void(0)");
+		}
+	}
+	else {
+		document.getElementById('d_j_dangle_org').setAttribute('style', 'visibility:hidden;display:none;');
+		document.getElementById('d_j_dangle_addr').setAttribute('style', 'visibility:hidden;display:none;');
+	}
+}
+
+function del_job_addr() {
+	var addr_container = document.getElementById('d_j_dangle_addr');
+	if (document.getElementById('d_j_del_org').options.selectedIndex == 0) {
+		addr_container.setAttribute('style', 'visibility:hidden;display:none;');
+		document.getElementById('d_j_del_addr').options.selectedIndex = 0;
+	}
+	else {
+		addr_container.setAttribute('style', 'visibility:visible;');
+	}
+}
+
+function del_job_enable() {
+	document.getElementById('d_j_aname').disabled = false;
+	document.getElementById('d_j_aid').disabled = false;
+	document.getElementById('d_j_oname').disabled = false;
+	document.getElementById('d_j_oid').disabled = false;
+	document.getElementById('d_j_title').disabled = false;
+	document.getElementById('d_j_id').disabled = false;
 }
 
 async function upload_img(target) {
