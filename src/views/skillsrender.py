@@ -431,7 +431,7 @@ class SkillRenderer:
 						html += '''						<div class="col-sm-6">
 															<span style="display:inline;">
 																<a href="/edus/''' + str(exp.id) + '''">
-																	<img src="''' + src + '''" width="25" height="25" />
+																	<img src="''' + img + '''" width="25" height="25" />
 																	''' + str(exp.org.name) + ''' - ''' + str(exp.degree) + '''
 																</a>
 															</span>
