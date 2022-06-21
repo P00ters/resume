@@ -29,7 +29,7 @@ class Org:
 					SET id=?, name=?, address=?, phone=?, desc_short=?, website=?, logo=?, image_head=?, created_by=?, modified_by=?
 					WHERE id=?;'''
 					
-		dbm.execute_d(query, (self.id, self.name, self.address.id, self.phone, self.desc_short, self.website, self.logo, self.image_head, self.created_by.id, self.modified_by.id))
+		dbm.execute_d(query, (self.id, self.name, self.address.id, self.phone, self.desc_short, self.website, self.logo, self.image_head, self.created_by.id, self.modified_by.id, self.id))
 		
 	def delete (self, dbm):
 		query = 'DELETE FROM Orgs WHERE id="' + self.id + '";'

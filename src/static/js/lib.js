@@ -121,6 +121,38 @@ function edu_new_address() {
 	document.getElementById("edu_new_address_div").setAttribute("style", "visibility:visible;left:0px;");
 }
 
+function org_new_address() {
+	document.getElementById('org_add_address_i').setAttribute('value', "True");
+	document.getElementById('a_o_new_address').required = true;
+	document.getElementById('a_o_address_selector').required = false;
+	document.getElementById('a_o_address_selector').disabled = true;
+	document.getElementById('org_new_address_div').setAttribute('style', 'visibility:visible');
+}
+
+function e_org_new_address() {
+	document.getElementById('org_edit_address_i').setAttribute('value', "True");
+	document.getElementById('e_oo_new_address').required = true;
+	document.getElementById('e_oo_address_selector').required = false;
+	document.getElementById('e_oo_address_selector').disabled = true;
+	document.getElementById('e_org_new_address_div').setAttribute('style', 'visibility:visible');
+}
+
+function org_remove_address() {
+	document.getElementById('org_add_address_i').setAttribute('value', "False");
+	document.getElementById('a_o_new_address').required = false;
+	document.getElementById('a_o_address_selector').required = true;
+	document.getElementById('a_o_address_selector').disabled = false;
+	document.getElementById('org_new_address_div').setAttribute('style', 'visibility:hidden;display:none;');
+}
+
+function e_org_remove_address() {
+	document.getElementById('org_edit_address_i').setAttribute('value', "False");
+	document.getElementById('e_oo_new_address').required = false;
+	document.getElementById('e_oo_address_selector').required = true;
+	document.getElementById('e_oo_address_selector').disabled = false;
+	document.getElementById('e_org_new_address_div').setAttribute('style', 'visibility:hidden;display:none;');
+}
+
 function contact_new_address() {
 	document.getElementById('contact_add_address_i').setAttribute("value", "True");
 	document.getElementById('e_c_new_address').required = true;
@@ -146,6 +178,28 @@ function edit_contact(cid, name, phone1, phone2, email, objective, aid, aname) {
 	document.getElementById('e_c_objective').value = objective;
 	
 	var addr_selector = document.getElementById('e_c_address_selector');
+	for (var i = 0; i < addr_selector.options.length; i++) {
+		if (addr_selector.options[i].value == aid) {
+			addr_selector.options[i].selected = true;
+		}
+	}
+}
+
+function edit_org(oid, name, phone, desc_short, website, aid, aname) {
+	var logo = document.getElementById('org_logo_bin').value;
+	var head = document.getElementById('org_image_head_bin').value;
+	document.getElementById('e_oo_img1').setAttribute('src', logo);
+	document.getElementById('e_oo_img2').setAttribute('src', head);
+	document.getElementById('e_oo_img1').setAttribute('style', '');
+	document.getElementById('e_oo_img2').setAttribute('style', '');
+	
+	document.getElementById('e_oo_id').setAttribute('value', oid);
+	document.getElementById('e_oo_name').setAttribute('value', name);
+	document.getElementById('e_oo_phone').setAttribute('value', phone);
+	document.getElementById('e_oo_desc_short').value = desc_short;
+	document.getElementById('e_oo_website').setAttribute('value', website);
+	
+	var addr_selector = document.getElementById('e_oo_address_selector');
 	for (var i = 0; i < addr_selector.options.length; i++) {
 		if (addr_selector.options[i].value == aid) {
 			addr_selector.options[i].selected = true;
@@ -857,6 +911,501 @@ function del_job_enable() {
 	document.getElementById('d_j_id').disabled = false;
 }
 
+function del_org(oid, name, addr_dangles, aid, aname, job_dangles, job_dangling, edu_dangles, edu_dangling, mobile) {
+	console.log(mobile)
+	document.getElementById('o_o_del_btn').setAttribute('onClick', 'javascript: void(0)');
+	
+	document.getElementById('d_o_aname').disabled = true;
+	document.getElementById('d_o_aid').disabled = true;
+	document.getElementById('d_o_name').disabled = true;
+	document.getElementById('d_o_id').disabled = true;
+	
+	document.getElementById('d_o_id').value = oid
+	document.getElementById('d_o_name').value = name
+	
+	if (addr_dangles == 1) { 
+		document.getElementById('d_o_dangle_addr').setAttribute('style', 'visibility:visible;');
+		document.getElementById('d_o_aid').value = aid;
+		document.getElementById('d_o_aname').value = aname;
+	}
+	else {
+		document.getElementById('d_o_dangle_addr').setAttribute('style', 'visibility:hidden;display:none;');
+	}
+	
+	var all_orgs_n = parseInt(document.getElementById('all_orgs_len').value);
+	all_orgs = [];
+	
+	for (var i = 0; i < all_orgs_n; i++) {
+		var inp = document.getElementById('all_orgs' + String(i));
+		split = inp.value.split(",");
+		o = [split[0], split[1]];
+		all_orgs.push(o);
+	}
+	
+	var j_count = 0;
+	var e_count = 0;
+	
+	
+	if (job_dangles == 1) {
+		document.getElementById('d_o_dangle_jobs').setAttribute('style', 'visibility:visible;');
+		
+		var parent = document.getElementById('d_o_dangle_jobs_list');
+		job_split = job_dangling.split(",");
+		console.log(job_split);
+		edu_split = edu_dangling.split(",");
+		
+		if (mobile == 0) {
+		
+			for (var i = 0; i < job_split.length; i += 2) {
+				if (job_split[i] != '') {
+					jid = job_split[i];
+					jname = job_split[i+1];
+					
+					var row = document.createElement('div');
+					row.setAttribute('class', "row");
+					row.setAttribute('style', 'padding-top:15px;');
+					parent.appendChild(row);
+					
+					var col1 = document.createElement('div');
+					col1.setAttribute('class', 'col-6');
+					row.appendChild(col1);
+					
+					var idlbl = document.createElement('label');
+					idlbl.setAttribute('for', 'd_o_jid' + String(i));
+					idlbl.innerHTML = "Job ID";
+					col1.appendChild(idlbl);
+					
+					var br = document.createElement('br');
+					col1.appendChild(br);
+					
+					var idinput = document.createElement('input');
+					idinput.setAttribute('type', 'text');
+					idinput.disabled = true;
+					idinput.setAttribute('value', jid);
+					idinput.setAttribute('id', 'd_o_jid' + String(i));
+					idinput.setAttribute('name', 'd_o_jid' + String(i));
+					idinput.setAttribute('style', 'width:95%;');
+					col1.appendChild(idinput);
+					
+					var br = document.createElement('br');
+					col1.appendChild(br);
+					var br = document.createElement('br');
+					col1.appendChild(br);
+					
+					var namelbl = document.createElement('label')
+					namelbl.setAttribute('for', 'd_o_jname' + String(i));
+					namelbl.innerHTML = "Job Name";
+					col1.appendChild(namelbl);
+					
+					var br = document.createElement('br');
+					col1.appendChild(br);
+					
+					var nameinput = document.createElement('input');
+					nameinput.setAttribute('type', 'text');
+					nameinput.disabled = true;
+					nameinput.value = jname;
+					nameinput.setAttribute('id', 'd_o_jname' + String(i));
+					nameinput.setAttribute('name', 'd_o_jname' + String(i));
+					nameinput.setAttribute('style', 'width:95%');
+					col1.appendChild(nameinput);
+					
+					var col2 = document.createElement('div');
+					col2.setAttribute('class', 'col-6');
+					row.appendChild(col2);
+					
+					var selectorlbl = document.createElement('label');
+					selectorlbl.setAttribute('for', 'd_o_j_selector');
+					selectorlbl.innerHTML = 'Select New Organization'
+					col2.appendChild(selectorlbl);
+					
+					var br = document.createElement('br');
+					col2.appendChild(br);
+					
+					var selector = document.createElement('select');
+					selector.required = true;
+					selector.setAttribute('id', 'd_o_j_selector' + String(i));
+					selector.setAttribute('name', 'd_o_j_selector' + String(i));
+					selector.setAttribute('style', 'min-width:95%;');
+					selector.setAttribute('size', '5');
+					col2.appendChild(selector);
+					
+					for (var j = 0; j < all_orgs.length; j++) {
+						if (all_orgs[j][0] != oid) {
+							var option = document.createElement('option');
+							option.setAttribute('value', all_orgs[j][0]);
+							option.innerHTML = all_orgs[j][1];
+							selector.appendChild(option);
+						}
+					}
+					
+					var row = document.createElement('div');
+					row.setAttribute('class', "row");
+					parent.appendChild(row);
+					var hr = document.createElement('hr');
+					hr.setAttribute('style', 'width:90%;left:5%;');
+					row.appendChild(hr)
+					
+					j_count += 1;
+				}
+			}
+		
+		}
+		else {
+			
+			for (var i = 0; i < job_split.length; i += 2) {
+				if (job_split[i] != '') {
+					jid = job_split[i];
+					jname = job_split[i+1];
+					
+					var row = document.createElement('div');
+					row.setAttribute('class', "row");
+					row.setAttribute('style', 'padding-top:15px;');
+					parent.appendChild(row);
+					
+					var col1 = document.createElement('div');
+					col1.setAttribute('class', 'col-12');
+					row.appendChild(col1);
+					
+					var idlbl = document.createElement('label');
+					idlbl.setAttribute('for', 'd_o_jid' + String(i));
+					idlbl.innerHTML = "Job ID";
+					col1.appendChild(idlbl);
+					
+					var br = document.createElement('br');
+					col1.appendChild(br);
+					
+					var idinput = document.createElement('input');
+					idinput.setAttribute('type', 'text');
+					idinput.disabled = true;
+					idinput.setAttribute('value', jid);
+					idinput.setAttribute('id', 'd_o_jid' + String(i));
+					idinput.setAttribute('name', 'd_o_jid' + String(i));
+					idinput.setAttribute('style', 'width:95%;');
+					col1.appendChild(idinput);
+					
+					var row1 = document.createElement('div');
+					row1.setAttribute('class', "row");
+					row1.setAttribute('style', 'padding-top:15px;');
+					parent.appendChild(row1);
+					
+					var col1 = document.createElement('div');
+					col1.setAttribute('class', 'col-12');
+					row1.appendChild(col1);
+					
+					var namelbl = document.createElement('label')
+					namelbl.setAttribute('for', 'd_o_jname' + String(i));
+					namelbl.innerHTML = "Job Name";
+					col1.appendChild(namelbl);
+					
+					var br = document.createElement('br');
+					col1.appendChild(br);
+					
+					var nameinput = document.createElement('input');
+					nameinput.setAttribute('type', 'text');
+					nameinput.disabled = true;
+					nameinput.value = jname;
+					nameinput.setAttribute('id', 'd_o_jname' + String(i));
+					nameinput.setAttribute('name', 'd_o_jname' + String(i));
+					nameinput.setAttribute('style', 'width:95%');
+					col1.appendChild(nameinput);
+					
+					var row = document.createElement('div');
+					row.setAttribute('class', "row");
+					row.setAttribute('style', 'padding-top:15px;');
+					parent.appendChild(row);
+					
+					var col1 = document.createElement('div');
+					col1.setAttribute('class', 'col-12');
+					row.appendChild(col1);
+					
+					var selectorlbl = document.createElement('label');
+					selectorlbl.setAttribute('for', 'd_o_j_selector');
+					selectorlbl.innerHTML = 'Select New Organization'
+					col1.appendChild(selectorlbl);
+					
+					var row = document.createElement('div');
+					row.setAttribute('class', "row");
+					parent.appendChild(row);
+					
+					var col1 = document.createElement('div');
+					col1.setAttribute('class', 'col-12');
+					row.appendChild(col1);
+					
+					
+					var selector = document.createElement('select');
+					selector.required = true;
+					selector.setAttribute('id', 'd_o_j_selector' + String(i));
+					selector.setAttribute('name', 'd_o_j_selector' + String(i));
+					selector.setAttribute('style', 'min-width:95%;');
+					selector.setAttribute('size', '5');
+					col1.appendChild(selector);
+					
+					for (var j = 0; j < all_orgs.length; j++) {
+						if (all_orgs[j][0] != oid) {
+							var option = document.createElement('option');
+							option.setAttribute('value', all_orgs[j][0]);
+							option.innerHTML = all_orgs[j][1];
+							selector.appendChild(option);
+						}
+					}
+					
+					var row = document.createElement('div');
+					row.setAttribute('class', "row");
+					parent.appendChild(row);
+					var hr = document.createElement('hr');
+					hr.setAttribute('style', 'width:90%;left:5%;');
+					row.appendChild(hr)
+					
+					j_count += 1;
+				}
+			}
+		
+		}
+		
+		var hnp = document.createElement('input');
+		hnp.setAttribute('type', 'hidden');
+		hnp.setAttribute('id', 'd_o_numjobs');
+		hnp.setAttribute('name', 'd_o_numjobs');
+		hnp.setAttribute('value', String(j_count));
+		parent.appendChild(hnp);
+		
+	}
+
+	if (edu_dangles == 1) {
+		document.getElementById('d_o_dangle_edus').setAttribute('style', 'visibility:visible;');
+		
+		var parent = document.getElementById('d_o_dangle_edus_list');
+		job_split = job_dangling.split(",");
+		console.log(job_split);
+		edu_split = edu_dangling.split(",");
+		
+		
+		if (mobile == 0) {
+		
+			for (var i = 0; i < edu_split.length; i += 2) {
+				if (edu_split[i] != '') {
+					eid = edu_split[i];
+					ename = edu_split[i+1];
+					
+					var row = document.createElement('div');
+					row.setAttribute('class', "row");
+					row.setAttribute('style', 'padding-top:15px;');
+					parent.appendChild(row);
+					
+					var col1 = document.createElement('div');
+					col1.setAttribute('class', 'col-6');
+					row.appendChild(col1);
+					
+					var idlbl = document.createElement('label');
+					idlbl.setAttribute('for', 'd_o_eid' + String(i));
+					idlbl.innerHTML = "Education ID";
+					col1.appendChild(idlbl);
+					
+					var br = document.createElement('br');
+					col1.appendChild(br);
+					
+					var idinput = document.createElement('input');
+					idinput.setAttribute('type', 'text');
+					idinput.disabled = true;
+					idinput.setAttribute('value', eid);
+					idinput.setAttribute('id', 'd_o_eid' + String(i));
+					idinput.setAttribute('name', 'd_o_eid' + String(i));
+					idinput.setAttribute('style', 'width:95%;');
+					col1.appendChild(idinput);
+					
+					var br = document.createElement('br');
+					col1.appendChild(br);
+					var br = document.createElement('br');
+					col1.appendChild(br);
+					
+					var namelbl = document.createElement('label')
+					namelbl.setAttribute('for', 'd_o_ename' + String(i));
+					namelbl.innerHTML = "Job Name";
+					col1.appendChild(namelbl);
+					
+					var br = document.createElement('br');
+					col1.appendChild(br);
+					
+					var nameinput = document.createElement('input');
+					nameinput.setAttribute('type', 'text');
+					nameinput.disabled = true;
+					nameinput.value = ename;
+					nameinput.setAttribute('id', 'd_o_ename' + String(i));
+					nameinput.setAttribute('name', 'd_o_ename' + String(i));
+					nameinput.setAttribute('style', 'width:95%');
+					col1.appendChild(nameinput);
+					
+					var col2 = document.createElement('div');
+					col2.setAttribute('class', 'col-6');
+					row.appendChild(col2);
+					
+					var selectorlbl = document.createElement('label');
+					selectorlbl.setAttribute('for', 'd_o_e_selector');
+					selectorlbl.innerHTML = 'Select New Organization'
+					col2.appendChild(selectorlbl);
+					
+					var br = document.createElement('br');
+					col2.appendChild(br);
+					
+					var selector = document.createElement('select');
+					selector.required = true;
+					selector.setAttribute('id', 'd_o_e_selector' + String(i));
+					selector.setAttribute('name', 'd_o_e_selector' + String(i));
+					selector.setAttribute('style', 'min-width:95%;');
+					selector.setAttribute('size', '5');
+					col2.appendChild(selector);
+					
+					for (var j = 0; j < all_orgs.length; j++) {
+						if (all_orgs[j][0] != oid) {
+							var option = document.createElement('option');
+							option.setAttribute('value', all_orgs[j][0]);
+							option.innerHTML = all_orgs[j][1];
+							selector.appendChild(option);
+						}
+					}
+					
+					var row = document.createElement('div');
+					row.setAttribute('class', "row");
+					parent.appendChild(row);
+					var hr = document.createElement('hr');
+					hr.setAttribute('style', 'width:90%;left:5%;');
+					row.appendChild(hr)
+					
+					e_count += 1;
+				}
+			}
+		
+		}
+		else {
+						for (var i = 0; i < edu_split.length; i += 2) {
+				if (edu_split[i] != '') {
+					eid = edu_split[i];
+					ename = edu_split[i+1];
+					
+					var row = document.createElement('div');
+					row.setAttribute('class', "row");
+					row.setAttribute('style', 'padding-top:15px;');
+					parent.appendChild(row);
+					
+					var col1 = document.createElement('div');
+					col1.setAttribute('class', 'col-12');
+					row.appendChild(col1);
+					
+					var idlbl = document.createElement('label');
+					idlbl.setAttribute('for', 'd_o_eid' + String(i));
+					idlbl.innerHTML = "Education ID";
+					col1.appendChild(idlbl);
+					
+					var br = document.createElement('br');
+					col1.appendChild(br);
+					
+					var idinput = document.createElement('input');
+					idinput.setAttribute('type', 'text');
+					idinput.disabled = true;
+					idinput.setAttribute('value', eid);
+					idinput.setAttribute('id', 'd_o_eid' + String(i));
+					idinput.setAttribute('name', 'd_o_eid' + String(i));
+					idinput.setAttribute('style', 'width:95%;');
+					col1.appendChild(idinput);
+					
+					var row = document.createElement('div');
+					row.setAttribute('class', "row");
+					row.setAttribute('style', 'padding-top:15px;');
+					parent.appendChild(row);
+					
+					var col1 = document.createElement('div');
+					col1.setAttribute('class', 'col-12');
+					row.appendChild(col1);
+					
+					var namelbl = document.createElement('label')
+					namelbl.setAttribute('for', 'd_o_ename' + String(i));
+					namelbl.innerHTML = "Job Name";
+					col1.appendChild(namelbl);
+					
+					var br = document.createElement('br');
+					col1.appendChild(br);
+					
+					var nameinput = document.createElement('input');
+					nameinput.setAttribute('type', 'text');
+					nameinput.disabled = true;
+					nameinput.value = ename;
+					nameinput.setAttribute('id', 'd_o_ename' + String(i));
+					nameinput.setAttribute('name', 'd_o_ename' + String(i));
+					nameinput.setAttribute('style', 'width:95%');
+					col1.appendChild(nameinput);
+					
+					var row = document.createElement('div');
+					row.setAttribute('class', "row");
+					row.setAttribute('style', 'padding-top:15px;');
+					parent.appendChild(row);
+					
+					var col2 = document.createElement('div');
+					col2.setAttribute('class', 'col-12');
+					row.appendChild(col2);
+					
+					var selectorlbl = document.createElement('label');
+					selectorlbl.setAttribute('for', 'd_o_e_selector');
+					selectorlbl.innerHTML = 'Select New Organization'
+					col2.appendChild(selectorlbl);
+					
+					var br = document.createElement('br');
+					col2.appendChild(br);
+					
+					var selector = document.createElement('select');
+					selector.required = true;
+					selector.setAttribute('id', 'd_o_e_selector' + String(i));
+					selector.setAttribute('name', 'd_o_e_selector' + String(i));
+					selector.setAttribute('style', 'min-width:95%;');
+					selector.setAttribute('size', '5');
+					col2.appendChild(selector);
+					
+					for (var j = 0; j < all_orgs.length; j++) {
+						if (all_orgs[j][0] != oid) {
+							var option = document.createElement('option');
+							option.setAttribute('value', all_orgs[j][0]);
+							option.innerHTML = all_orgs[j][1];
+							selector.appendChild(option);
+						}
+					}
+					
+					var row = document.createElement('div');
+					row.setAttribute('class', "row");
+					parent.appendChild(row);
+					var hr = document.createElement('hr');
+					hr.setAttribute('style', 'width:90%;left:5%;');
+					row.appendChild(hr)
+					
+					e_count += 1;
+				}
+			}
+		}
+		
+		var hnp = document.createElement('input');
+		hnp.setAttribute('type', 'hidden');
+		hnp.setAttribute('id', 'd_o_numedus');
+		hnp.setAttribute('name', 'd_o_numedus');
+		hnp.setAttribute('value', String(e_count));
+		parent.appendChild(hnp);
+	}
+
+}
+
+function del_org_enable() {
+	document.getElementById('d_o_aname').disabled = false;
+	document.getElementById('d_o_aid').disabled = false;
+	document.getElementById('d_o_name').disabled = false;
+	document.getElementById('d_o_id').disabled = false;
+	
+	for (var i = 0; i < 2048; i++) {
+		if (document.getElementById('d_o_jid' + String(i)) != null) {
+			document.getElementById('d_o_jid' + String(i)).disabled = false;
+		}
+		if (document.getElementById('d_o_eid' + String(i)) != null) {
+			document.getElementById('d_o_eid' + String(i)).disabled = false;
+		}
+	}
+}
+
 async function upload_img(target) {
 
 	var icon_ele = document.getElementById(target)
@@ -871,7 +1420,13 @@ async function upload_img(target) {
 	  b64 = btoa(data);
 	  val_str = target + '_val';
 	  document.getElementById(val_str).value = b64
-	  console.log(document.getElementById(val_str))
+	  if (target == 'e_oo_icon') {
+		  document.getElementById('e_oo_img1').setAttribute('src', 'data:image/png;base64,' + b64);
+	  }
+	  
+	  if (target == 'e_oo_header') {
+		  document.getElementById('e_oo_img2').setAttribute('src', 'data:image/png;base64,' + b64);
+	  }
 
 	  var dataURLReader = new FileReader();
 	  dataURLReader.onload = function(event) {

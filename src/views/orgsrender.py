@@ -7,7 +7,7 @@ from dbm import DBM
 from educations import retrieve_educations
 from jobs import retrieve_jobs
 import orgs
-from orgs import Org, retrieve_orgs
+from orgs import Org, retrieve_orgs, retrieve_all_orgs
 from fmat import addresslines, telelink, teleformat, sanitize
 
 g_api = "AIzaSyAQmRwQrAmnbDOU_d0ILUMlT2l9OAldR00"
@@ -98,6 +98,49 @@ class OrgRenderer:
 						b_adangles = 0
 						
 				a_del = "'" + sanitize(e.id) + "', '" + sanitize(e.degree) + "', " + str(b_odangles) + ", '" + sanitize(e.org.id) + "', '" + sanitize(e.org.name) + "', " + str(b_adangles) + ", '" + sanitize(e.org.address.id) + "', '" + sanitize(e.org.address.name) + "'"
+			
+			if this_org != None and next_org != None and last_org != None:
+				o = this_org
+				aid = o.address.id
+				adangle_count = 0
+				odangles = retrieve_orgs(self.dbm, address=aid)
+				adangle_count += len(odangles)
+				if adangle_count <= 1:
+					b_adangles = 1
+				else:
+					b_adangles = 0
+					
+				js = retrieve_jobs(self.dbm, org=o.id);
+				jdangles = ""
+				es = retrieve_educations(self.dbm, org=o.id)
+				edangles = ""
+				
+				if len(js) > 0:
+					b_jdangles = 1
+					for jj in js:
+						jdangles += str(jj.id) + ',' + str(jj.title) + ','
+					jdanlges = edangles[:-1]
+				else:
+					b_jdangles = 0
+				if len(es) > 0:
+					b_edangles = 1
+					for ee in es:
+						edangles += str(ee.id) + ',' + str(ee.degree) + ','
+					edanlges = edangles[:-1]
+				else:
+					b_edangles = 0
+					
+				if mobile:
+					mm = 1
+				else:
+					mm = 0
+					
+				print(jdangles)
+				print(edangles)
+				
+				a_edit = "'" + sanitize(o.id) + "', '" + sanitize(o.name) + "', '" + sanitize(o.phone) + "', '" + sanitize(o.desc_short) + "', '" + sanitize(o.website) + "', '" + sanitize(o.address.id) + "', '" + sanitize(o.address.name) + "'"
+				
+				a_del = "'" + sanitize(o.id) + "', '" + sanitize(o.name) + "', " + str(b_adangles) + ", '" + sanitize(o.address.id) + "', '" + sanitize(o.address.name) + "', " + str(b_jdangles) + ", '" + sanitize(jdangles) + "', " + str(b_edangles) + ", '" + sanitize(edangles) + "', " + str(mm)
 
 		html = ''
 		if not mobile:
@@ -176,6 +219,25 @@ class OrgRenderer:
 											</a>
 											<a href="javascript:void(0)" data-toggle="modal" data-target="#delEduModal">
 												<button style="position:relative;width:50px;display:inline;left:50px;" type="button" class="btn btn-outline-danger btn-lg btn-block" onClick="del_edu('''+a_del+''')"><img src='/static/delete.png' width="30"/></button>
+											</a>'''
+				if this_org != None and next_org != None and last_org != None:
+					html += '''
+											<form id="''' + o.id + '''" style="display:none;">
+												<input type="hidden" id="org_logo_bin" value="data:image/png;base64,''' + o.logo.decode('utf-8') + '''"></input>
+												<input type="hidden" id="org_image_head_bin" value="data:image/png;base64,''' + o.image_head.decode('utf-8') + '''"></input>'''
+					all_orgs = retrieve_all_orgs(self.dbm)
+					n = len(all_orgs)
+					html += '''					<input type="hidden" id="all_orgs_len" value="'''+str(n) + '''"></input>'''
+					for i in range(n):
+						html += '''				<input type="hidden" id="all_orgs'''+str(i)+'''" value="'''+all_orgs[i].id+''','''+all_orgs[i].name+'''"></input>'''
+					html += '''				</form>
+											<a href="javascript:void(0)" data-toggle="modal" data-target="#addOrgModal">
+												<button type="button" style="position:relative;width:50px;display:inline;left:10px;" class="btn btn-outline-success btn-lg btn-block"><img src="/static/add.png" width="30" /></button></a>
+											<a href="javascript:void(0)" data-toggle="modal" data-target="#editOrgModal">
+												<button style="position:relative;width:50px;display:inline;left:30px;" type="button" class="btn btn-outline-warning btn-lg btn-block" onClick="edit_org('''+a_edit+''')"><img src='/static/edit.png' width="30"/></button>
+											</a>
+											<a href="javascript:void(0)" data-toggle="modal" data-target="#delOrgModal">
+												<button style="position:relative;width:50px;display:inline;left:50px;" type="button" id="o_o_del_btn" class="btn btn-outline-danger btn-lg btn-block" onClick="del_org('''+a_del+''')"><img src='/static/delete.png' width="30"/></button>
 											</a>'''
 												
 			html += '''						</div>
@@ -279,7 +341,28 @@ class OrgRenderer:
 													</div>
 												</li>
 											</ul>'''
-											
+				if this_org != None and next_org != None and last_org != None:
+					html += '''
+											<form id="''' + o.id + '''" style="display:none;">
+												<input type="hidden" id="org_logo_bin" value="data:image/png;base64,''' + o.logo.decode('utf-8') + '''"></input>
+												<input type="hidden" id="org_image_head_bin" value="data:image/png;base64,''' + o.image_head.decode('utf-8') + '''"></input>'''
+					all_orgs = retrieve_all_orgs(self.dbm)
+					n = len(all_orgs)
+					html += '''					<input type="hidden" id="all_orgs_len" value="'''+str(n) + '''"></input>'''
+					for i in range(n):
+						html += '''				<input type="hidden" id="all_orgs'''+str(i)+'''" value="'''+all_orgs[i].id+''','''+all_orgs[i].name+'''"></input>'''
+					html += '''				</form>
+											<ul class="navbar-nav mr-auto" style="width:100%; 
+												<li class="nav-item dropdown" style="width:100%;">
+													<a class="nav-link dropdown-toggle" href="javascript:void(0)" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="text-align:right;position:relative;width:100%;vertical-align:middle;">Change</a>
+													<div class="dropdown-menu", aria-labelledby="dropdown04">
+														<a class="dropdown-item" href="javascript:void(0)" data-toggle="modal" data-target="#addOrgModal">New</a>
+														<a class="dropdown-item" href="javascript:void(0)" data-toggle="modal" onClick="edit_org('''+a_edit+''')"  data-target="#editOrgModal">Edit</a>
+														<a class="dropdown-item" href="javascript:void(0)" id="o_o_del_btn" data-toggle="modal" data-target="#delOrgModal" onClick="del_org('''+a_del+''')">Delete</a>
+													</div>
+												</li>
+											</ul>
+											'''
 			html += '''					</div>
 									</div>
 								</div>

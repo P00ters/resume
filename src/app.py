@@ -562,6 +562,47 @@ def create_edu():
 
 	return html
 
+@app.route('/create/org', methods=['POST'])
+def create_org():
+	if request.form['org_add_address_i'] == "True":
+		aid = dbm.genid()
+		aname = request.form['a_o_new_address']
+		new_addr = True
+	else:
+		aid = request.form['a_o_address_selector']
+		aname = None
+		new_addr = False
+		
+	if request.form['a_o_icon'] != None and request.form['a_o_icon'] != "":
+		logo = bytes(request.form['a_o_icon_val'], 'utf-8')
+	else:
+		logo = dbm.imgtobin('static/placeholder-logo.png')
+		
+	if request.form['a_o_header'] != None and request.form['a_o_header'] != "":
+		image_head = bytes(request.form['a_o_header_val'], 'utf-8')
+	else:
+		image_head = dbm.imgtobin('static/placeholder-header.png')
+		
+	form_data =	{
+					'id': dbm.genid(),
+					'name': request.form['a_o_name'],
+					'phone': request.form['a_o_phone'],
+					'website': request.form['a_o_website'],
+					'desc_short': request.form['a_o_desc_short'],
+					'logo': logo,
+					'image_head': image_head,
+					'new_addr': new_addr,
+					'aid': aid,
+					'aname': aname
+				}
+				
+	html = ''
+	html += cr.render_html_head('/org', session['mobile'])
+	html += cr.render_header(session['name'], '/create/org', '/create/org/' + form_data['id'], session)
+	html += cr.render_go_between('add', 'org', form_data, session)
+	
+	return html
+
 @app.route('/update/edu', methods=['POST'])
 def update_edu():
 	skills = ""
@@ -665,6 +706,54 @@ def update_contact():
 	
 	return html
 
+@app.route('/update/org', methods=['POST'])
+def update_org():
+	if request.form['org_edit_address_i'] == "True":
+		aid = dbm.genid()
+		aname = request.form['e_oo_new_address']
+		new_addr = True
+	else:
+		aid = request.form['e_oo_address_selector']
+		aname = None
+		new_addr = False
+		
+	if request.form['e_oo_icon'] == "Current" or request.form['e_oo_icon'] == "":
+		new_icon = False
+		icon = None
+	else:
+		new_icon = True
+		icon = bytes(request.form['e_oo_icon_val'], 'utf-8')
+		
+	if request.form['e_oo_header'] == "Current" or request.form['e_oo_header'] == "":
+		new_header = False
+		header = None
+	else:
+		new_header = True
+		header = bytes(request.form['e_oo_header_val'], 'utf-8')
+		
+	
+	form_data = {
+					'id': request.form['e_oo_id'], 
+					'name': request.form['e_oo_name'],
+					'phone': request.form['e_oo_phone'],
+					'desc_short': request.form['e_oo_desc_short'],
+					'website': 	request.form['e_oo_website'],
+					'new_logo': new_icon,
+					'logo': icon,
+					'new_image_head': new_header,
+					'image_head': header,
+					'new_address': new_addr,
+					'aid': aid,
+					'aname': aname,
+				}
+	
+	html = ''
+	html += cr.render_html_head('/orgs', session['mobile'])
+	html += cr.render_header(session['name'], '/update/org', '/update/org' + form_data['id'], session)
+	html += cr.render_go_between('update', 'org', form_data, session)
+	
+	return html
+
 @app.route('/delete/edu', methods=['POST'])
 def delete_edu():
 	del_org = False
@@ -738,6 +827,60 @@ def delete_job():
 	html += cr.render_header(session['name'], '/delete/job', '/delete/job' + form_data['jid'], session)
 	html += cr.render_go_between('delete', 'job', form_data, session)
 	return html
+
+@app.route('/delete/org', methods=['POST'])
+def delete_org():
+	print(str(request.form))
+	if 'd_o_numjobs' in request.form:
+		num_org_jobadj = int(request.form['d_o_numjobs'])
+	else:
+		num_org_jobadj = 0
+	if 'd_o_numedus' in request.form:
+		num_org_eduadj = int(request.form['d_o_numedus'])
+	else:
+		num_org_eduadj = 0
+
+	job_adj = []
+	for i in range(num_org_jobadj):
+		id = request.form['d_o_jid' + str(i)]
+		new_org = request.form['d_o_j_selector' + str(i)]
+		job_adj.append([id, new_org])
+	
+	edu_adj = []
+	for i in range(num_org_eduadj):
+		id = request.form['d_o_eid' + str(i)]
+		new_org = request.form['d_o_e_selector' + str(i)]
+		edu_adj.append([id, new_org])
+
+	del_addr = False
+	l = list(request.form.lists())
+	for item in l:
+		if (item[0] == 'd_j_del_addr'):
+			if str(item[1][0]) == 'true':
+				del_addr = True
+				
+	oid = request.form['d_o_id']
+	if del_addr:
+		aid = request.form['d_o_aid']
+	else:
+		aid = None
+	
+	form_data =	{
+					'oid': oid,
+					'del_addr': del_addr,
+					'aid': aid,
+					'num_jobs': num_org_jobadj,
+					'job_adj': job_adj,
+					'num_edus': num_org_eduadj,
+					'edu_adj': edu_adj
+				}
+	
+	html = ''
+	html += cr.render_html_head('/org', session['mobile'])
+	html += cr.render_header(session['name'], '/delete/org', '/delete/org' + form_data['oid'], session)
+	html += cr.render_go_between('delete', 'org', form_data, session)
+	return html
+
 
 if __name__ == '__main__':
 	app.run(host='127.0.0.1',port='80',debug=True)

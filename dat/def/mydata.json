@@ -158,7 +158,7 @@
     "Orgs": [
         {
             "address": 0,
-            "desc_short": "Waterpark? Nixon\u2019s got one. Skateboard park? Got that too. Four softball fields, a playground, and a picnic shelter? Let\u2019s just call it - Nixon Park has it all.\n\t\t\t<br>\n\t\t\tNixon Water Park and Skate Park is a great place to enjoy those hot summer days! Throughout the summer there are gym and swim days, creative themed parties, and customer appreciation discounted rate days at the water park. This water park features a zero-depth pool, along with water slides for the thrill seekers.",
+            "desc_short": "Waterpark? Nixon\u2019s got one. Skateboard park? Got that too. Four softball fields, a playground, and a picnic shelter? Let\u2019s just call it - Nixon Park has it all.<br><br>Nixon Water Park and Skate Park is a great place to enjoy those hot summer days! Throughout the summer there are gym and swim days, creative themed parties, and customer appreciation discounted rate days at the water park. This water park features a zero-depth pool, along with water slides for the thrill seekers.",
             "image_head": "static/coj-header.png",
             "index": 0,
             "logo": "static/coj-logo.png",
@@ -198,7 +198,7 @@
         },
         {
             "address": 4,
-            "desc_short": "TEKsystems is a United States-based recruitment company that provides information technology staffing solutions. It has offices in North America, Europe, and Asia. Its parent company is Allegis Group.\n\t\t\t<br>\n\t\t\tThe company connects information technology professionals with companies seeking their expertise. Specialties covered by TEKsystems include cloud enablement, risk and security, data analytics and insights, enterprise applications, and more. The company has worked in the industries of financial services, healthcare services, communications, and government.",
+            "desc_short": "TEKsystems is a United States-based recruitment company that provides information technology staffing solutions. It has offices in North America, Europe, and Asia. Its parent company is Allegis Group.<br><br>The company connects information technology professionals with companies seeking their expertise. Specialties covered by TEKsystems include cloud enablement, risk and security, data analytics and insights, enterprise applications, and more. The company has worked in the industries of financial services, healthcare services, communications, and government.",
             "image_head": "static/teksystems-header.png",
             "index": 4,
             "logo": "static/teksystems-logo.png",

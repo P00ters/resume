@@ -1154,6 +1154,269 @@ class CRender:
 								</div>
 							</div>
 							</div>
+							
+							<!-- Add org Popup -->
+							<div class="modal fade" id="addOrgModal" tabindex="-1" role="dialog" aria-labelledby="addOrgModal" aria-hidden="true" style="position:fixed; width:50%; left:25%; top:15%; height:75%;" >
+							<div class="modal-dialog" role="document">
+								<div class="modal-content" style="position:absolute; width:150%; left:-25%;">
+									<div class="modal-header">
+										<h5 class="modal-title" id="addOrgModal">Add Organization</h5>
+
+										<button type="button" class="close" data-dismiss="modal" data-toggle="modal" aria-label="Close">
+										  <span aria-hidden="true">&times;</span>
+										</button>
+									</div>
+									<form action='/create/org' method='post' id="create_org">
+										<div class="container">
+											<div class="row" style="padding-top:15px;">
+												<div class="col-6">
+													<label for="a_o_name">Name</label><br>
+													<input type="text" id="a_o_name" name="a_o_name" placeholder="Organization Name" required></input>
+												</div>
+												<div class="col-6">
+													<label for="a_o_phone">Phone Number</label><br>
+													<input type="text" id="a_o_phone" name="a_o_phone" placeholder="5555555555" required></input>
+												</div>
+											</div>
+											<div class="row" style="padding-top:15px;">
+												<div class="col-6">
+													<label for="a_o_website">Website</label><br>
+													<input type="text" id="a_o_website" name="a_o_website" placeholder="Website URL" required></input>
+												</div>
+												<div class="col-6">
+													<label for="a_o_desc_short">Description</label><br>
+													<textarea name="a_o_desc_short" form="create_org" id="a_o_desc_short" value="" style="width:95%; min-height:100px;" required></textarea>
+												</div>
+											</div>
+											<div class="row" style="padding-top:15px;">
+												<div class="col-6">
+													<label for="a_o_icon">Icon Image</label>
+													<input type="file" onChange="upload_img('a_o_icon')"  name="a_o_icon" id="a_o_icon" accept="image/png, image/jpeg"></input>
+													<input type="hidden" name="a_o_icon_val" id="a_o_icon_val"></input>
+												</div>
+												<div class="col-6">
+													<label for="a_o_header">Header Image</label>
+													<input type="file" onChange="upload_img('a_o_header')"  name="a_o_header" id="a_o_header" accept="image/png, image/jpeg"></input>
+													<input type="hidden" name="a_o_header_val" id="a_o_header_val" value=""></input>
+												</div>
+											</div>
+											<div class="row" style="padding-top:15px;">
+												<div class="col-6">
+													<input type="hidden" id="org_add_address_i" name="org_add_address_i" value="False"></input>
+													<label for="a_o_address_selector">Address</label><br>
+													<select style="min-width:95%;max-width:95%;" size="4" id="a_o_address_selector" name="a_o_address_selector" required>'''
+			for a in all_addresses:
+				html += '''								<option value="''' + a.id + '''">''' + a.name +'''</option>'''
+			html += '''								</select>
+													<br><br>
+													<button type="button" class="btn btn-success btn-lg btn-block" style="width:80%;position:relative;left:7.5%;" onClick="javascript: org_new_address()">Add Address</button>
+												</div>
+												<div class="col-6">
+													<div id="org_new_address_div" style="visibility:hidden; height:0px; left:0px;">
+														<button type="button" class="close", onClick="javascript: org_remove_address()" style="margin-left:auto;margin-right:0;">
+														<span aria-hidden="true">&times;</span>
+														</button>
+														<br>
+														<label for="a_o_new_address">New Address</label>
+														<input type="text" name="a_o_new_address" id="a_o_new_address" placeholder="123 Street Ave, City, State 12345" style="width:95%;"></input>
+													</div>
+												</div>
+											</div>
+										</div>
+										<br>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close">
+											  <span aria-hidden="true">Cancel</span>
+											</button>
+											<input type="submit" class="btn btn-primary" value="Save & Close"></button>
+										</div>
+									</form>
+								</div>
+							</div>
+							</div>
+							
+							<!-- Edit org Popup -->
+							<div class="modal fade" id="editOrgModal" tabindex="-1" role="dialog" aria-labelledby="editOrgModal" aria-hidden="true" style="position:fixed; width:50%; left:25%; top:15%; height:75%;" >
+							<div class="modal-dialog" role="document">
+								<div class="modal-content" style="position:absolute; width:150%; left:-25%;">
+									<div class="modal-header">
+										<h5 class="modal-title" id="editOrgModal">Edit Organization</h5>
+
+										<button type="button" class="close" data-dismiss="modal" data-toggle="modal" aria-label="Close">
+										  <span aria-hidden="true">&times;</span>
+										</button>
+									</div>
+									<form action='/update/org' method='post' id="update_org">
+										<input type="hidden" name="e_oo_id" id="e_oo_id" value=""></input>
+										<div class="container">
+											<div class="row" style="padding-top:15px;">
+												<div class="col-6">
+													<label for="e_oo_name">Name</label><br>
+													<input type="text" id="e_oo_name" name="e_oo_name" placeholder="Organization Name" value="" required></input>
+												</div>
+												<div class="col-6">
+													<label for="e_oo_phone">Phone Number</label><br>
+													<input type="text" id="e_oo_phone" name="e_oo_phone" placeholder="5555555555" value="" required></input>
+												</div>
+											</div>
+											<div class="row" style="padding-top:15px;">
+												<div class="col-6">
+													<label for="e_oo_website">Website</label><br>
+													<input type="text" id="e_oo_website" name="e_oo_website" placeholder="Website URL" value="" required></input>
+												</div>
+												<div class="col-6">
+													<label for="e_oo_desc_short">Description</label><br>
+													<textarea name="e_oo_desc_short" form="update_org" id="e_oo_desc_short" value="" style="width:95%; min-height:100px;" value="" required></textarea>
+												</div>
+											</div>
+											<div class="row" style="padding-top:15px;">
+												<div class="col-6">
+													<label for="e_oo_icon">Icon Image</label>
+													<input type="file" onChange="upload_img('e_oo_icon')"  name="e_oo_icon" id="e_oo_icon" accept="image/png, image/jpeg" value="Current"></input>
+													<input type="hidden" name="e_oo_icon_val" id="e_oo_icon_val" value=""></input>
+												</div>
+												<div class="col-6">
+													<label for="e_o_header">Header Image</label>
+													<input type="file" onChange="upload_img('e_oo_header')"  name="e_oo_header" id="e_oo_header" accept="image/png, image/jpeg" value="Current"></input>
+													<input type="hidden" name="e_oo_header_val" id="e_oo_header_val" value=""></input>
+												</div>
+											</div>
+											<div class="row" style="padding-top:5px;">
+												<div class="col-6">
+													<img id="e_oo_img1" height="40" src="" style="display:none;"/> 
+												</div>
+												<div class="col-6">
+													<img id="e_oo_img2" height="40" src="" style="display:none;"/> 
+												</div>
+											</div>
+											<div class="row" style="padding-top:15px;">
+												<div class="col-6">
+													<input type="hidden" id="org_edit_address_i" name="org_edit_address_i" value="False"></input>
+													<label for="e_oo_address_selector">Address</label><br>
+													<select style="min-width:95%;max-width:95%;" size="4" id="e_oo_address_selector" name="e_oo_address_selector" required>'''
+			for a in all_addresses:
+				html += '''								<option value="''' + a.id + '''">''' + a.name +'''</option>'''
+			html += '''								</select>
+													<br><br>
+													<button type="button" class="btn btn-success btn-lg btn-block" style="width:80%;position:relative;left:7.5%;" onClick="javascript: e_org_new_address()">Add Address</button>
+												</div>
+												<div class="col-6">
+													<div id="e_org_new_address_div" style="visibility:hidden; height:0px; left:0px;">
+														<button type="button" class="close", onClick="javascript: e_org_remove_address()" style="margin-left:auto;margin-right:0;">
+														<span aria-hidden="true">&times;</span>
+														</button>
+														<br>
+														<label for="e_oo_new_address">New Address</label>
+														<input type="text" name="e_oo_new_address" id="e_oo_new_address" placeholder="123 Street Ave, City, State 12345" style="width:95%;"></input>
+													</div>
+												</div>
+											</div>
+										</div>
+										<br>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close">
+											  <span aria-hidden="true">Cancel</span>
+											</button>
+											<input type="submit" class="btn btn-primary" value="Save & Close"></button>
+										</div>
+									</form>
+								</div>
+							</div>
+							</div>
+							
+							<!-- Org Delete Popup -->
+							<div class="modal fade" id="delOrgModal" tabindex="-1" role="dialog" aria-labelledby="delOrgModal" aria-hidden="true" style="position:fixed; width:50%; left:25%; top:15%; height:75%;" >
+							<div class="modal-dialog" role="document">
+								<div class="modal-content" style="position:absolute; width:150%; left:-25%;">
+									<div class="modal-header">
+										<h5 class="modal-title" id="delOrgModal">Delete Organization</h5>
+
+										<button type="button" class="close" data-dismiss="modal" data-toggle="modal" aria-label="Close">
+										  <span aria-hidden="true">&times;</span>
+										</button>
+									</div>
+									<form action='/delete/org' method='post' id="delete_org">	
+										<div class="container">
+											<div class="row">
+												<div class="col-12 d-flex align-items-center" style="margin-top:20px;">
+													<h6>Are you really sure you want to delete the organization entry with the below data?</h6>
+												</div>
+											</div>
+											<hr>
+											<div class="row">
+												<div class="col-6">
+													<label for="d_o_id">Organiation ID</label><br>
+													<input type="text" id="d_o_id" name="d_o_id" value="" style="width:90%;" disabled required></input>
+												</div>
+												<div class="col-6">
+													<label for="d_o_name">Name</label><br>
+													<input type="text" id="d_o_name" name="d_o_name" value="" style="width:90%;" disabled></input>
+												</div>
+											</div>
+										</div>
+										
+										<div class="container" id="d_o_dangle_addr" style="visibility:hidden;display:none;">
+											<hr>
+											<div class="row">
+												<div class="col-12">
+													Deleting this organization will leave the below address dangling with no referenced organization: 
+												</div>
+											</div>
+											<div class="row" style="padding-top:15px;">
+												<div class="col-6">
+													<label for="d_o_aid">Address ID</label><br>
+													<input type="text" id="d_o_aid" name="d_o_aid" value="" style="width:90%;" disabled></input>
+												</div>
+												<div class="col-6">
+													<label for="d_o_aname">Name</label><br>
+													<input type="text" id="d_o_aname" name="d_o_aname" value="" style="width:90%;" disabled></input>
+												</div>
+											</div>
+											<div class="row" style="padding-top:25px;">
+												<div class="col-12">
+													<label for="d_o_del_addr" style="padding-top:5px;">Do you want to delete this address as well?</label>
+													<select id="d_o_del_addr" name="d_o_del_addr" style="position:relative; left:10px;">
+														<option id="d_o_del_addr_n" name="d_o_del_addr_n" value="false">No</option>
+														<option id="d_o_del_addr_y" name="d_o_del_addr_y" value="true">Yes</option>
+													</select>
+												</div>
+											</div>
+										</div>
+										<div class="container" id="d_o_dangle_jobs" style="visibility:hidden;display:none;">
+											<hr>
+											<div class="row">
+												<div class="col-12">
+													Deleting this organization will leave the below jobs with no referenced organization - please choose alternate organizations for each:
+												</div>
+												<hr style="width:90%;left:5%;">
+											</div>
+											<div class="container" id="d_o_dangle_jobs_list">
+											
+											</div>
+										</div>
+										<div class="container" id="d_o_dangle_edus" style="visibility:hidden;display:none;">
+											<hr>
+											<div class="row">
+												<div class="col-12">
+													Deleting this organization will leave the below education with no referenced organization - please choose alternate organizations for each:
+												</div>
+												<hr style="width:90%;left:5%;">
+											</div>
+											<div class="container" id="d_o_dangle_edus_list">
+											
+											</div>
+										</div>
+										<br>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close">
+											  <span aria-hidden="true">Cancel</span>
+											</button>
+											<input type="submit" class="btn btn-danger" value="Delete & Close" onClick="del_org_enable()"></button>
+										</div>
+									</form>
+								</div>
+							</div>
+							</div>
 					'''
 		else:
 			html = '''
@@ -2007,6 +2270,291 @@ class CRender:
 								</div>
 							</div>
 							</div>
+							
+							<!-- Add org Popup -->
+							<div class="modal fade" id="addOrgModal" tabindex="-1" role="dialog" aria-labelledby="addOrgModal" aria-hidden="true" style="position:fixed; top:5%; width:80%; left:10%; height:90%;" >
+							<div class="modal-dialog" role="document">
+								<div class="modal-content" >
+									<div class="modal-header">
+										<h5 class="modal-title" id="addOrgModal">Add Organization</h5>
+
+										<button type="button" class="close" data-dismiss="modal" data-toggle="modal" aria-label="Close">
+										  <span aria-hidden="true">&times;</span>
+										</button>
+									</div>
+									<form action='/create/org' method='post' id="create_org">
+										<div class="container">
+											<div class="row" style="padding-top:15px;">
+												<div class="col-12">
+													<label for="a_o_name">Name</label><br>
+													<input type="text" id="a_o_name" name="a_o_name" placeholder="Organization Name" required></input>
+												</div>
+											</div>
+											<div class="row" style="padding-top:15px;">
+												<div class="col-12">
+													<label for="a_o_phone">Phone Number</label><br>
+													<input type="text" id="a_o_phone" name="a_o_phone" placeholder="5555555555" required></input>
+												</div>
+											</div>
+											<div class="row" style="padding-top:15px;">
+												<div class="col-12">
+													<label for="a_o_website">Website</label><br>
+													<input type="text" id="a_o_website" name="a_o_website" placeholder="Website URL" required></input>
+												</div>
+											</div>
+											<div class="row" style="padding-top:15px;">
+												<div class="col-12">
+													<label for="a_o_desc_short">Description</label><br>
+													<textarea name="a_o_desc_short" form="create_org" id="a_o_desc_short" value="" style="width:95%; min-height:100px;" required></textarea>
+												</div>
+											</div>
+											<div class="row" style="padding-top:15px;">
+												<div class="col-12">
+													<label for="a_o_icon">Icon Image</label>
+													<input type="file" onChange="upload_img('a_o_icon')"  name="a_o_icon" id="a_o_icon" accept="image/png, image/jpeg"></input>
+													<input type="hidden" name="a_o_icon_val" id="a_o_icon_val"></input>
+												</div>
+											</div>
+											<div class="row" style="padding-top:15px;">
+												<div class="col-12">
+													<label for="a_o_header">Header Image</label>
+													<input type="file" onChange="upload_img('a_o_header')"  name="a_o_header" id="a_o_header" accept="image/png, image/jpeg"></input>
+													<input type="hidden" name="a_o_header_val" id="a_o_header_val" value=""></input>
+												</div>
+											</div>
+											<div class="row" style="padding-top:15px;">
+												<div class="col-12">
+													<input type="hidden" id="org_add_address_i" name="org_add_address_i" value="False"></input>
+													<label for="a_o_address_selector">Address</label><br>
+													<select style="min-width:95%;max-width:95%;" size="4" id="a_o_address_selector" name="a_o_address_selector" required>'''
+			for a in all_addresses:
+				html += '''								<option value="''' + a.id + '''">''' + a.name +'''</option>'''
+			html += '''								</select>
+													<br><br>
+													<button type="button" class="btn btn-success btn-lg btn-block" style="width:80%;position:relative;left:7.5%;" onClick="javascript: org_new_address()">Add Address</button>
+												</div>
+											</div>
+											<div class="row" style="padding-top:15px;">
+												<div class="col-12">
+													<div id="org_new_address_div" style="visibility:hidden; height:0px; left:0px;">
+														<button type="button" class="close", onClick="javascript: org_remove_address()" style="margin-left:auto;margin-right:0;">
+														<span aria-hidden="true">&times;</span>
+														</button>
+														<br>
+														<label for="a_o_new_address">New Address</label>
+														<input type="text" name="a_o_new_address" id="a_o_new_address" placeholder="123 Street Ave, City, State 12345" style="width:95%;"></input>
+													</div>
+												</div>
+											</div>
+										</div>
+										<br>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close">
+											  <span aria-hidden="true">Cancel</span>
+											</button>
+											<input type="submit" class="btn btn-primary" value="Save & Close"></button>
+										</div>
+									</form>
+								</div>
+							</div>
+							</div>
+							
+							<!-- Edit org Popup -->
+							<div class="modal fade" id="editOrgModal" tabindex="-1" role="dialog" aria-labelledby="editOrgModal" aria-hidden="true" style="position:fixed; top:5%; width:80%; left:10%; height:90%;" >
+							<div class="modal-dialog" role="document">
+								<div class="modal-content" >
+									<div class="modal-header">
+										<h5 class="modal-title" id="editOrgModal">Edit Organization</h5>
+
+										<button type="button" class="close" data-dismiss="modal" data-toggle="modal" aria-label="Close">
+										  <span aria-hidden="true">&times;</span>
+										</button>
+									</div>
+									<form action='/update/org' method='post' id="update_org">
+										<input type="hidden" name="e_oo_id" id="e_oo_id" value=""></input>
+										<div class="container">
+											<div class="row" style="padding-top:15px;">
+												<div class="col-12">
+													<label for="e_oo_name">Name</label><br>
+													<input type="text" id="e_oo_name" name="e_oo_name" placeholder="Organization Name" value="" required></input>
+												</div>
+											</div>
+											<div class="row" style="padding-top:15px;">
+												<div class="col-12">
+													<label for="e_oo_phone">Phone Number</label><br>
+													<input type="text" id="e_oo_phone" name="e_oo_phone" placeholder="5555555555" value="" required></input>
+												</div>
+											</div>
+											<div class="row" style="padding-top:15px;">
+												<div class="col-12">
+													<label for="e_oo_website">Website</label><br>
+													<input type="text" id="e_oo_website" name="e_oo_website" placeholder="Website URL" value="" required></input>
+												</div>
+											</div>
+											<div class="row" style="padding-top:15px;">
+												<div class="col-12">
+													<label for="e_oo_desc_short">Description</label><br>
+													<textarea name="e_oo_desc_short" form="update_org" id="e_oo_desc_short" value="" style="width:95%; min-height:100px;" value="" required></textarea>
+												</div>
+											</div>
+											<div class="row" style="padding-top:15px;">
+												<div class="col-12">
+													<label for="e_oo_icon">Icon Image</label>
+													<input type="file" onChange="upload_img('e_oo_icon')"  name="e_oo_icon" id="e_oo_icon" accept="image/png, image/jpeg" value="Current"></input>
+													<input type="hidden" name="e_oo_icon_val" id="e_oo_icon_val" value=""></input>
+												</div>
+											</div>
+											<div class="row" style="padding-top:5px;">
+												<div class="col-12">
+													<img id="e_oo_img1" height="40" src="" style="display:none;"/> 
+												</div>
+											</div>
+											<div class="row" style="padding-top:15px;">
+												<div class="col-12">
+													<label for="e_o_header">Header Image</label>
+													<input type="file" onChange="upload_img('e_oo_header')"  name="e_oo_header" id="e_oo_header" accept="image/png, image/jpeg" value="Current"></input>
+													<input type="hidden" name="e_oo_header_val" id="e_oo_header_val" value=""></input>
+												</div>
+											</div>
+											<div class="row" style="padding-top:15px;">
+												<div class="col-12">
+													<img id="e_oo_img2" height="40" src="" style="display:none;"/> 
+												</div>
+											</div>
+											<div class="row" style="padding-top:15px;">
+												<div class="col-12">
+													<input type="hidden" id="org_edit_address_i" name="org_edit_address_i" value="False"></input>
+													<label for="e_oo_address_selector">Address</label><br>
+													<select style="min-width:95%;max-width:95%;" size="4" id="e_oo_address_selector" name="e_oo_address_selector" required>'''
+			for a in all_addresses:
+				html += '''								<option value="''' + a.id + '''">''' + a.name +'''</option>'''
+			html += '''								</select>
+													<br><br>
+													<button type="button" class="btn btn-success btn-lg btn-block" style="width:80%;position:relative;left:7.5%;" onClick="javascript: e_org_new_address()">Add Address</button>
+												</div>
+											</div>
+											<div class="row" style="padding-top:15px;">
+												<div class="col-12">
+													<div id="e_org_new_address_div" style="visibility:hidden; height:0px; left:0px;">
+														<button type="button" class="close", onClick="javascript: e_org_remove_address()" style="margin-left:auto;margin-right:0;">
+														<span aria-hidden="true">&times;</span>
+														</button>
+														<br>
+														<label for="e_oo_new_address">New Address</label>
+														<input type="text" name="e_oo_new_address" id="e_oo_new_address" placeholder="123 Street Ave, City, State 12345" style="width:95%;"></input>
+													</div>
+												</div>
+											</div>
+										</div>
+										<br>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close">
+											  <span aria-hidden="true">Cancel</span>
+											</button>
+											<input type="submit" class="btn btn-primary" value="Save & Close"></button>
+										</div>
+									</form>
+								</div>
+							</div>
+							</div>
+							
+							<!-- Org Delete Popup -->
+							<div class="modal fade" id="delOrgModal" tabindex="-1" role="dialog" aria-labelledby="delOrgModal" aria-hidden="true" style="position:fixed; top:5%; width:80%; left:10%; height:90%;" >
+							<div class="modal-dialog" role="document">
+								<div class="modal-content" >
+									<div class="modal-header">
+										<h5 class="modal-title" id="delOrgModal">Delete Organization</h5>
+
+										<button type="button" class="close" data-dismiss="modal" data-toggle="modal" aria-label="Close">
+										  <span aria-hidden="true">&times;</span>
+										</button>
+									</div>
+									<form action='/delete/org' method='post' id="delete_org">	
+										<div class="container">
+											<div class="row">
+												<div class="col-12 d-flex align-items-center" style="margin-top:20px;">
+													<h6>Are you really sure you want to delete the organization entry with the below data?</h6>
+												</div>
+											</div>
+											<hr>
+											<div class="row">
+												<div class="col-12">
+													<label for="d_o_id">Organiation ID</label><br>
+													<input type="text" id="d_o_id" name="d_o_id" value="" style="width:90%;" disabled required></input>
+												</div>
+											</div>
+											<div class="row" style="padding-top:15px;">
+												<div class="col-12">
+													<label for="d_o_name">Name</label><br>
+													<input type="text" id="d_o_name" name="d_o_name" value="" style="width:90%;" disabled></input>
+												</div>
+											</div>
+										</div>
+										
+										<div class="container" id="d_o_dangle_addr" style="visibility:hidden;display:none;">
+											<hr>
+											<div class="row">
+												<div class="col-12">
+													Deleting this organization will leave the below address dangling with no referenced organization: 
+												</div>
+											</div>
+											<div class="row" style="padding-top:15px;">
+												<div class="col-12">
+													<label for="d_o_aid">Address ID</label><br>
+													<input type="text" id="d_o_aid" name="d_o_aid" value="" style="width:90%;" disabled></input>
+												</div>
+											</div>
+											<div class="row" style="padding-top:15px;">
+												<div class="col-12">
+													<label for="d_o_aname">Name</label><br>
+													<input type="text" id="d_o_aname" name="d_o_aname" value="" style="width:90%;" disabled></input>
+												</div>
+											</div>
+											<div class="row" style="padding-top:25px;">
+												<div class="col-12">
+													<label for="d_o_del_addr" style="padding-top:5px;">Do you want to delete this address as well?</label>
+													<select id="d_o_del_addr" name="d_o_del_addr" style="position:relative; left:10px;">
+														<option id="d_o_del_addr_n" name="d_o_del_addr_n" value="false">No</option>
+														<option id="d_o_del_addr_y" name="d_o_del_addr_y" value="true">Yes</option>
+													</select>
+												</div>
+											</div>
+										</div>
+										<div class="container" id="d_o_dangle_jobs" style="visibility:hidden;display:none;">
+											<hr>
+											<div class="row">
+												<div class="col-12">
+													Deleting this organization will leave the below jobs with no referenced organization - please choose alternate organizations for each:
+												</div>
+												<hr style="width:90%;left:5%;">
+											</div>
+											<div class="container" id="d_o_dangle_jobs_list">
+											
+											</div>
+										</div>
+										<div class="container" id="d_o_dangle_edus" style="visibility:hidden;display:none;">
+											<hr>
+											<div class="row">
+												<div class="col-12">
+													Deleting this organization will leave the below education with no referenced organization - please choose alternate organizations for each:
+												</div>
+												<hr style="width:90%;left:5%;">
+											</div>
+											<div class="container" id="d_o_dangle_edus_list">
+											
+											</div>
+										</div>
+										<br>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close">
+											  <span aria-hidden="true">Cancel</span>
+											</button>
+											<input type="submit" class="btn btn-danger" value="Delete & Close" onClick="del_org_enable()"></button>
+										</div>
+									</form>
+								</div>
+							</div>
+							</div>
 						'''
 		return html
 
@@ -2545,6 +3093,15 @@ class CRender:
 		elif type == 'edu' and method == 'delete':
 			location = '/home'
 			id = form_data['eid']
+		elif type == 'org' and method == 'add':
+			location = '/orgs/' + form_data['id']
+			id = form_data['id']
+		elif type == 'org' and method == 'update':
+			location = '/orgs/' + form_data['id']
+			id = form_data['id']
+		elif type == 'org' and method == 'delete':
+			location = '/home'
+			id = form_data['oid']
 		elif type == 'contact' and method =='update':
 			location = '/home'
 			id = form_data['id']
@@ -2832,5 +3389,98 @@ class CRender:
 			if cb.group.name == 'Owners':
 				c.update(bak)
 			
+		elif type == 'org' and method == 'add':
+			if form_data['new_addr']:
+				param = [("q", form_data['aname'])]
+				uri = "https://www.google.com/search?" + urlencode(param)
+				a = Address(form_data['aid'], form_data['aname'], uri, cb, cb)
+				a.create(self.dbm)
+				
+				if cb.group.name == 'Owners':
+					a.create(bak)
+					
+			else:
+				a = NoneAddress()
+				a.retrieve(self.dbm, id=form_data['aid'])
+			
+			o = Org(form_data['id'], form_data['name'], a, form_data['phone'], form_data['desc_short'], form_data['website'], form_data['logo'], form_data['image_head'], cb, cb)
+			o.create(self.dbm)
+			
+			if cb.group.name == 'Owners':
+				o.create(bak)
+				
+			return html
+			
+		elif type == 'org' and method == 'update':
+			if form_data['new_address']:
+				param = [("q", form_data['aname'])]
+				uri = "https://www.google.com/search?" + urlencode(param)
+				a = Address(form_data['aid'], form_data['aname'], uri, cb, cb)
+				a.create(self.dbm)
+				
+				if cb.group.name == 'Owners':
+					a.create(bak)
+			else:
+				a = NoneAddress()
+				a.retrieve(self.dbm, id=form_data['aid'])
+				
+			o = NoneOrg()
+			o.retrieve(self.dbm, id=form_data['id'])
+			o.name = form_data['name']
+			o.phone = form_data['phone']
+			o.desc_short = form_data['desc_short']
+			o.website = form_data['website']
+			if form_data['new_logo']:
+				o.logo = form_data['logo']
+			if form_data['new_image_head']:
+				o.image_head = form_data['image_head']
+			o.address = a
+			o.modified_by = cb
+			
+			o.update(self.dbm)
+			
+			if cb.group.name == 'Owners':
+				o.update(bak)
+
+		elif type == 'org' and method == 'delete':
+			print(str(form_data))
+						
+			if form_data['num_jobs'] > 0:
+				for i in range(form_data['num_jobs']):
+					jadj = NoneJob()
+					oadj = NoneOrg()
+					print(form_data['job_adj'][i][0])
+					jadj.retrieve(self.dbm, id=form_data['job_adj'][i][0])
+					oadj.retrieve(self.dbm, id=form_data['job_adj'][i][1])
+					jadj.org = oadj
+					jadj.update(self.dbm)
+					
+					if cb.group.name == 'Owners':
+						jadj.update(bak)
+						
+			if form_data['num_edus'] > 0:
+				for i in range(form_data['num_edus']):
+					eadj = NoneEducation()
+					oadj = NoneOrg()
+					eadj.retrieve(self.dbm, id=form_data['edu_adj'][i][0])
+					oadj.retrieve(self.dbm, id=form_data['edu_adj'][i][1])
+					eadj.org = oadj
+					eadj.update(self.dbm)
+					
+					if cb.group.name == 'Owners':
+						eadj.update(bak)
+						
+			o = NoneOrg()
+			if (o.retrieve(self.dbm, id=form_data['oid'])):
+				o.delete(self.dbm)
+				if cb.group.name == 'Owners':
+					o.delete(bak)
+			
+			if form_data['del_addr']:
+				a = NoneAddress()
+				if a.retrieve(self.dbm, id=form_data['aid']):
+					a.delete(self.dbm)
+					if cb.group.name == 'Owners':
+						a.delete(bak)
 
 		return html

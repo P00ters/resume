@@ -18,4 +18,9 @@ def teleformat (phone):
 	return '(' + phone[:3] + ') ' + phone[3:6] + '-' + phone[6:10]
 	
 def sanitize (str):
-	return str.replace("'", "\\'")
+	if '<br>' in str:
+		print("BREAK")
+	s = str.replace('"', "\'")
+	s = s.replace("'", "\\'")
+	s = s.replace('\n', '<br>')
+	return s
