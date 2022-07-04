@@ -207,6 +207,312 @@ function edit_org(oid, name, phone, desc_short, website, aid, aname) {
 	}
 }
 
+function edit_skill(id, name, exposure, soft_or_hard, reference, category, desc_short, desc_long, mobile) {
+	var icon = document.getElementById('skill_icon_bin').value;
+	
+	soh = 1;
+	if (soft_or_hard == "False") {
+		soh = 0;
+	}
+	
+	document.getElementById('s_e_icon_img').setAttribute('src', icon);
+	document.getElementById('s_e_icon_img').setAttribute('style', '');
+	document.getElementById('s_e_id').setAttribute('value', id);
+	document.getElementById('s_e_name').setAttribute('value', name);
+	document.getElementById('s_e_soh').selectedIndex = soh;
+	document.getElementById('s_e_exposure').selectedIndex = exposure;
+	document.getElementById('s_e_reference').value = reference;
+	document.getElementById('s_e_category').value = category;
+	document.getElementById('s_e_desc_short').value = desc_short;
+	document.getElementById('s_e_desc_long').value = desc_long;
+	
+}
+
+function del_skill(id, name, b_jdangles, jdangles, b_edangles, edangles, mobile) {
+	document.getElementById('s_d_id').value = id;
+	document.getElementById('s_d_name').value = name;
+	
+	var parent = document.getElementById('s_d_jobs');
+	if (b_jdangles == 1) {
+		
+		
+		
+		split = jdangles.split(',');
+		
+		console.log(split);
+		if (split.length > 1) {
+			document.getElementById('s_d_job_dels').setAttribute('style', '');
+			for (var i = 0; i < split.length; i += 2) {
+				if (mobile == "False") {
+					
+					jid = split[i];
+					title = split[i+1];
+					
+					var row = document.createElement('div');
+					row.setAttribute('class', 'row');
+					row.setAttribute('style', 'padding-top:15px;');
+					parent.appendChild(row);
+					
+					var col = document.createElement('div');
+					col.setAttribute('class', 'col-6');
+					row.appendChild(col);
+					
+					var idlbl = document.createElement('label');
+					idlbl.setAttribute('for', 's_d_jid' + String(i / 2));
+					idlbl.innerHTML = 'Job ID';
+					col.appendChild(idlbl);
+					
+					var br = document.createElement('br')
+					col.appendChild(br);
+					
+					var idele = document.createElement('input');
+					idele.setAttribute('id', 's_d_jid' + String(i / 2));
+					idele.setAttribute('name', 's_d_jid' + String(i / 2));
+					idele.setAttribute('style', 'width:95%;');
+					idele.setAttribute('type', 'text');
+					idele.value = jid;
+					idele.disabled = true; 
+					idele.required = true;
+					col.appendChild(idele);
+					
+					var col = document.createElement('div');
+					col.setAttribute('class', 'col-6');
+					row.appendChild(col);
+					
+					var namelbl = document.createElement('label');
+					namelbl.setAttribute('for', 's_d_jname' + String(i / 2));
+					namelbl.innerHTML = 'Job Name';
+					col.appendChild(namelbl);
+					
+					var br = document.createElement('br')
+					col.appendChild(br);
+					
+					var nameele = document.createElement('input');
+					nameele.setAttribute('id', 's_d_jname' + String(i / 2));
+					nameele.setAttribute('name', 's_d_jname' + String(i / 2));
+					nameele.setAttribute('style', 'width:95%;');
+					nameele.setAttribute('type', 'text');
+					nameele.value = title;
+					nameele.disabled = true; 
+					nameele.required = true;
+					col.appendChild(nameele);
+				}
+				else {
+					jid = split[i];
+					title = split[i+1];
+					
+					var row = document.createElement('div');
+					row.setAttribute('class', 'row');
+					row.setAttribute('style', 'padding-top:15px;');
+					parent.appendChild(row);
+					
+					var col = document.createElement('div');
+					col.setAttribute('class', 'col-12');
+					row.appendChild(col);
+					
+					
+					var idele = document.createElement('input');
+					idele.setAttribute('id', 's_d_jid' + String(i / 2));
+					idele.setAttribute('name', 's_d_jid' + String(i / 2));
+					idele.setAttribute('style', 'width:95%;');
+					idele.setAttribute('type', 'hidden');
+					idele.value = jid;
+					idele.required = true;
+					col.appendChild(idele);
+					
+					var namelbl = document.createElement('label');
+					namelbl.setAttribute('for', 's_d_jname' + String(i / 2));
+					namelbl.innerHTML = 'Job Name';
+					col.appendChild(namelbl);
+					
+					var br = document.createElement('br')
+					col.appendChild(br);
+					
+					var nameele = document.createElement('input');
+					nameele.setAttribute('id', 's_d_jname' + String(i / 2));
+					nameele.setAttribute('name', 's_d_jname' + String(i / 2));
+					nameele.setAttribute('style', 'width:95%;');
+					nameele.setAttribute('type', 'text');
+					nameele.value = title;
+					nameele.disabled = true; 
+					nameele.required = true;
+					col.appendChild(nameele);
+				}
+			}
+			
+			var num_j = document.createElement('input');
+			num_j.setAttribute('type', 'hidden');
+			num_j.setAttribute('id', 'num_j');
+			num_j.setAttribute('name', 'num_j');
+			num_j.value = split.length / 2;
+			parent.appendChild(num_j);
+		}
+		else {
+			var num_j = document.createElement('input');
+			num_j.setAttribute('type', 'hidden');
+			num_j.setAttribute('id', 'num_j');
+			num_j.setAttribute('name', 'num_j');
+			num_j.value = 0;
+			parent.appendChild(num_j);
+		}
+	}
+	else {
+		var num_j = document.createElement('input');
+		num_j.setAttribute('type', 'hidden');
+		num_j.setAttribute('id', 'num_j');
+		num_j.setAttribute('name', 'num_j');
+		num_j.value = 0;
+		parent.appendChild(num_j);
+	}
+	
+	var parent = document.getElementById('s_d_edus');
+	if (b_edangles == 1) {
+
+		split = edangles.split(',');
+		
+		if (split.length > 1) {
+			document.getElementById('s_d_edu_dels').setAttribute('style', '');
+			for (var i = 0; i < split.length; i += 2) {
+				if (mobile == "False") {
+					eid = split[i];
+					degree = split[i+1];
+					
+					var row = document.createElement('div');
+					row.setAttribute('class', 'row');
+					row.setAttribute('style', 'padding-top:15px;');
+					parent.appendChild(row);
+					
+					var col = document.createElement('div');
+					col.setAttribute('class', 'col-6');
+					row.appendChild(col);
+					
+					var idlbl = document.createElement('label');
+					idlbl.setAttribute('for', 's_d_eid' + String(i / 2));
+					idlbl.innerHTML = 'Job ID';
+					col.appendChild(idlbl);
+					
+					var br = document.createElement('br')
+					col.appendChild(br);
+					
+					var idele = document.createElement('input');
+					idele.setAttribute('id', 's_d_eid' + String(i / 2));
+					idele.setAttribute('name', 's_d_eid' + String(i / 2));
+					idele.setAttribute('style', 'width:95%;');
+					idele.setAttribute('type', 'text');
+					idele.value = eid;
+					idele.disabled = true; 
+					idele.required = true;
+					col.appendChild(idele);
+					
+					var col = document.createElement('div');
+					col.setAttribute('class', 'col-6');
+					row.appendChild(col);
+					
+					var namelbl = document.createElement('label');
+					namelbl.setAttribute('for', 's_d_ename' + String(i / 2));
+					namelbl.innerHTML = 'Education Degree';
+					col.appendChild(namelbl);
+					
+					var br = document.createElement('br')
+					col.appendChild(br);
+					
+					var nameele = document.createElement('input');
+					nameele.setAttribute('id', 's_d_ename' + String(i / 2));
+					nameele.setAttribute('name', 's_d_ename' + String(i / 2));
+					nameele.setAttribute('style', 'width:95%;');
+					nameele.setAttribute('type', 'text');
+					nameele.value = degree;
+					nameele.disabled = true; 
+					nameele.required = true;
+					col.appendChild(nameele);
+				}
+				else {
+					eid = split[i];
+					degree = split[i+1];
+					
+					var row = document.createElement('div');
+					row.setAttribute('class', 'row');
+					row.setAttribute('style', 'padding-top:15px;');
+					parent.appendChild(row);
+					
+					var col = document.createElement('div');
+					col.setAttribute('class', 'col-12');
+					row.appendChild(col);
+					
+					var idele = document.createElement('input');
+					idele.setAttribute('id', 's_d_eid' + String(i / 2));
+					idele.setAttribute('name', 's_d_eid' + String(i / 2));
+					idele.setAttribute('style', 'width:95%;');
+					idele.setAttribute('type', 'hidden');
+					idele.value = eid;
+					idele.required = true;
+					col.appendChild(idele);
+					
+					var namelbl = document.createElement('label');
+					namelbl.setAttribute('for', 's_d_ename' + String(i / 2));
+					namelbl.innerHTML = 'Education Degree';
+					col.appendChild(namelbl);
+					
+					var br = document.createElement('br')
+					col.appendChild(br);
+					
+					var nameele = document.createElement('input');
+					nameele.setAttribute('id', 's_d_ename' + String(i / 2));
+					nameele.setAttribute('name', 's_d_ename' + String(i / 2));
+					nameele.setAttribute('style', 'width:95%;');
+					nameele.setAttribute('type', 'text');
+					nameele.value = degree;
+					nameele.disabled = true; 
+					nameele.required = true;
+					col.appendChild(nameele);
+				}
+			}
+			
+			var num_e = document.createElement('input');
+			num_e.setAttribute('type', 'hidden');
+			num_e.setAttribute('id', 'num_e');
+			num_e.setAttribute('name', 'num_e');
+			num_e.value = split.length / 2;
+			parent.appendChild(num_e);
+		}
+		else {
+			var num_e = document.createElement('input');
+			num_e.setAttribute('type', 'hidden');
+			num_e.setAttribute('id', 'num_e');
+			num_e.setAttribute('name', 'num_e');
+			num_e.value = 0;
+			parent.appendChild(num_e);
+		}
+	}
+	else {
+		var num_e = document.createElement('input');
+		num_e.setAttribute('type', 'hidden');
+		num_e.setAttribute('id', 'num_e');
+		num_e.setAttribute('name', 'num_e');
+		num_e.value = 0;
+		parent.appendChild(num_e);
+	}
+	
+	document.getElementById('skill_del_btn').setAttribute('onClick', 'javascript:void(0)');
+}
+
+function del_skill_enable() {
+	var num_j = document.getElementById('num_j').value;
+	var num_e = document.getElementById('num_e').value;
+	
+	document.getElementById('s_d_id').disabled = false;
+	document.getElementById('s_d_name').disabled = false;
+	
+	for (var i = 0; i < num_j; i++) {
+		document.getElementById('s_d_jid' + String(i)).disabled = false;
+		document.getElementById('s_d_jname' + String(i)).disabled = false;
+	}
+	for (var i = 0; i < num_e; i++) {
+		document.getElementById('s_d_eid' + String(i)).disabled = false;
+		document.getElementById('s_d_ename' + String(i)).disabled = false;
+	}
+}
+
 function job_add_skill(number, mobile) {
 	number = number + 1;
 
@@ -1426,6 +1732,10 @@ async function upload_img(target) {
 	  
 	  if (target == 'e_oo_header') {
 		  document.getElementById('e_oo_img2').setAttribute('src', 'data:image/png;base64,' + b64);
+	  }
+	  
+	  if (target == 's_e_icon') {
+		  document.getElementById('s_e_icon_img').setAttribute('src', 'data:image/png;base64,' + b64);
 	  }
 
 	  var dataURLReader = new FileReader();

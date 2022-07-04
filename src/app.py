@@ -603,6 +603,36 @@ def create_org():
 	
 	return html
 
+@app.route('/create/skill', methods=['POST'])
+def create_skill():
+	if request.form['s_a_icon'] != None and request.form['s_a_icon'] != "":
+		logo = bytes(request.form['s_a_icon_val'], 'utf-8')
+	else:
+		logo = dbm.imgtobin('static/placeholder-logo.png')
+	if request.form['s_a_soh'] == True:
+		soh = False
+	else:
+		soh = True
+	
+	form_data = {
+					'id': dbm.genid(),
+					'name': request.form['s_a_name'],
+					'exposure': request.form['s_a_exposure'],
+					'soft_or_hard': soh,
+					'reference': request.form['s_a_reference'],
+					'icon': logo,
+					'category': request.form['s_a_category'],
+					'desc_short': request.form['s_a_desc_short'],
+					'desc_long': request.form['s_a_desc_long']
+				}
+				
+	html = ''
+	html += cr.render_html_head('/skills', session['mobile'])
+	html += cr.render_header(session['name'], '/create/skill', '/create/skill/' + form_data['id'], session)
+	html += cr.render_go_between('add', 'skill', form_data, session)
+	
+	return html
+
 @app.route('/update/edu', methods=['POST'])
 def update_edu():
 	skills = ""
@@ -754,6 +784,35 @@ def update_org():
 	
 	return html
 
+@app.route('/update/skill', methods=['POST'])
+def update_skill():
+	if request.form['s_e_icon_val'] == '':
+		update_icon = False
+		icon = None
+	else:
+		update_icon = True
+		icon = bytes(request.form['s_e_icon_val'], 'utf-8')
+		
+	form_data = {
+					'id': request.form['s_e_id'],
+					'name': request.form['s_e_name'],
+					'exposure': request.form['s_e_exposure'],
+					'soft_or_hard': request.form['s_e_soh'],
+					'reference': request.form['s_e_reference'],
+					'update_icon': update_icon,
+					'icon': icon,
+					'category': request.form['s_e_category'],
+					'desc_short': request.form['s_e_desc_short'],
+					'desc_long': request.form['s_e_desc_long']
+				}
+				
+	html = ''
+	html += cr.render_html_head('/skills', session['mobile'])
+	html += cr.render_header(session['name'], '/update/skill', '/update/skill/' + form_data['id'], session)
+	html += cr.render_go_between('update', 'skill', form_data, session)
+	
+	return html
+
 @app.route('/delete/edu', methods=['POST'])
 def delete_edu():
 	del_org = False
@@ -881,6 +940,44 @@ def delete_org():
 	html += cr.render_go_between('delete', 'org', form_data, session)
 	return html
 
+@app.route('/delete/skill', methods=['POST'])
+def delete_skill():
+	print(str(request.form))
+	
+	sid = request.form['s_d_id']
+	
+	if int(request.form['num_j']) > 0:
+		del_jobs = True
+		jobs = []
+		for i in range(int(request.form['num_j'])):
+			jobs.append(request.form['s_d_jid' + str(i)])
+	else:
+		del_jobs = False
+		jobs = []
+		
+	if int(request.form['num_e']) > 0:
+		del_edus = True
+		edus = []
+		for i in range(int(request.form['num_e'])):
+			edus.append(request.form['s_d_eid' + str(i)])
+	else:
+		del_edus = False
+		edus = []
+		
+	form_data = {
+					"id": sid,
+					"del_jobs": del_jobs,
+					"jobs": jobs,
+					"del_edus": del_edus,
+					"edus": edus
+				}
+				
+	html = ''
+	html += cr.render_html_head('/skills', session['mobile'])
+	html += cr.render_header(session['name'], '/delete/skill', '/delete/skill' + form_data['id'], session)
+	html += cr.render_go_between('delete', 'skill', form_data, session)
+	return html
+		
 
 if __name__ == '__main__':
 	app.run(host='127.0.0.1',port='80',debug=True)

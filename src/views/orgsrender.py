@@ -119,7 +119,7 @@ class OrgRenderer:
 					b_jdangles = 1
 					for jj in js:
 						jdangles += str(jj.id) + ',' + str(jj.title) + ','
-					jdanlges = edangles[:-1]
+					jdanlges = jdangles[:-1]
 				else:
 					b_jdangles = 0
 				if len(es) > 0:

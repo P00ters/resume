@@ -6,14 +6,15 @@ import dbm
 from dbm import DBM
 import skills
 from skills import Skill
-from jobs import Job
-from educations import Education
+from jobs import Job, retrieve_all_jobs
+from educations import Education, retrieve_all_educations
+from fmat import sanitize
 
 class SkillRenderer:
 	def __init__ (self, dbm):
 		self.dbm = dbm
 
-	def render_skills_general (self, all_skills, mobile):
+	def render_skills_general (self, all_skills, mobile, auth):
 		html = ''
 
 		if not mobile:
@@ -28,7 +29,15 @@ class SkillRenderer:
 								<div class="col-sm-10 mx-auto">
 									<div class="card w-100">
 										<div class="card-header">
-											<h4>Technical Skills</h4>
+											<div class="row">
+												<div class="col-11" >
+													<h4 style="padding-top:10px;">Technical Skills</h4>
+												</div>
+												<div class="col-1">'''
+			if auth:
+				html += '''							<a href="javascript:void(0)" data-toggle="modal" data-target="#addSkillModal"><button type="button" style="position:relative;width:50px;display:inline;margin-right:0px;margin-left:auto;" class="btn btn-outline-success btn-lg btn-block"><img src="/static/add.png" width="30" /></button></a>'''
+			html += '''							</div>
+											</div>
 										</div>
 										<div class="card-body">
 											<div class="row">'''
@@ -55,7 +64,15 @@ class SkillRenderer:
 								<div class="col-sm-10 mx-auto">
 									<div class="card w-100">
 										<div class="card-header">
-											<h4>Soft Skills</h4>
+											<div class="row">
+												<div class="col-11" >
+													<h4 style="padding-top:10px;">Soft Skills</h4>
+												</div>
+												<div class="col-1">'''
+			if auth:
+				html += '''							<a href="javascript:void(0)" data-toggle="modal" data-target="#addSkillModal"><button type="button" style="position:relative;width:50px;display:inline;margin-right:0px;margin-left:auto;" class="btn btn-outline-success btn-lg btn-block"><img src="/static/add.png" width="30" /></button></a>'''
+			html += '''							</div>
+											</div>
 										</div>
 										<div class="card-body">
 											<div class="row">'''
@@ -88,10 +105,25 @@ class SkillRenderer:
 							</div>
 							<br>
 							<div class="row">
-								<div class="col-sm-10 mx-auto">
+								<div class="col-sm-12 mx-auto">
 									<div class="card w-100">
 										<div class="card-header">
-											<h4>Technical Skills</h4>
+											<div class="row">
+												<div class="col-9">
+													<h4>Technical Skills</h4>
+												</div>
+												<div class="col-3">'''
+			if auth:
+					html += '''						<ul class="navbar-nav mr-auto" style="width:100%; 
+														<li class="nav-item dropdown" style="width:100%;">
+															<a class="nav-link dropdown-toggle" href="javascript:void(0)" id="dropdown10" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="text-align:right;position:relative;width:100%;vertical-align:middle;">Change</a>
+															<div class="dropdown-menu", aria-labelledby="dropdown10">
+																<a class="dropdown-item" href="javascript:void(0)" data-toggle="modal" data-target="#addSkillModal">New</a>
+															</div>
+														</li>
+													</ul>'''
+			html += '''							</div>
+											</div>
 										</div>
 										<div class="card-body">
 											<div class="row">'''
@@ -119,7 +151,22 @@ class SkillRenderer:
 								<div class="col-sm-10 mx-auto">
 									<div class="card w-100">
 										<div class="card-header">
-											<h4>Soft Skills</h4>
+											<div class="row">
+												<div class="col-9">
+													<h4>Soft Skills</h4>
+												</div>
+												<div class="col-3">'''
+			if auth:
+					html += '''						<ul class="navbar-nav mr-auto" style="width:100%; 
+														<li class="nav-item dropdown" style="width:100%;">
+															<a class="nav-link dropdown-toggle" href="javascript:void(0)" id="dropdown10" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="text-align:right;position:relative;width:100%;vertical-align:middle;">Change</a>
+															<div class="dropdown-menu", aria-labelledby="dropdown10">
+																<a class="dropdown-item" href="javascript:void(0)" data-toggle="modal" data-target="#addSkillModal">New</a>
+															</div>
+														</li>
+													</ul>'''
+			html += '''							</div>
+											</div>
 										</div>
 										<div class="card-body">
 											<div class="row">'''
@@ -147,9 +194,44 @@ class SkillRenderer:
 
 		return html
 
-	def render_skills_page (self, skill, similar, appears_in, mobile):
+	def render_skills_page (self, skill, similar, appears_in, mobile, auth):
 		src = "data:image/png;base64," + skill.icon.decode('utf-8')
 		html = ''
+		
+		if auth:
+			s = skill
+			s_edit = "'" + sanitize(s.id) + "', '" + sanitize(s.name) + "', " + str(s.exposure) + ", '" + str(s.soft_or_hard) + "', '" + sanitize(s.reference) + "', '" + sanitize(s.category) + "', '" + sanitize(s.desc_short) + "', '" + sanitize(s.desc_long) + "', '" + str(mobile) + "'"
+			
+			js = retrieve_all_jobs(self.dbm)
+			es = retrieve_all_educations(self.dbm)
+			
+			jdangles = ""
+			b_jdangles = 1
+			edangles = ""
+			b_edangles = 1
+			if len(js) > 0:
+				for j in js:
+					split = j.skill_ids.split(',')
+					for item in split:
+						if item == s.id:
+							jdangles += j.id + ',' + j.title + ','
+				jdangles = jdangles[:-1]
+			else:
+				b_jdangles = 0
+			if len(es) > 0:
+				for e in es:
+					split = e.skill_ids.split(',')
+					for item in split:
+						if item == s.id:
+							edangles += e.id + ',' + e.degree + ','
+				edangles = edangles[:-1]
+			else:
+				b_edangles = 0
+			
+			
+			s_del = "'" + sanitize(s.id) + "', '" + sanitize(s.name) + "', " + str(b_jdangles) + ", '" + sanitize(jdangles) + "', " + str(b_edangles) + ", '" + sanitize(edangles) + "', '" + str(mobile) + "'"
+			
+			
 
 		if not mobile:
 			html = '''	<div class="jumbotron">
@@ -157,10 +239,29 @@ class SkillRenderer:
 								<div class="col-sm-8 mx-auto">
 									<div class="card w-100">
 										<div class="card-header" >
-											<img src="''' + src + '''" width="40" height="40" style="display:inline;"/>
-											<h4 style="display:inline;padding-left:15px;vertical-align:middle;">
-												''' + str(skill.name) + '''
-											</h4>
+											<div class="row">
+												<div class="col-9">
+													<img src="''' + src + '''" width="40" height="40" style="display:inline;"/>
+													<h4 style="display:inline;padding-left:15px;vertical-align:middle;">
+														''' + str(skill.name) + '''
+													</h4>
+												</div>
+												<div class="col-3">'''
+			if auth:
+				
+				html += '''				
+													<a href="javascript:void(0)" data-toggle="modal" data-target="#addSkillModal"><button type="button" style="position:relative;width:50px;display:inline;left:10px;" class="btn btn-outline-success btn-lg btn-block"><img src="/static/add.png" width="30" /></button></a>
+													<a href="javascript:void(0)" data-toggle="modal" data-target="#editSkillModal">
+														<button style="position:relative;width:50px;display:inline;left:30px;" type="button" class="btn btn-outline-warning btn-lg btn-block" onClick="edit_skill('''+s_edit+''')" id="edit_skill_btn"><img src='/static/edit.png' width="30"/></button>
+													</a>
+													<a href="javascript:void(0)" data-toggle="modal" data-target="#delSkillModal">
+														<button style="position:relative;width:50px;display:inline;left:50px;" type="button" class="btn btn-outline-danger btn-lg btn-block" id="skill_del_btn" onClick="del_skill('''+s_del+''')"><img src='/static/delete.png' width="30"/></button>
+													</a>'''
+				html += '''							<form id="''' + skill.id + '''" style="display:none;">
+														<input type="hidden" id="skill_icon_bin" value="data:image/png;base64,''' + skill.icon.decode('utf-8') + '''"></input>
+													</form>'''
+			html += '''							</div>
+											</div>
 										</div>
 										<div class="card-body">
 											<ul class="list-group list-group-flush">
@@ -301,13 +402,33 @@ class SkillRenderer:
 
 			html += '''	<div class="jumbotron">
 							<div class="row">
-								<div class="col-sm-8 mx-auto">
+								<div class="col-12">
 									<div class="card w-100">
 										<div class="card-header" >
-											<img src="''' + src + '''" width="40" height="40" style="display:inline;"/>
-											<h4 style="display:inline;padding-left:15px;vertical-align:middle;">
-												''' + str(skill.name) + '''
-											</h4>
+											<div class="row">
+											<div class="col-9">
+												<img src="''' + src + '''" width="40" height="40" style="display:inline;"/>
+												<h4 style="display:inline;padding-left:15px;vertical-align:middle;">
+													''' + str(skill.name) + '''
+												</h4>
+											</div>
+											<div class="col-3">'''
+			if auth:
+				html += '''						<ul class="navbar-nav mr-auto" style="width:100%; 
+													<li class="nav-item dropdown" style="width:100%;">
+														<a class="nav-link dropdown-toggle" href="javascript:void(0)" id="dropdown10" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="text-align:right;position:relative;width:100%;vertical-align:middle;">Change</a>
+														<div class="dropdown-menu", aria-labelledby="dropdown10">
+															<a class="dropdown-item" href="javascript:void(0)" data-toggle="modal" data-target="#addSkillModal">New</a>
+															<a class="dropdown-item" href="javascript:void(0)" data-toggle="modal" onClick="edit_skill('''+s_edit+''')"  data-target="#editSkillModal" id="edit_skill_btn">Edit</a>
+															<a class="dropdown-item" href="javascript:void(0)" data-toggle="modal" data-target="#delSkillModal" id="skill_del_btn"  onClick="del_skill('''+s_del+''')">Delete</a>
+														</div>
+													</li>
+												</ul>'''
+				html += '''							<form id="''' + skill.id + '''" style="display:none;">
+														<input type="hidden" id="skill_icon_bin" value="data:image/png;base64,''' + skill.icon.decode('utf-8') + '''"></input>
+													</form>'''
+			html += '''						</div>
+											</div>
 										</div>
 										<div class="card-body">
 											<ul class="list-group list-group-flush">
@@ -362,7 +483,7 @@ class SkillRenderer:
 			html +=	'''											<br>
 																	Category: <b> ''' + str(skill.category) + ''' </b>
 																<br>
-																Reference: <a href="''' + str(skill.reference) + '''">Website</a>
+																Reference: <a href="''' + str(skill.reference) + '''" target="_blank">Website</a>
 																<br>
 															</div>
 														</div>

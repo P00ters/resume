@@ -110,8 +110,9 @@ class CRender:
 												</div>
 											</li>
 										</ul>
-									</div>'''
-			html += '''			</div>
+									'''
+			html += '''				</div>
+								</div>
 							</div>
 						</div>'''
 
@@ -173,10 +174,12 @@ class CRender:
 		return self.orgrenderer.render_org_tile(mobile, auth, this_org=orgs[0], next_org=orgs[1], last_org=orgs[2])
 
 	def skills_general_htmlify (self, all_skills, mobile):
-		return self.skillrenderer.render_skills_general(all_skills, mobile)
+		auth = session.get('auth_key') != self.mc.auth_keys['Readers']
+		return self.skillrenderer.render_skills_general(all_skills, mobile, auth)
 
 	def skills_skills_htmlify (self, skill, mobile):
-		html = self.skillrenderer.render_skills_page(skill[0], skill[1], skill[2], mobile)
+		auth = session.get('auth_key') != self.mc.auth_keys['Readers']
+		html = self.skillrenderer.render_skills_page(skill[0], skill[1], skill[2], mobile, auth)
 		return html
 
 	def render_header (self, user, page, redirect, s):
@@ -247,7 +250,10 @@ class CRender:
 				html += 			'''<li class="nav-item">
 											<a class="nav-link" href="/about">About</a>
 										</li>'''
-
+			if page == '/err':
+				html += 			'''<li class="nav-item active">
+											<a class="nav-link" href="/home">Error</a>
+										</li>'''
 			html += '''
 								</ul>
 								<div style="position:absolute;width:15%;left:84%;">
@@ -297,6 +303,8 @@ class CRender:
 				html += '''			<a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color:white;position:relative;top:-5px;z-index:10;">Organizations</a>'''
 			elif page == '/about':
 				html += '''			<a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color:white;position:relative;top:-5px;z-index:10;">About</a>'''
+			elif page == '/err':
+				html += '''			<a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color:white;position:relative;top:-5px;z-index:10;">Error</a>'''
 
 			html += '''				<div class="dropdown-menu", aria-labelledby="dropdown04">
 									'''
@@ -324,6 +332,7 @@ class CRender:
 				html += '''				<a class="dropdown-item" href="/about" style="background-color:#add8e6">About</a>'''
 			else:
 				html += '''				<a class="dropdown-item" href="/about">About</a>'''
+			
 
 
 			html += '''
@@ -1403,7 +1412,7 @@ class CRender:
 												<hr style="width:90%;left:5%;">
 											</div>
 											<div class="container" id="d_o_dangle_edus_list">
-											
+												
 											</div>
 										</div>
 										<br>
@@ -1412,6 +1421,240 @@ class CRender:
 											  <span aria-hidden="true">Cancel</span>
 											</button>
 											<input type="submit" class="btn btn-danger" value="Delete & Close" onClick="del_org_enable()"></button>
+										</div>
+									</form>
+								</div>
+							</div>
+							</div>
+							
+							<!-- Skill Add Popup -->
+							<div class="modal fade" id="addSkillModal" tabindex="-1" role="dialog" aria-labelledby="addSkillModal" aria-hidden="true" style="position:fixed; width:50%; left:25%; top:15%; height:75%;" >
+							<div class="modal-dialog" role="document">
+								<div class="modal-content" style="position:absolute; width:150%; left:-25%;">
+									<div class="modal-header">
+										<h5 class="modal-title" id="addSkillModal">New Skill</h5>
+
+										<button type="button" class="close" data-dismiss="modal" data-toggle="modal" aria-label="Close">
+										  <span aria-hidden="true">&times;</span>
+										</button>
+									</div>
+									<form action='/create/skill' method='post' id="create_skill">
+										<div class="modal-body">
+											<div class="row">
+												<div class="col-sm-6 mx-auto">
+													<label for="s_a_name">Skill Name</label><br>
+													<input type="text" name="s_a_name" id="s_a_name" placeholder="Skill name" required></input>
+												</div>
+												<div class="col-sm-6 mx-auto">
+													<label for="s_a_exposure">Skill Exposure</label><br>
+													<select name="s_a_exposure" id="s_a_exposure" required>
+														<option value="0">0</option>
+														<option value="1">1</option>
+														<option value="2">2</option>
+														<option value="3">3</option>
+														<option value="4">4</option>
+														<option value="5">5</option>
+														<option value="6">6</option>
+														<option value="7">7</option>
+														<option value="8">8</option>
+														<option value="9">9</option>
+														<option value="10">10</option>
+													</select>
+												</div>
+											</div>
+											<div class="row" style="padding-top:15px;">
+												<div class="col-sm-6 mx-auto">
+													<label for="s_a_soh">Soft Skill</label><br>
+													<select name="s_a_soh" id="s_a_soh" required>
+														<option value="True">True</option>
+														<option value="False">False</option>
+													</select>
+												</div>
+												<div class="col-sm-6 mx-auto">
+													<label for="s_a_reference">Reference site</label><br>
+													<input type="text" name="s_a_reference" id="s_a_reference" placeholder="https://reference.com"></input>
+												</div>
+											</div>
+											<div class="row" style="padding-top:15px;">
+												<div class="col-sm-6 mx-auto>
+													<label for="s_a_icon">Icon Image</label><br>
+													<input type="file" onChange="upload_img('s_a_icon')"  name="s_a_icon" id="s_a_icon" accept="image/png, image/jpeg"></input>
+													<input type="hidden" name="s_a_icon_val" id="s_a_icon_val" value=""></input>
+												</div>
+												<div class="col-sm-6 mx-auto>
+													<label for="s_a_category">Skill Category</label><br>
+													<input type="text" id="s_a_category" name="s_a_category" placeholder="ex. Software"></input>
+												</div>
+											</div>
+											<div class="row" style="padding-top:15px;">
+												<div class="col-sm-6 mx-auto>
+													<label for="s_a_desc_short">Description</label><br>
+													<textarea name="s_a_desc_short" form="create_skill" id="s_a_desc_short" value="" style="width:95%; min-height:100px;" placeholder="A short description of what the skill is." value="" required></textarea>
+												</div>
+												<div class="col-sm-6 mx-auto>
+													<label for="s_a_desc_long">Commentary</label><br>
+													<textarea name="s_a_desc_long" form="create_skill" id="s_a_desc_long" value="" style="width:95%; min-height:100px;" placeholder="A short description on how you've used this skill." value="" required></textarea>
+												</div>
+											</div>
+										</div>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close">
+											  <span aria-hidden="true">Cancel</span>
+											</button>
+											<input type="submit" class="btn btn-primary" value="Save & Close"></button>
+										</div>
+									</form>
+								</div>
+							</div>
+							</div>
+							
+							<!-- Edit Skill Popup -->
+							<div class="modal fade" id="editSkillModal" tabindex="-1" role="dialog" aria-labelledby="editSkillModal" aria-hidden="true" style="position:fixed; width:50%; left:25%; top:15%; height:75%;" >
+							<div class="modal-dialog" role="document">
+								<div class="modal-content" style="position:absolute; width:150%; left:-25%;">
+									<div class="modal-header">
+										<h5 class="modal-title" id="editSkillModal">Edit Organization</h5>
+
+										<button type="button" class="close" data-dismiss="modal" data-toggle="modal" aria-label="Close">
+										  <span aria-hidden="true">&times;</span>
+										</button>
+									</div>
+									<form action='/update/skill' method='post' id="update_skill">
+										<input type="hidden" name="s_e_id" id="s_e_id" value=""></input>
+										<div class="modal-body">
+											<div class="row">
+												<div class="col-sm-6 mx-auto">
+													<label for="s_e_name">Skill Name</label><br>
+													<input type="text" style="width:95%;" name="s_e_name" id="s_e_name" placeholder="Skill name" required></input>
+												</div>
+												<div class="col-sm-6 mx-auto">
+													<label for="s_e_exposure">Skill Exposure</label><br>
+													<select name="s_e_exposure" id="s_e_exposure" required>
+														<option value="0">0</option>
+														<option value="1">1</option>
+														<option value="2">2</option>
+														<option value="3">3</option>
+														<option value="4">4</option>
+														<option value="5">5</option>
+														<option value="6">6</option>
+														<option value="7">7</option>
+														<option value="8">8</option>
+														<option value="9">9</option>
+														<option value="10">10</option>
+													</select>
+												</div>
+											</div>
+											<div class="row" style="padding-top:15px;">
+												<div class="col-sm-6 mx-auto">
+													<label for="s_e_soh">Soft Skill</label><br>
+													<select name="s_e_soh" id="s_e_soh" required>
+														<option value="True">True</option>
+														<option value="False">False</option>
+													</select>
+												</div>
+												<div class="col-sm-6 mx-auto">
+													<label for="s_e_reference">Reference site</label><br>
+													<input type="text" style="width:95%;"  name="s_e_reference" id="s_e_reference" placeholder="https://reference.com"></input>
+												</div>
+											</div>
+											<div class="row" style="padding-top:15px;">
+												<div class="col-sm-6 mx-auto>
+													<label for="s_e_icon">Icon Image</label><br>
+													<input type="file" onChange="upload_img('s_e_icon')"  name="s_e_icon" id="s_e_icon" accept="image/png, image/jpeg"></input>
+													<input type="hidden" name="s_e_icon_val" id="s_e_icon_val" value=""></input>
+												</div>
+												<div class="col-sm-6 mx-auto>
+													<label for="s_e_category">Skill Category</label><br>
+													<input type="text" style="width:95%;"  id="s_e_category" name="s_e_category" placeholder="ex. Software"></input>
+												</div>
+											</div>
+											<div class="row" style="padding-top:5px;">
+												<div class="col-6">
+													<img id="s_e_icon_img" height="40" src="" style="display:none;"/> 
+												</div>
+											</div>
+											<div class="row" style="padding-top:15px;">
+												<div class="col-sm-6 mx-auto>
+													<label for="s_e_desc_short">Description</label><br>
+													<textarea name="s_e_desc_short" form="update_skill" id="s_e_desc_short" value="" style="width:95%; min-height:100px;" placeholder="A short description of what the skill is." value="" required></textarea>
+												</div>
+												<div class="col-sm-6 mx-auto>
+													<label for="s_e_desc_long">Commentary</label><br>
+													<textarea name="s_e_desc_long" form="update_skill" id="s_e_desc_long" value="" style="width:95%; min-height:100px;" placeholder="A short description on how you've used this skill." value="" required></textarea>
+												</div>
+											</div>
+										</div>
+										<br>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close">
+											  <span aria-hidden="true">Cancel</span>
+											</button>
+											<input type="submit" class="btn btn-primary" value="Save & Close"></button>
+										</div>
+									</form>
+								</div>
+							</div>
+							</div>
+							
+							<!-- Skill Delete Popup -->
+							<div class="modal fade" id="delSkillModal" tabindex="-1" role="dialog" aria-labelledby="delSkillModal" aria-hidden="true" style="position:fixed; width:50%; left:25%; top:15%; height:75%;" >
+							<div class="modal-dialog" role="document">
+								<div class="modal-content" style="position:absolute; width:150%; left:-25%;">
+									<div class="modal-header">
+										<h5 class="modal-title" id="delSkillModal">Delete Skill</h5>
+
+										<button type="button" class="close" data-dismiss="modal" data-toggle="modal" aria-label="Close">
+										  <span aria-hidden="true">&times;</span>
+										</button>
+									</div>
+									<form action='/delete/skill' method='post' id="delete_skill">	
+										<div class="container">
+											<div class="row">
+												<div class="col-12 d-flex align-items-center" style="margin-top:20px;">
+													<h6>Are you really sure you want to delete the skill entry with the below data?</h6>
+												</div>
+											</div>
+											<hr>
+											<div class="row">
+												<div class="col-6">
+													<label for="s_d_id">Skill ID</label><br>
+													<input type="text" id="s_d_id" name="s_d_id" value="" style="width:90%;" disabled required></input>
+												</div>
+												<div class="col-6">
+													<label for="s_d_name">Name</label><br>
+													<input type="text" id="s_d_name" name="s_d_name" value="" style="width:90%;" disabled></input>
+												</div>
+											</div>
+										</div>
+										
+										<div class="container" id="s_d_job_dels" style="visibility:hidden;display:none;">
+											<hr>
+											<div class="row">
+												<div class="col-12">
+													Deleting this skill will remove it from the below work expereience(s): 
+												</div>
+											</div>
+											<div class="container" id="s_d_jobs">
+												
+											</div>
+										</div>
+										<div class="container" id="s_d_edu_dels" style="visibility:hidden;display:none;">
+											<hr>
+											<div class="row">
+												<div class="col-12">
+													Deleting this skill will remove it from the below education expereience(s): 
+												</div>
+											</div>
+											<div class="container" id="s_d_edus">
+												
+											</div>
+										</div>
+										<br>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close">
+											  <span aria-hidden="true">Cancel</span>
+											</button>
+											<input type="submit" class="btn btn-danger" value="Delete & Close" onClick="del_skill_enable()"></button>
 										</div>
 									</form>
 								</div>
@@ -2555,6 +2798,258 @@ class CRender:
 								</div>
 							</div>
 							</div>
+							
+							<!-- Skill Add Popup -->
+							<div class="modal fade" id="addSkillModal" tabindex="-1" role="dialog" aria-labelledby="addSkillModal" aria-hidden="true" style="position:fixed; top:5%; width:80%; left:10%; height:90%;" >
+							<div class="modal-dialog" role="document">
+								<div class="modal-content" >
+									<div class="modal-header">
+										<h5 class="modal-title" id="addSkillModal">New Skill</h5>
+
+										<button type="button" class="close" data-dismiss="modal" data-toggle="modal" aria-label="Close">
+										  <span aria-hidden="true">&times;</span>
+										</button>
+									</div>
+									<form action='/create/skill' method='post' id="create_skill">
+										<div class="modal-body">
+											<div class="row">
+												<div class="col-sm-12 mx-auto">
+													<label for="s_a_name">Skill Name</label><br>
+													<input type="text" name="s_a_name" id="s_a_name" style="width:95%;" placeholder="Skill name" required></input>
+												</div>
+											</div>
+											<div class="row" style="padding-top:15px;">
+												<div class="col-sm-12 mx-auto">
+													<label for="s_a_exposure">Skill Exposure</label><br>
+													<select name="s_a_exposure" id="s_a_exposure" required>
+														<option value="0">0</option>
+														<option value="1">1</option>
+														<option value="2">2</option>
+														<option value="3">3</option>
+														<option value="4">4</option>
+														<option value="5">5</option>
+														<option value="6">6</option>
+														<option value="7">7</option>
+														<option value="8">8</option>
+														<option value="9">9</option>
+														<option value="10">10</option>
+													</select>
+												</div>
+											</div>
+											<div class="row" style="padding-top:15px;">
+												<div class="col-sm-12 mx-auto">
+													<label for="s_a_soh">Soft Skill</label><br>
+													<select name="s_a_soh" id="s_a_soh" required>
+														<option value="True">True</option>
+														<option value="False">False</option>
+													</select>
+												</div>
+											</div>
+											<div class="row" style="padding-top:15px;">
+												<div class="col-sm-12 mx-auto">
+													<label for="s_a_reference">Reference site</label><br>
+													<input type="text" name="s_a_reference" id="s_a_reference" style="width:95%;"  placeholder="https://reference.com"></input>
+												</div>
+											</div>
+											<div class="row" style="padding-top:15px;">
+												<div class="col-sm-12 mx-auto">
+													<label for="s_a_icon">Icon Image</label><br>
+													<input type="file" onChange="upload_img('s_a_icon')"  name="s_a_icon" id="s_a_icon" accept="image/png, image/jpeg"></input>
+													<input type="hidden" name="s_a_icon_val" id="s_a_icon_val" value=""></input>
+												</div>
+											</div>
+											<div class="row" style="padding-top:15px;">
+												<div class="col-sm-12 mx-auto">
+													<label for="s_a_category">Skill Category</label><br>
+													<input type="text" id="s_a_category" name="s_a_category" style="width:95%;" placeholder="ex. Software"></input>
+												</div>
+											</div>
+											<div class="row" style="padding-top:15px;">
+												<div class="col-sm-12 mx-auto">
+													<label for="s_a_desc_short">Description</label><br>
+													<textarea name="s_a_desc_short" form="create_skill" id="s_a_desc_short" value="" style="width:95%; min-height:100px;" placeholder="A short description of what the skill is." value="" required></textarea>
+												</div>
+											</div>
+											<div class="row" style="padding-top:15px;">
+												<div class="col-sm-12 mx-auto">
+													<label for="s_a_desc_long">Commentary</label><br>
+													<textarea name="s_a_desc_long" form="create_skill" id="s_a_desc_long" value="" style="width:95%; min-height:100px;" placeholder="A short description on how you've used this skill." value="" required></textarea>
+												</div>
+											</div>
+										</div>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close">
+											  <span aria-hidden="true">Cancel</span>
+											</button>
+											<input type="submit" class="btn btn-primary" value="Save & Close"></button>
+										</div>
+									</form>
+								</div>
+							</div>
+							</div>
+							
+							<!-- Edit Skill Popup -->
+							<div class="modal fade" id="editSkillModal" tabindex="-1" role="dialog" aria-labelledby="editSkillModal" aria-hidden="true" style="position:fixed; top:5%; width:80%; left:10%; height:90%;" >
+							<div class="modal-dialog" role="document">
+								<div class="modal-content" >
+									<div class="modal-header">
+										<h5 class="modal-title" id="editSkillModal">Edit Organization</h5>
+
+										<button type="button" class="close" data-dismiss="modal" data-toggle="modal" aria-label="Close">
+										  <span aria-hidden="true">&times;</span>
+										</button>
+									</div>
+									<form action='/update/skill' method='post' id="update_skill">
+										<input type="hidden" name="s_e_id" id="s_e_id" value=""></input>
+										<div class="modal-body">
+											<div class="row">
+												<div class="col-sm-12 mx-auto">
+													<label for="s_e_name">Skill Name</label><br>
+													<input type="text" style="width:95%;" name="s_e_name" id="s_e_name" placeholder="Skill name" required></input>
+												</div>
+											</div>
+											<div class="row" style="padding-top:15px;">
+												<div class="col-sm-12 mx-auto">
+													<label for="s_e_exposure">Skill Exposure</label><br>
+													<select name="s_e_exposure" id="s_e_exposure" required>
+														<option value="0">0</option>
+														<option value="1">1</option>
+														<option value="2">2</option>
+														<option value="3">3</option>
+														<option value="4">4</option>
+														<option value="5">5</option>
+														<option value="6">6</option>
+														<option value="7">7</option>
+														<option value="8">8</option>
+														<option value="9">9</option>
+														<option value="10">10</option>
+													</select>
+												</div>
+											</div>
+											<div class="row" style="padding-top:15px;">
+												<div class="col-sm-12 mx-auto">
+													<label for="s_e_soh">Soft Skill</label><br>
+													<select name="s_e_soh" id="s_e_soh" required>
+														<option value="True">True</option>
+														<option value="False">False</option>
+													</select>
+												</div>
+											</div>
+											<div class="row" style="padding-top:15px;">
+												<div class="col-sm-12 mx-auto">
+													<label for="s_e_reference">Reference site</label><br>
+													<input type="text" style="width:95%;"  name="s_e_reference" id="s_e_reference" placeholder="https://reference.com"></input>
+												</div>
+											</div>
+											<div class="row" style="padding-top:15px;">
+												<div class="col-sm-12 mx-auto">
+													<label for="s_e_icon">Icon Image</label><br>
+													<input type="file" onChange="upload_img('s_e_icon')"  name="s_e_icon" id="s_e_icon" accept="image/png, image/jpeg"></input>
+													<input type="hidden" name="s_e_icon_val" id="s_e_icon_val" value=""></input>
+												</div>
+											</div>
+											<div class="row" style="padding-top:5px;">
+												<div class="col-sm-12 mx-auto">
+													<img id="s_e_icon_img" height="40" src="" style="display:none;"/> 
+												</div>
+											</div>
+											<div class="row" style="padding-top:15px;">
+												<div class="col-sm-12 mx-auto">
+													<label for="s_e_category">Skill Category</label><br>
+													<input type="text" style="width:95%;"  id="s_e_category" name="s_e_category" placeholder="ex. Software"></input>
+												</div>
+											</div>
+											<div class="row" style="padding-top:15px;">
+												<div class="col-sm-12 mx-auto">
+													<label for="s_e_desc_short">Description</label><br>
+													<textarea name="s_e_desc_short" form="update_skill" id="s_e_desc_short" value="" style="width:95%; min-height:100px;" placeholder="A short description of what the skill is." value="" required></textarea>
+												</div>
+											</div>
+											<div class="row" style="padding-top:15px;">
+												<div class="col-sm-12 mx-auto">
+													<label for="s_e_desc_long">Commentary</label><br>
+													<textarea name="s_e_desc_long" form="update_skill" id="s_e_desc_long" value="" style="width:95%; min-height:100px;" placeholder="A short description on how you've used this skill." value="" required></textarea>
+												</div>
+											</div>
+										</div>
+										<br>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close">
+											  <span aria-hidden="true">Cancel</span>
+											</button>
+											<input type="submit" class="btn btn-primary" value="Save & Close"></button>
+										</div>
+									</form>
+								</div>
+							</div>
+							</div>
+							
+							<!-- Skill Delete Popup -->
+							<div class="modal fade" id="delSkillModal" tabindex="-1" role="dialog" aria-labelledby="delSkillModal" aria-hidden="true" style="position:fixed; top:5%; width:80%; left:10%; height:90%;" >
+							<div class="modal-dialog" role="document">
+								<div class="modal-content" >
+									<div class="modal-header">
+										<h5 class="modal-title" id="delSkillModal">Delete Skill</h5>
+
+										<button type="button" class="close" data-dismiss="modal" data-toggle="modal" aria-label="Close">
+										  <span aria-hidden="true">&times;</span>
+										</button>
+									</div>
+									<form action='/delete/skill' method='post' id="delete_skill">	
+										<div class="container">
+											<div class="row">
+												<div class="col-12 d-flex align-items-center" style="margin-top:20px;">
+													<h6>Are you really sure you want to delete the skill entry with the below data?</h6>
+												</div>
+											</div>
+											<hr>
+											<div class="row">
+												<div class="col-12">
+													<label for="s_d_id">Skill ID</label><br>
+													<input type="text" id="s_d_id" name="s_d_id" value="" style="width:90%;" disabled required></input>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-12" style="padding-top:15px;">
+													<label for="s_d_name">Name</label><br>
+													<input type="text" id="s_d_name" name="s_d_name" value="" style="width:90%;" disabled></input>
+												</div>
+											</div>
+										</div>
+										
+										<div class="container" id="s_d_job_dels" style="visibility:hidden;display:none;">
+											<hr>
+											<div class="row">
+												<div class="col-12">
+													Deleting this skill will remove it from the below work expereience(s): 
+												</div>
+											</div>
+											<div class="container" id="s_d_jobs">
+												
+											</div>
+										</div>
+										<div class="container" id="s_d_edu_dels" style="visibility:hidden;display:none;">
+											<hr>
+											<div class="row">
+												<div class="col-12">
+													Deleting this skill will remove it from the below education expereience(s): 
+												</div>
+											</div>
+											<div class="container" id="s_d_edus">
+												
+											</div>
+										</div>
+										<br>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close">
+											  <span aria-hidden="true">Cancel</span>
+											</button>
+											<input type="submit" class="btn btn-danger" value="Delete & Close" onClick="del_skill_enable()"></button>
+										</div>
+									</form>
+								</div>
+							</div>
+							</div>
 						'''
 		return html
 
@@ -2575,7 +3070,7 @@ class CRender:
 												<div class="col-sm-9">
 														This is a site I have developed myself with the intention of gaining some further
 														exposure to several frameworks and technologies, showcase my technical proficiencies,
-														and digitize my resume in a palatable manner. Namely, I am looking to start gaining exposure to Jenkins through this project in running a pipeline with a local development environment, an external production server, and a central code repository.<br><br>
+														and digitize my resume in a palatable manner. <br><br>
 
 														The intention is to make the site fully interactable using psuedo-MVC methodologies and to allow for CRUD operations to be performed on my resume data within the site itself, both by myself and by visitors to the site, with the idea that visitor changes
 														can be reverted. It is then the intent to extend this into a full RESTful API.<br><br>
@@ -2664,21 +3159,21 @@ class CRender:
 												</div>
 											</div>
 											<div class="row" style="padding-left:15px;">
-												<p>Implement CRUD operations within the view portion of the application using existing authentication and access control structures.</p>
+												<p style="text-decoration:line-through;">Implement CRUD operations within the view portion of the application using existing authentication and access control structures.</p>
 												<div style="padding-left:10px;position:relative;top:3px;">
-													<span class="badge badge-pill badge-info">In Progress</span>
+													<span class="badge badge-pill badge-success">Completed</span>
 												</div>
 											</div>
 											<div class="row" style="padding-left:15px;">
 												<p>Extend the application into a full RESTful API to GET any resume data via JSON.</p>
 												<div style="padding-left:10px;position:relative;top:3px;">
-													<span class="badge badge-pill badge-warning">Up Next</span>
+													<span class="badge badge-pill badge-info">In Progress</span>
 												</div>
 											</div>
 											<div class="row" style="padding-left:15px;">
 												<p>Extend the application into a full RESTful API to perform any of the other CRUD operations on the resume data.</p>
 												<div style="padding-left:10px;position:relative;top:3px;">
-													<span class="badge badge-pill badge-danger">Pending</span>
+													<span class="badge badge-pill badge-warning">Up Next</span>
 												</div>
 											</div>
 										</div>
@@ -2697,13 +3192,15 @@ class CRender:
 										</div>
 										<div class="card-body">
 											<div class="row">
-												<div class="col-sm-3">
-													<img src="/static/logo.png" width="100" height="100" style="position:relative;left:25px;"/>
+												<div class="col-sm-12 mx-auto" style="display:flex; justify-content:center;align-items:center;">
+													<img  src="/static/logo.png" width="50" height="50"/>
 												</div>
+											</div>
+											<div class="row" style="padding-top:15px;">
 												<div class="col-sm-9">
 														This is a site I have developed myself with the intention of gaining some further
 														exposure to several frameworks and technologies, showcase my technical proficiencies,
-														and digitize my resume in a palatable manner. Namely, I am looking to start gaining exposure to Jenkins through this project in running a pipeline with a local development environment, an external production server, and a central code repository.<br><br>
+														and digitize my resume in a palatable manner. <br><br>
 
 														The intention is to make the site fully interactable using psuedo-MVC methodologies and to allow for CRUD operations to be performed on my resume data within the site itself, both by myself and by visitors to the site, with the idea that visitor changes
 														can be reverted. It is then the intent to extend this into a full RESTful API.<br><br>
@@ -2815,15 +3312,15 @@ class CRender:
 											</div>
 											<div class="row" style="padding-left:15px;">
 												<div class="col-sm-2">
-													<span class="badge badge-pill badge-info">In Progress</span>
+													<span class="badge badge-pill badge-success">Completed</span>
 												</div>
 												<div class="col-sm-8">
-													<p>Implement CRUD operations within the view portion of the application using existing authentication and access control structures.</p>
+													<p style="text-decoration:line-through;">Implement CRUD operations within the view portion of the application using existing authentication and access control structures.</p>
 												</div>
 											</div>
 											<div class="row" style="padding-left:15px;">
 												<div class="col-sm-2">
-													<span class="badge badge-pill badge-warning">Up Next</span>
+													<span class="badge badge-pill badge-info">In Progress</span>
 												</div>
 												<div class="col-sm-8">
 													<p>Extend the application into a full RESTful API to GET any resume data via JSON.</p>
@@ -2831,7 +3328,7 @@ class CRender:
 											</div>
 											<div class="row" style="padding-left:15px;">
 												<div class="col-sm-2">
-													<span class="badge badge-pill badge-danger">Pending</span>
+													<span class="badge badge-pill badge-warning">Up Next</span>
 												</div>
 												<div class="col-sm-8">
 													<p>Extend the application into a full RESTful API to perform any of the other CRUD operations on the resume data.</p>
@@ -2842,6 +3339,7 @@ class CRender:
 								</div>
 							</div>
 						</div>
+						
 					'''
 
 		return html
@@ -3072,7 +3570,6 @@ class CRender:
 		self.dbm.restore_from_backup()
 		return html
 
-
 	def render_go_between (self, method, type, form_data, session):
 		html = ''
 		if type == 'job' and method == 'add':
@@ -3102,6 +3599,15 @@ class CRender:
 		elif type == 'org' and method == 'delete':
 			location = '/home'
 			id = form_data['oid']
+		elif type == 'skill' and method == 'add':
+			location = '/skills/' + form_data['id']
+			id = form_data['id']
+		elif type == 'skill' and method == 'update':
+			location = '/skills/' + form_data['id']
+			id = form_data['id']
+		elif type == 'skill' and method =='delete':
+			location = '/skills'
+			id = form_data['id']
 		elif type == 'contact' and method =='update':
 			location = '/home'
 			id = form_data['id']
@@ -3482,5 +3988,79 @@ class CRender:
 					a.delete(self.dbm)
 					if cb.group.name == 'Owners':
 						a.delete(bak)
+
+		elif type == 'skill' and method == 'add':
+			s = Skill(form_data['id'], form_data['name'], form_data['exposure'], form_data['soft_or_hard'], form_data['reference'], form_data['icon'], form_data['category'], form_data['desc_short'], form_data['desc_long'], cb, cb)
+			s.create(self.dbm)
+			
+			if cb.group.name == 'Owners':
+				s.create(bak)
+				
+		elif type == 'skill' and method == 'update':
+			s = NoneSkill()
+			if s.retrieve(self.dbm, id=form_data['id']):
+				s.name = form_data['name']
+				s.exposure = form_data['exposure']
+				s.soft_or_hard = form_data['soft_or_hard']
+				s.reference = form_data['reference']
+				if form_data['update_icon']:
+					s.icon = form_data['icon']
+				s.category = form_data['category']
+				s.desc_short = form_data['desc_short']
+				s.desc_long = form_data['desc_long']
+				s.modified_by = cb
+				
+				s.update(self.dbm)
+				
+				if cb.group.name == 'Owners':
+					s.update(bak)
+					
+		elif type == 'skill' and method == 'delete':
+			if form_data['del_jobs']:
+				for jid in form_data['jobs']:
+					j = NoneJob()
+					if j.retrieve(self.dbm, id=jid):
+						sids = j.skill_ids
+						split = sids.split(',')
+						split.remove(form_data['id'])
+						final_str = ""
+						for i in range(len(split)):
+							if i != len(split) - 1:
+								final_str += split[i] + ','
+							else:
+								final_str += split[i]
+						j.skill_ids = final_str
+						j.modified_by = cb
+						j.update(self.dbm)
+						
+						if cb.group.name == 'Owners':
+							j.update(self.bak)
+			
+			if form_data['del_edus']:
+				for eid in form_data['edus']:
+					e = NoneEducation()
+					if e.retrieve(self.dbm, id=eid):
+						sids = e.skill_ids
+						split = sids.split(',')
+						split.remove(form_data['id'])
+						final_str = ""
+						for i in range(len(split)):
+							if i != len(split) - 1:
+								final_str += split[i] + ','
+							else:
+								final_str += split[i]
+						e.skill_ids = final_str
+						e.modified_by = cb
+						e.update(self.dbm)
+						
+						if cb.group.name == 'Owners':
+							e.update(self.bak)
+			
+			s = NoneSkill()
+			if s.retrieve(self.dbm, id=form_data['id']):
+				s.delete(self.dbm)
+				
+				if cb.group.name == 'Owners':
+					s.delete(bak)
 
 		return html

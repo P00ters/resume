@@ -99,8 +99,9 @@ class ContactRenderer:
 											</li>
 										</ul>
 									</div>
-								</div>'''
-			html += '''		</div>
+								'''
+			html += '''			</div>
+							</div>
 							<div class="card-body">
 								<ul class="list-group list-group-flush">
 									<li class="list-group-item">
