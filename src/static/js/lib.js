@@ -176,7 +176,7 @@ function edit_contact(cid, name, phone1, phone2, email, objective, aid, aname) {
 	document.getElementById('e_c_phone2').setAttribute('value', phone2);
 	document.getElementById('e_c_email').setAttribute('value', email);
 	document.getElementById('e_c_objective').value = objective;
-	
+
 	var addr_selector = document.getElementById('e_c_address_selector');
 	for (var i = 0; i < addr_selector.options.length; i++) {
 		if (addr_selector.options[i].value == aid) {
@@ -192,13 +192,13 @@ function edit_org(oid, name, phone, desc_short, website, aid, aname) {
 	document.getElementById('e_oo_img2').setAttribute('src', head);
 	document.getElementById('e_oo_img1').setAttribute('style', '');
 	document.getElementById('e_oo_img2').setAttribute('style', '');
-	
+
 	document.getElementById('e_oo_id').setAttribute('value', oid);
 	document.getElementById('e_oo_name').setAttribute('value', name);
 	document.getElementById('e_oo_phone').setAttribute('value', phone);
 	document.getElementById('e_oo_desc_short').value = desc_short;
 	document.getElementById('e_oo_website').setAttribute('value', website);
-	
+
 	var addr_selector = document.getElementById('e_oo_address_selector');
 	for (var i = 0; i < addr_selector.options.length; i++) {
 		if (addr_selector.options[i].value == aid) {
@@ -209,12 +209,12 @@ function edit_org(oid, name, phone, desc_short, website, aid, aname) {
 
 function edit_skill(id, name, exposure, soft_or_hard, reference, category, desc_short, desc_long, mobile) {
 	var icon = document.getElementById('skill_icon_bin').value;
-	
+
 	soh = 1;
 	if (soft_or_hard == "False") {
 		soh = 0;
 	}
-	
+
 	document.getElementById('s_e_icon_img').setAttribute('src', icon);
 	document.getElementById('s_e_icon_img').setAttribute('style', '');
 	document.getElementById('s_e_id').setAttribute('value', id);
@@ -225,92 +225,92 @@ function edit_skill(id, name, exposure, soft_or_hard, reference, category, desc_
 	document.getElementById('s_e_category').value = category;
 	document.getElementById('s_e_desc_short').value = desc_short;
 	document.getElementById('s_e_desc_long').value = desc_long;
-	
+
 }
 
 function del_skill(id, name, b_jdangles, jdangles, b_edangles, edangles, mobile) {
 	document.getElementById('s_d_id').value = id;
 	document.getElementById('s_d_name').value = name;
-	
+
 	var parent = document.getElementById('s_d_jobs');
 	if (b_jdangles == 1) {
-		
-		
-		
+
+
+
 		split = jdangles.split(',');
-		
+
 		console.log(split);
 		if (split.length > 1) {
 			document.getElementById('s_d_job_dels').setAttribute('style', '');
 			for (var i = 0; i < split.length; i += 2) {
 				if (mobile == "False") {
-					
+
 					jid = split[i];
 					title = split[i+1];
-					
+
 					var row = document.createElement('div');
 					row.setAttribute('class', 'row');
 					row.setAttribute('style', 'padding-top:15px;');
 					parent.appendChild(row);
-					
+
 					var col = document.createElement('div');
 					col.setAttribute('class', 'col-6');
 					row.appendChild(col);
-					
+
 					var idlbl = document.createElement('label');
 					idlbl.setAttribute('for', 's_d_jid' + String(i / 2));
 					idlbl.innerHTML = 'Job ID';
 					col.appendChild(idlbl);
-					
+
 					var br = document.createElement('br')
 					col.appendChild(br);
-					
+
 					var idele = document.createElement('input');
 					idele.setAttribute('id', 's_d_jid' + String(i / 2));
 					idele.setAttribute('name', 's_d_jid' + String(i / 2));
 					idele.setAttribute('style', 'width:95%;');
 					idele.setAttribute('type', 'text');
 					idele.value = jid;
-					idele.disabled = true; 
+					idele.disabled = true;
 					idele.required = true;
 					col.appendChild(idele);
-					
+
 					var col = document.createElement('div');
 					col.setAttribute('class', 'col-6');
 					row.appendChild(col);
-					
+
 					var namelbl = document.createElement('label');
 					namelbl.setAttribute('for', 's_d_jname' + String(i / 2));
 					namelbl.innerHTML = 'Job Name';
 					col.appendChild(namelbl);
-					
+
 					var br = document.createElement('br')
 					col.appendChild(br);
-					
+
 					var nameele = document.createElement('input');
 					nameele.setAttribute('id', 's_d_jname' + String(i / 2));
 					nameele.setAttribute('name', 's_d_jname' + String(i / 2));
 					nameele.setAttribute('style', 'width:95%;');
 					nameele.setAttribute('type', 'text');
 					nameele.value = title;
-					nameele.disabled = true; 
+					nameele.disabled = true;
 					nameele.required = true;
 					col.appendChild(nameele);
 				}
 				else {
 					jid = split[i];
 					title = split[i+1];
-					
+
 					var row = document.createElement('div');
 					row.setAttribute('class', 'row');
 					row.setAttribute('style', 'padding-top:15px;');
 					parent.appendChild(row);
-					
+
 					var col = document.createElement('div');
 					col.setAttribute('class', 'col-12');
 					row.appendChild(col);
-					
-					
+
+
 					var idele = document.createElement('input');
 					idele.setAttribute('id', 's_d_jid' + String(i / 2));
 					idele.setAttribute('name', 's_d_jid' + String(i / 2));
@@ -319,27 +319,27 @@ function del_skill(id, name, b_jdangles, jdangles, b_edangles, edangles, mobile)
 					idele.value = jid;
 					idele.required = true;
 					col.appendChild(idele);
-					
+
 					var namelbl = document.createElement('label');
 					namelbl.setAttribute('for', 's_d_jname' + String(i / 2));
 					namelbl.innerHTML = 'Job Name';
 					col.appendChild(namelbl);
-					
+
 					var br = document.createElement('br')
 					col.appendChild(br);
-					
+
 					var nameele = document.createElement('input');
 					nameele.setAttribute('id', 's_d_jname' + String(i / 2));
 					nameele.setAttribute('name', 's_d_jname' + String(i / 2));
 					nameele.setAttribute('style', 'width:95%;');
 					nameele.setAttribute('type', 'text');
 					nameele.value = title;
-					nameele.disabled = true; 
+					nameele.disabled = true;
 					nameele.required = true;
 					col.appendChild(nameele);
 				}
 			}
-			
+
 			var num_j = document.createElement('input');
 			num_j.setAttribute('type', 'hidden');
 			num_j.setAttribute('id', 'num_j');
@@ -364,81 +364,81 @@ function del_skill(id, name, b_jdangles, jdangles, b_edangles, edangles, mobile)
 		num_j.value = 0;
 		parent.appendChild(num_j);
 	}
-	
+
 	var parent = document.getElementById('s_d_edus');
 	if (b_edangles == 1) {
 
 		split = edangles.split(',');
-		
+
 		if (split.length > 1) {
 			document.getElementById('s_d_edu_dels').setAttribute('style', '');
 			for (var i = 0; i < split.length; i += 2) {
 				if (mobile == "False") {
 					eid = split[i];
 					degree = split[i+1];
-					
+
 					var row = document.createElement('div');
 					row.setAttribute('class', 'row');
 					row.setAttribute('style', 'padding-top:15px;');
 					parent.appendChild(row);
-					
+
 					var col = document.createElement('div');
 					col.setAttribute('class', 'col-6');
 					row.appendChild(col);
-					
+
 					var idlbl = document.createElement('label');
 					idlbl.setAttribute('for', 's_d_eid' + String(i / 2));
-					idlbl.innerHTML = 'Job ID';
+					idlbl.innerHTML = 'Education ID';
 					col.appendChild(idlbl);
-					
+
 					var br = document.createElement('br')
 					col.appendChild(br);
-					
+
 					var idele = document.createElement('input');
 					idele.setAttribute('id', 's_d_eid' + String(i / 2));
 					idele.setAttribute('name', 's_d_eid' + String(i / 2));
 					idele.setAttribute('style', 'width:95%;');
 					idele.setAttribute('type', 'text');
 					idele.value = eid;
-					idele.disabled = true; 
+					idele.disabled = true;
 					idele.required = true;
 					col.appendChild(idele);
-					
+
 					var col = document.createElement('div');
 					col.setAttribute('class', 'col-6');
 					row.appendChild(col);
-					
+
 					var namelbl = document.createElement('label');
 					namelbl.setAttribute('for', 's_d_ename' + String(i / 2));
 					namelbl.innerHTML = 'Education Degree';
 					col.appendChild(namelbl);
-					
+
 					var br = document.createElement('br')
 					col.appendChild(br);
-					
+
 					var nameele = document.createElement('input');
 					nameele.setAttribute('id', 's_d_ename' + String(i / 2));
 					nameele.setAttribute('name', 's_d_ename' + String(i / 2));
 					nameele.setAttribute('style', 'width:95%;');
 					nameele.setAttribute('type', 'text');
 					nameele.value = degree;
-					nameele.disabled = true; 
+					nameele.disabled = true;
 					nameele.required = true;
 					col.appendChild(nameele);
 				}
 				else {
 					eid = split[i];
 					degree = split[i+1];
-					
+
 					var row = document.createElement('div');
 					row.setAttribute('class', 'row');
 					row.setAttribute('style', 'padding-top:15px;');
 					parent.appendChild(row);
-					
+
 					var col = document.createElement('div');
 					col.setAttribute('class', 'col-12');
 					row.appendChild(col);
-					
+
 					var idele = document.createElement('input');
 					idele.setAttribute('id', 's_d_eid' + String(i / 2));
 					idele.setAttribute('name', 's_d_eid' + String(i / 2));
@@ -447,27 +447,27 @@ function del_skill(id, name, b_jdangles, jdangles, b_edangles, edangles, mobile)
 					idele.value = eid;
 					idele.required = true;
 					col.appendChild(idele);
-					
+
 					var namelbl = document.createElement('label');
 					namelbl.setAttribute('for', 's_d_ename' + String(i / 2));
 					namelbl.innerHTML = 'Education Degree';
 					col.appendChild(namelbl);
-					
+
 					var br = document.createElement('br')
 					col.appendChild(br);
-					
+
 					var nameele = document.createElement('input');
 					nameele.setAttribute('id', 's_d_ename' + String(i / 2));
 					nameele.setAttribute('name', 's_d_ename' + String(i / 2));
 					nameele.setAttribute('style', 'width:95%;');
 					nameele.setAttribute('type', 'text');
 					nameele.value = degree;
-					nameele.disabled = true; 
+					nameele.disabled = true;
 					nameele.required = true;
 					col.appendChild(nameele);
 				}
 			}
-			
+
 			var num_e = document.createElement('input');
 			num_e.setAttribute('type', 'hidden');
 			num_e.setAttribute('id', 'num_e');
@@ -492,17 +492,17 @@ function del_skill(id, name, b_jdangles, jdangles, b_edangles, edangles, mobile)
 		num_e.value = 0;
 		parent.appendChild(num_e);
 	}
-	
+
 	document.getElementById('skill_del_btn').setAttribute('onClick', 'javascript:void(0)');
 }
 
 function del_skill_enable() {
 	var num_j = document.getElementById('num_j').value;
 	var num_e = document.getElementById('num_e').value;
-	
+
 	document.getElementById('s_d_id').disabled = false;
 	document.getElementById('s_d_name').disabled = false;
-	
+
 	for (var i = 0; i < num_j; i++) {
 		document.getElementById('s_d_jid' + String(i)).disabled = false;
 		document.getElementById('s_d_jname' + String(i)).disabled = false;
@@ -598,7 +598,7 @@ function make_add_skill(number, parent, mobile, letter) {
 		else {
 			delbtn.setAttribute("onClick", "javascript: edu_remove_skill(" + String(number) + ")");
 		}
-		
+
 		delbtn.setAttribute("style", "margin-left:auto;margin-right:0;");
 		row1.appendChild(delbtn);
 
@@ -1045,7 +1045,7 @@ function make_add_skill(number, parent, mobile, letter) {
 function edit_edu(eid, oid, oname, degree, gpa, date_stop, desc_short, desc_long, len_skill) {
 	var skills_parent = document.getElementById(eid);
 	var skill_list = [];
-	
+
 	var children = skills_parent.children;
 	for (var i = 0; i < children.length; i++) {
 		var child = children[i];
@@ -1053,21 +1053,21 @@ function edit_edu(eid, oid, oname, degree, gpa, date_stop, desc_short, desc_long
 		var split = value.split(',');
 		skill_list.push(split[0]);
 	}
-	
+
 	document.getElementById('e_e_id').value = eid;
 	document.getElementById('e_e_degree').value = degree;
 	document.getElementById('e_e_gpa').value = gpa;
 	document.getElementById('e_e_date_stop').value = date_stop;
 	document.getElementById('e_e_desc_short').value = desc_short;
 	document.getElementById('e_e_desc_long').value = desc_long;
-	
+
 	var org_selector = document.getElementById('e_e_org_selector');
 	var skill_selector = document.getElementById('e_e_skill_selector');
-	
+
 	for (var i = 0; i < skill_selector.options.length; i++) {
 		skill_selector.options[i].selected = skill_list.indexOf(skill_selector.options[i].value) >= 0;
 	}
-	
+
 	for (var i = 0; i < org_selector.options.length; i++) {
 		if (org_selector.options[i].value == oid) {
 			org_selector.options[i].selected = true;
@@ -1078,7 +1078,7 @@ function edit_edu(eid, oid, oname, degree, gpa, date_stop, desc_short, desc_long
 function edit_job(jid, oid, oname, title, present, date_start, date_stop, desc_short, desc_long, len_skill) {
 	var skills_parent = document.getElementById(jid);
 	var skill_list = [];
-	
+
 	var children = skills_parent.children;
 	for (var i = 0; i < children.length; i++) {
 		var child = children[i];
@@ -1086,7 +1086,7 @@ function edit_job(jid, oid, oname, title, present, date_start, date_stop, desc_s
 		var split = value.split(',');
 		skill_list.push(split[0]);
 	}
-	
+
 	document.getElementById('e_j_id').value = jid;
 	document.getElementById('e_j_title').value = title
 	if (present == 0) {
@@ -1099,14 +1099,14 @@ function edit_job(jid, oid, oname, title, present, date_start, date_stop, desc_s
 	document.getElementById('e_j_date_stop').value = date_stop;
 	document.getElementById('e_j_desc_short').value = desc_short;
 	document.getElementById('e_j_desc_long').value = desc_long;
-	
+
 	var org_selector = document.getElementById('e_j_org_selector');
 	var skill_selector = document.getElementById('e_j_skill_selector');
-	
+
 	for (var i = 0; i < skill_selector.options.length; i++) {
 		skill_selector.options[i].selected = skill_list.indexOf(skill_selector.options[i].value) >= 0;
 	}
-	
+
 	for (var i = 0; i < org_selector.options.length; i++) {
 		if (org_selector.options[i].value == oid) {
 			org_selector.options[i].selected = true;
@@ -1125,7 +1125,7 @@ function del_edu(eid, degree, org_dangles, oid, oname, addr_dangles, aid, aname)
 
 	document.getElementById('d_e_id').value = eid;
 	document.getElementById('d_e_degree').value = degree;
-	
+
 	if (org_dangles == 1) {
 		document.getElementById('d_e_dangle_org').setAttribute('style', 'visibility:visible');
 		document.getElementById('d_e_oid').value = oid;
@@ -1173,10 +1173,10 @@ function del_job(jid, title, org_dangles, oid, oname, addr_dangles, aid, aname) 
 	document.getElementById('d_j_oid').disabled = true;
 	document.getElementById('d_j_title').disabled = true;
 	document.getElementById('d_j_id').disabled = true;
-	
+
 	document.getElementById('d_j_id').value = jid;
 	document.getElementById('d_j_title').value = title;
-	
+
 	if (org_dangles == 1) {
 		document.getElementById('d_j_dangle_org').setAttribute('style', 'visibility:visible;');
 		document.getElementById('d_j_oid').value = oid;
@@ -1220,16 +1220,16 @@ function del_job_enable() {
 function del_org(oid, name, addr_dangles, aid, aname, job_dangles, job_dangling, edu_dangles, edu_dangling, mobile) {
 	console.log(mobile)
 	document.getElementById('o_o_del_btn').setAttribute('onClick', 'javascript: void(0)');
-	
+
 	document.getElementById('d_o_aname').disabled = true;
 	document.getElementById('d_o_aid').disabled = true;
 	document.getElementById('d_o_name').disabled = true;
 	document.getElementById('d_o_id').disabled = true;
-	
+
 	document.getElementById('d_o_id').value = oid
 	document.getElementById('d_o_name').value = name
-	
-	if (addr_dangles == 1) { 
+
+	if (addr_dangles == 1) {
 		document.getElementById('d_o_dangle_addr').setAttribute('style', 'visibility:visible;');
 		document.getElementById('d_o_aid').value = aid;
 		document.getElementById('d_o_aname').value = aname;
@@ -1237,53 +1237,53 @@ function del_org(oid, name, addr_dangles, aid, aname, job_dangles, job_dangling,
 	else {
 		document.getElementById('d_o_dangle_addr').setAttribute('style', 'visibility:hidden;display:none;');
 	}
-	
+
 	var all_orgs_n = parseInt(document.getElementById('all_orgs_len').value);
 	all_orgs = [];
-	
+
 	for (var i = 0; i < all_orgs_n; i++) {
 		var inp = document.getElementById('all_orgs' + String(i));
 		split = inp.value.split(",");
 		o = [split[0], split[1]];
 		all_orgs.push(o);
 	}
-	
+
 	var j_count = 0;
 	var e_count = 0;
-	
-	
+
+
 	if (job_dangles == 1) {
 		document.getElementById('d_o_dangle_jobs').setAttribute('style', 'visibility:visible;');
-		
+
 		var parent = document.getElementById('d_o_dangle_jobs_list');
 		job_split = job_dangling.split(",");
 		console.log(job_split);
 		edu_split = edu_dangling.split(",");
-		
+
 		if (mobile == 0) {
-		
+
 			for (var i = 0; i < job_split.length; i += 2) {
 				if (job_split[i] != '') {
 					jid = job_split[i];
 					jname = job_split[i+1];
-					
+
 					var row = document.createElement('div');
 					row.setAttribute('class', "row");
 					row.setAttribute('style', 'padding-top:15px;');
 					parent.appendChild(row);
-					
+
 					var col1 = document.createElement('div');
 					col1.setAttribute('class', 'col-6');
 					row.appendChild(col1);
-					
+
 					var idlbl = document.createElement('label');
 					idlbl.setAttribute('for', 'd_o_jid' + String(i));
 					idlbl.innerHTML = "Job ID";
 					col1.appendChild(idlbl);
-					
+
 					var br = document.createElement('br');
 					col1.appendChild(br);
-					
+
 					var idinput = document.createElement('input');
 					idinput.setAttribute('type', 'text');
 					idinput.disabled = true;
@@ -1292,20 +1292,20 @@ function del_org(oid, name, addr_dangles, aid, aname, job_dangles, job_dangling,
 					idinput.setAttribute('name', 'd_o_jid' + String(i));
 					idinput.setAttribute('style', 'width:95%;');
 					col1.appendChild(idinput);
-					
+
 					var br = document.createElement('br');
 					col1.appendChild(br);
 					var br = document.createElement('br');
 					col1.appendChild(br);
-					
+
 					var namelbl = document.createElement('label')
 					namelbl.setAttribute('for', 'd_o_jname' + String(i));
 					namelbl.innerHTML = "Job Name";
 					col1.appendChild(namelbl);
-					
+
 					var br = document.createElement('br');
 					col1.appendChild(br);
-					
+
 					var nameinput = document.createElement('input');
 					nameinput.setAttribute('type', 'text');
 					nameinput.disabled = true;
@@ -1314,19 +1314,19 @@ function del_org(oid, name, addr_dangles, aid, aname, job_dangles, job_dangling,
 					nameinput.setAttribute('name', 'd_o_jname' + String(i));
 					nameinput.setAttribute('style', 'width:95%');
 					col1.appendChild(nameinput);
-					
+
 					var col2 = document.createElement('div');
 					col2.setAttribute('class', 'col-6');
 					row.appendChild(col2);
-					
+
 					var selectorlbl = document.createElement('label');
 					selectorlbl.setAttribute('for', 'd_o_j_selector');
 					selectorlbl.innerHTML = 'Select New Organization'
 					col2.appendChild(selectorlbl);
-					
+
 					var br = document.createElement('br');
 					col2.appendChild(br);
-					
+
 					var selector = document.createElement('select');
 					selector.required = true;
 					selector.setAttribute('id', 'd_o_j_selector' + String(i));
@@ -1334,7 +1334,7 @@ function del_org(oid, name, addr_dangles, aid, aname, job_dangles, job_dangling,
 					selector.setAttribute('style', 'min-width:95%;');
 					selector.setAttribute('size', '5');
 					col2.appendChild(selector);
-					
+
 					for (var j = 0; j < all_orgs.length; j++) {
 						if (all_orgs[j][0] != oid) {
 							var option = document.createElement('option');
@@ -1343,43 +1343,43 @@ function del_org(oid, name, addr_dangles, aid, aname, job_dangles, job_dangling,
 							selector.appendChild(option);
 						}
 					}
-					
+
 					var row = document.createElement('div');
 					row.setAttribute('class', "row");
 					parent.appendChild(row);
 					var hr = document.createElement('hr');
 					hr.setAttribute('style', 'width:90%;left:5%;');
 					row.appendChild(hr)
-					
+
 					j_count += 1;
 				}
 			}
-		
+
 		}
 		else {
-			
+
 			for (var i = 0; i < job_split.length; i += 2) {
 				if (job_split[i] != '') {
 					jid = job_split[i];
 					jname = job_split[i+1];
-					
+
 					var row = document.createElement('div');
 					row.setAttribute('class', "row");
 					row.setAttribute('style', 'padding-top:15px;');
 					parent.appendChild(row);
-					
+
 					var col1 = document.createElement('div');
 					col1.setAttribute('class', 'col-12');
 					row.appendChild(col1);
-					
+
 					var idlbl = document.createElement('label');
 					idlbl.setAttribute('for', 'd_o_jid' + String(i));
 					idlbl.innerHTML = "Job ID";
 					col1.appendChild(idlbl);
-					
+
 					var br = document.createElement('br');
 					col1.appendChild(br);
-					
+
 					var idinput = document.createElement('input');
 					idinput.setAttribute('type', 'text');
 					idinput.disabled = true;
@@ -1388,24 +1388,24 @@ function del_org(oid, name, addr_dangles, aid, aname, job_dangles, job_dangling,
 					idinput.setAttribute('name', 'd_o_jid' + String(i));
 					idinput.setAttribute('style', 'width:95%;');
 					col1.appendChild(idinput);
-					
+
 					var row1 = document.createElement('div');
 					row1.setAttribute('class', "row");
 					row1.setAttribute('style', 'padding-top:15px;');
 					parent.appendChild(row1);
-					
+
 					var col1 = document.createElement('div');
 					col1.setAttribute('class', 'col-12');
 					row1.appendChild(col1);
-					
+
 					var namelbl = document.createElement('label')
 					namelbl.setAttribute('for', 'd_o_jname' + String(i));
 					namelbl.innerHTML = "Job Name";
 					col1.appendChild(namelbl);
-					
+
 					var br = document.createElement('br');
 					col1.appendChild(br);
-					
+
 					var nameinput = document.createElement('input');
 					nameinput.setAttribute('type', 'text');
 					nameinput.disabled = true;
@@ -1414,30 +1414,30 @@ function del_org(oid, name, addr_dangles, aid, aname, job_dangles, job_dangling,
 					nameinput.setAttribute('name', 'd_o_jname' + String(i));
 					nameinput.setAttribute('style', 'width:95%');
 					col1.appendChild(nameinput);
-					
+
 					var row = document.createElement('div');
 					row.setAttribute('class', "row");
 					row.setAttribute('style', 'padding-top:15px;');
 					parent.appendChild(row);
-					
+
 					var col1 = document.createElement('div');
 					col1.setAttribute('class', 'col-12');
 					row.appendChild(col1);
-					
+
 					var selectorlbl = document.createElement('label');
 					selectorlbl.setAttribute('for', 'd_o_j_selector');
 					selectorlbl.innerHTML = 'Select New Organization'
 					col1.appendChild(selectorlbl);
-					
+
 					var row = document.createElement('div');
 					row.setAttribute('class', "row");
 					parent.appendChild(row);
-					
+
 					var col1 = document.createElement('div');
 					col1.setAttribute('class', 'col-12');
 					row.appendChild(col1);
-					
-					
+
+
 					var selector = document.createElement('select');
 					selector.required = true;
 					selector.setAttribute('id', 'd_o_j_selector' + String(i));
@@ -1445,7 +1445,7 @@ function del_org(oid, name, addr_dangles, aid, aname, job_dangles, job_dangling,
 					selector.setAttribute('style', 'min-width:95%;');
 					selector.setAttribute('size', '5');
 					col1.appendChild(selector);
-					
+
 					for (var j = 0; j < all_orgs.length; j++) {
 						if (all_orgs[j][0] != oid) {
 							var option = document.createElement('option');
@@ -1454,62 +1454,62 @@ function del_org(oid, name, addr_dangles, aid, aname, job_dangles, job_dangling,
 							selector.appendChild(option);
 						}
 					}
-					
+
 					var row = document.createElement('div');
 					row.setAttribute('class', "row");
 					parent.appendChild(row);
 					var hr = document.createElement('hr');
 					hr.setAttribute('style', 'width:90%;left:5%;');
 					row.appendChild(hr)
-					
+
 					j_count += 1;
 				}
 			}
-		
+
 		}
-		
+
 		var hnp = document.createElement('input');
 		hnp.setAttribute('type', 'hidden');
 		hnp.setAttribute('id', 'd_o_numjobs');
 		hnp.setAttribute('name', 'd_o_numjobs');
 		hnp.setAttribute('value', String(j_count));
 		parent.appendChild(hnp);
-		
+
 	}
 
 	if (edu_dangles == 1) {
 		document.getElementById('d_o_dangle_edus').setAttribute('style', 'visibility:visible;');
-		
+
 		var parent = document.getElementById('d_o_dangle_edus_list');
 		job_split = job_dangling.split(",");
 		console.log(job_split);
 		edu_split = edu_dangling.split(",");
-		
-		
+
+
 		if (mobile == 0) {
-		
+
 			for (var i = 0; i < edu_split.length; i += 2) {
 				if (edu_split[i] != '') {
 					eid = edu_split[i];
 					ename = edu_split[i+1];
-					
+
 					var row = document.createElement('div');
 					row.setAttribute('class', "row");
 					row.setAttribute('style', 'padding-top:15px;');
 					parent.appendChild(row);
-					
+
 					var col1 = document.createElement('div');
 					col1.setAttribute('class', 'col-6');
 					row.appendChild(col1);
-					
+
 					var idlbl = document.createElement('label');
 					idlbl.setAttribute('for', 'd_o_eid' + String(i));
 					idlbl.innerHTML = "Education ID";
 					col1.appendChild(idlbl);
-					
+
 					var br = document.createElement('br');
 					col1.appendChild(br);
-					
+
 					var idinput = document.createElement('input');
 					idinput.setAttribute('type', 'text');
 					idinput.disabled = true;
@@ -1518,20 +1518,20 @@ function del_org(oid, name, addr_dangles, aid, aname, job_dangles, job_dangling,
 					idinput.setAttribute('name', 'd_o_eid' + String(i));
 					idinput.setAttribute('style', 'width:95%;');
 					col1.appendChild(idinput);
-					
+
 					var br = document.createElement('br');
 					col1.appendChild(br);
 					var br = document.createElement('br');
 					col1.appendChild(br);
-					
+
 					var namelbl = document.createElement('label')
 					namelbl.setAttribute('for', 'd_o_ename' + String(i));
 					namelbl.innerHTML = "Job Name";
 					col1.appendChild(namelbl);
-					
+
 					var br = document.createElement('br');
 					col1.appendChild(br);
-					
+
 					var nameinput = document.createElement('input');
 					nameinput.setAttribute('type', 'text');
 					nameinput.disabled = true;
@@ -1540,19 +1540,19 @@ function del_org(oid, name, addr_dangles, aid, aname, job_dangles, job_dangling,
 					nameinput.setAttribute('name', 'd_o_ename' + String(i));
 					nameinput.setAttribute('style', 'width:95%');
 					col1.appendChild(nameinput);
-					
+
 					var col2 = document.createElement('div');
 					col2.setAttribute('class', 'col-6');
 					row.appendChild(col2);
-					
+
 					var selectorlbl = document.createElement('label');
 					selectorlbl.setAttribute('for', 'd_o_e_selector');
 					selectorlbl.innerHTML = 'Select New Organization'
 					col2.appendChild(selectorlbl);
-					
+
 					var br = document.createElement('br');
 					col2.appendChild(br);
-					
+
 					var selector = document.createElement('select');
 					selector.required = true;
 					selector.setAttribute('id', 'd_o_e_selector' + String(i));
@@ -1560,7 +1560,7 @@ function del_org(oid, name, addr_dangles, aid, aname, job_dangles, job_dangling,
 					selector.setAttribute('style', 'min-width:95%;');
 					selector.setAttribute('size', '5');
 					col2.appendChild(selector);
-					
+
 					for (var j = 0; j < all_orgs.length; j++) {
 						if (all_orgs[j][0] != oid) {
 							var option = document.createElement('option');
@@ -1569,42 +1569,42 @@ function del_org(oid, name, addr_dangles, aid, aname, job_dangles, job_dangling,
 							selector.appendChild(option);
 						}
 					}
-					
+
 					var row = document.createElement('div');
 					row.setAttribute('class', "row");
 					parent.appendChild(row);
 					var hr = document.createElement('hr');
 					hr.setAttribute('style', 'width:90%;left:5%;');
 					row.appendChild(hr)
-					
+
 					e_count += 1;
 				}
 			}
-		
+
 		}
 		else {
 						for (var i = 0; i < edu_split.length; i += 2) {
 				if (edu_split[i] != '') {
 					eid = edu_split[i];
 					ename = edu_split[i+1];
-					
+
 					var row = document.createElement('div');
 					row.setAttribute('class', "row");
 					row.setAttribute('style', 'padding-top:15px;');
 					parent.appendChild(row);
-					
+
 					var col1 = document.createElement('div');
 					col1.setAttribute('class', 'col-12');
 					row.appendChild(col1);
-					
+
 					var idlbl = document.createElement('label');
 					idlbl.setAttribute('for', 'd_o_eid' + String(i));
 					idlbl.innerHTML = "Education ID";
 					col1.appendChild(idlbl);
-					
+
 					var br = document.createElement('br');
 					col1.appendChild(br);
-					
+
 					var idinput = document.createElement('input');
 					idinput.setAttribute('type', 'text');
 					idinput.disabled = true;
@@ -1613,24 +1613,24 @@ function del_org(oid, name, addr_dangles, aid, aname, job_dangles, job_dangling,
 					idinput.setAttribute('name', 'd_o_eid' + String(i));
 					idinput.setAttribute('style', 'width:95%;');
 					col1.appendChild(idinput);
-					
+
 					var row = document.createElement('div');
 					row.setAttribute('class', "row");
 					row.setAttribute('style', 'padding-top:15px;');
 					parent.appendChild(row);
-					
+
 					var col1 = document.createElement('div');
 					col1.setAttribute('class', 'col-12');
 					row.appendChild(col1);
-					
+
 					var namelbl = document.createElement('label')
 					namelbl.setAttribute('for', 'd_o_ename' + String(i));
 					namelbl.innerHTML = "Job Name";
 					col1.appendChild(namelbl);
-					
+
 					var br = document.createElement('br');
 					col1.appendChild(br);
-					
+
 					var nameinput = document.createElement('input');
 					nameinput.setAttribute('type', 'text');
 					nameinput.disabled = true;
@@ -1639,24 +1639,24 @@ function del_org(oid, name, addr_dangles, aid, aname, job_dangles, job_dangling,
 					nameinput.setAttribute('name', 'd_o_ename' + String(i));
 					nameinput.setAttribute('style', 'width:95%');
 					col1.appendChild(nameinput);
-					
+
 					var row = document.createElement('div');
 					row.setAttribute('class', "row");
 					row.setAttribute('style', 'padding-top:15px;');
 					parent.appendChild(row);
-					
+
 					var col2 = document.createElement('div');
 					col2.setAttribute('class', 'col-12');
 					row.appendChild(col2);
-					
+
 					var selectorlbl = document.createElement('label');
 					selectorlbl.setAttribute('for', 'd_o_e_selector');
 					selectorlbl.innerHTML = 'Select New Organization'
 					col2.appendChild(selectorlbl);
-					
+
 					var br = document.createElement('br');
 					col2.appendChild(br);
-					
+
 					var selector = document.createElement('select');
 					selector.required = true;
 					selector.setAttribute('id', 'd_o_e_selector' + String(i));
@@ -1664,7 +1664,7 @@ function del_org(oid, name, addr_dangles, aid, aname, job_dangles, job_dangling,
 					selector.setAttribute('style', 'min-width:95%;');
 					selector.setAttribute('size', '5');
 					col2.appendChild(selector);
-					
+
 					for (var j = 0; j < all_orgs.length; j++) {
 						if (all_orgs[j][0] != oid) {
 							var option = document.createElement('option');
@@ -1673,19 +1673,19 @@ function del_org(oid, name, addr_dangles, aid, aname, job_dangles, job_dangling,
 							selector.appendChild(option);
 						}
 					}
-					
+
 					var row = document.createElement('div');
 					row.setAttribute('class', "row");
 					parent.appendChild(row);
 					var hr = document.createElement('hr');
 					hr.setAttribute('style', 'width:90%;left:5%;');
 					row.appendChild(hr)
-					
+
 					e_count += 1;
 				}
 			}
 		}
-		
+
 		var hnp = document.createElement('input');
 		hnp.setAttribute('type', 'hidden');
 		hnp.setAttribute('id', 'd_o_numedus');
@@ -1701,7 +1701,7 @@ function del_org_enable() {
 	document.getElementById('d_o_aid').disabled = false;
 	document.getElementById('d_o_name').disabled = false;
 	document.getElementById('d_o_id').disabled = false;
-	
+
 	for (var i = 0; i < 2048; i++) {
 		if (document.getElementById('d_o_jid' + String(i)) != null) {
 			document.getElementById('d_o_jid' + String(i)).disabled = false;
@@ -1729,11 +1729,11 @@ async function upload_img(target) {
 	  if (target == 'e_oo_icon') {
 		  document.getElementById('e_oo_img1').setAttribute('src', 'data:image/png;base64,' + b64);
 	  }
-	  
+
 	  if (target == 'e_oo_header') {
 		  document.getElementById('e_oo_img2').setAttribute('src', 'data:image/png;base64,' + b64);
 	  }
-	  
+
 	  if (target == 's_e_icon') {
 		  document.getElementById('s_e_icon_img').setAttribute('src', 'data:image/png;base64,' + b64);
 	  }

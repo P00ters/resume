@@ -1022,3 +1022,239 @@ unrecognized token: "91964ec1"
 159.223.206.148 - - [17/Jun/2022 02:05:16] "[31m[1mPOST / HTTP/1.1[0m" 405 -
 185.21.216.169 - - [17/Jun/2022 02:15:40] "[32mGET / HTTP/1.1[0m" 302 -
 96.76.200.203 - - [17/Jun/2022 02:28:07] "[32mGET / HTTP/1.1[0m" 302 -
+ * Serving Flask app 'myResume' (lazy loading)
+ * Environment: production
+   WARNING: This is a development server. Do not use it in a production deployment.
+   Use a production WSGI server instead.
+ * Debug mode: on
+ * Running on http://resume.tomesser.biz:80 (Press CTRL+C to quit)
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 252-831-000
+68.51.230.242 - - [04/Jul/2022 00:47:11] "[32mGET /skills/d5ac8138-d2964203-992b29a4-ec3dae8a HTTP/1.1[0m" 302 -
+68.51.230.242 - - [04/Jul/2022 00:47:11] "[32mGET /reauth?r=_skills_d5ac8138-d2964203-992b29a4-ec3dae8a HTTP/1.1[0m" 302 -
+68.51.230.242 - - [04/Jul/2022 00:47:12] "GET /skills/d5ac8138-d2964203-992b29a4-ec3dae8a HTTP/1.1" 200 -
+68.51.230.242 - - [04/Jul/2022 00:47:12] "GET /static/css/lib.css HTTP/1.1" 200 -
+68.51.230.242 - - [04/Jul/2022 00:47:12] "GET /static/js/lib.js HTTP/1.1" 200 -
+68.51.230.242 - - [04/Jul/2022 00:47:12] "GET /static/logo.png HTTP/1.1" 200 -
+68.51.230.242 - - [04/Jul/2022 00:47:13] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+68.51.230.242 - - [04/Jul/2022 00:47:14] "[32mGET / HTTP/1.1[0m" 302 -
+68.51.230.242 - - [04/Jul/2022 00:47:14] "[32mGET /reauth?r=_home HTTP/1.1[0m" 302 -
+68.51.230.242 - - [04/Jul/2022 00:47:15] "GET /home HTTP/1.1" 200 -
+68.51.230.242 - - [04/Jul/2022 00:47:15] "[36mGET /static/css/lib.css HTTP/1.1[0m" 304 -
+68.51.230.242 - - [04/Jul/2022 00:47:15] "[36mGET /static/js/lib.js HTTP/1.1[0m" 304 -
+68.51.230.242 - - [04/Jul/2022 00:47:15] "[36mGET /static/logo.png HTTP/1.1[0m" 304 -
+68.51.230.242 - - [04/Jul/2022 00:47:15] "GET /static/Addr.png HTTP/1.1" 200 -
+68.51.230.242 - - [04/Jul/2022 00:47:15] "GET /static/Phone.png HTTP/1.1" 200 -
+68.51.230.242 - - [04/Jul/2022 00:47:15] "GET /static/Mail.png HTTP/1.1" 200 -
+68.51.230.242 - - [04/Jul/2022 00:47:15] "GET /static/HeaderAnim.gif HTTP/1.1" 200 -
+68.51.230.242 - - [04/Jul/2022 00:47:18] "GET /skills HTTP/1.1" 200 -
+68.51.230.242 - - [04/Jul/2022 00:47:18] "[36mGET /static/css/lib.css HTTP/1.1[0m" 304 -
+68.51.230.242 - - [04/Jul/2022 00:47:18] "[36mGET /static/js/lib.js HTTP/1.1[0m" 304 -
+68.51.230.242 - - [04/Jul/2022 00:47:18] "[36mGET /static/logo.png HTTP/1.1[0m" 304 -
+68.51.230.242 - - [04/Jul/2022 00:47:21] "[32mPOST /login HTTP/1.1[0m" 302 -
+68.51.230.242 - - [04/Jul/2022 00:47:22] "GET /skills HTTP/1.1" 200 -
+68.51.230.242 - - [04/Jul/2022 00:47:22] "[36mGET /static/css/lib.css HTTP/1.1[0m" 304 -
+68.51.230.242 - - [04/Jul/2022 00:47:22] "[36mGET /static/js/lib.js HTTP/1.1[0m" 304 -
+68.51.230.242 - - [04/Jul/2022 00:47:22] "[36mGET /static/logo.png HTTP/1.1[0m" 304 -
+68.51.230.242 - - [04/Jul/2022 00:47:22] "GET /static/add.png HTTP/1.1" 200 -
+68.51.230.242 - - [04/Jul/2022 00:47:28] "GET /skills/949adf80-0977484e-821b4a8f-753148f7 HTTP/1.1" 200 -
+68.51.230.242 - - [04/Jul/2022 00:47:28] "[36mGET /static/js/lib.js HTTP/1.1[0m" 304 -
+68.51.230.242 - - [04/Jul/2022 00:47:28] "[36mGET /static/css/lib.css HTTP/1.1[0m" 304 -
+68.51.230.242 - - [04/Jul/2022 00:47:28] "[36mGET /static/logo.png HTTP/1.1[0m" 304 -
+68.51.230.242 - - [04/Jul/2022 00:47:28] "[36mGET /static/add.png HTTP/1.1[0m" 304 -
+68.51.230.242 - - [04/Jul/2022 00:47:28] "GET /static/edit.png HTTP/1.1" 200 -
+68.51.230.242 - - [04/Jul/2022 00:47:28] "GET /static/delete.png HTTP/1.1" 200 -
+138.68.13.81 - - [04/Jul/2022 00:47:29] "GET /static/logo.png HTTP/1.1" 200 -
+138.68.13.81 - - [04/Jul/2022 00:47:29] "[32mGET /skills/d5ac8138-d2964203-992b29a4-ec3dae8a HTTP/1.1[0m" 302 -
+138.68.13.81 - - [04/Jul/2022 00:47:30] "[32mGET /reauth?r=_skills_d5ac8138-d2964203-992b29a4-ec3dae8a HTTP/1.1[0m" 302 -
+138.68.13.81 - - [04/Jul/2022 00:47:30] "GET /skills/d5ac8138-d2964203-992b29a4-ec3dae8a HTTP/1.1" 200 -
+138.68.13.81 - - [04/Jul/2022 00:47:32] "GET /static/css/lib.css HTTP/1.1" 200 -
+138.68.13.81 - - [04/Jul/2022 00:47:32] "[32mGET /home HTTP/1.1[0m" 302 -
+138.68.13.81 - - [04/Jul/2022 00:47:33] "[32mGET / HTTP/1.1[0m" 302 -
+138.68.13.81 - - [04/Jul/2022 00:47:33] "[32mGET /reauth?r=_home HTTP/1.1[0m" 302 -
+138.68.13.81 - - [04/Jul/2022 00:47:33] "[32mGET /reauth?r=_home HTTP/1.1[0m" 302 -
+138.68.13.81 - - [04/Jul/2022 00:47:33] "[32mGET /reauth?r=_home HTTP/1.1[0m" 302 -
+138.68.13.81 - - [04/Jul/2022 00:47:33] "[35m[1mGET /home HTTP/1.1[0m" 500 -
+Traceback (most recent call last):
+  File "/root/resume/venv/lib/python3.10/site-packages/flask/app.py", line 2095, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/root/resume/venv/lib/python3.10/site-packages/flask/app.py", line 2080, in wsgi_app
+    response = self.handle_exception(e)
+  File "/root/resume/venv/lib/python3.10/site-packages/flask/app.py", line 2077, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/root/resume/venv/lib/python3.10/site-packages/flask/app.py", line 1525, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/root/resume/venv/lib/python3.10/site-packages/flask/app.py", line 1523, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/root/resume/venv/lib/python3.10/site-packages/flask/app.py", line 1509, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**req.view_args)
+  File "/root/resume/src/app.py", line 85, in home
+    html = cr.render_html_head('/home', session['mobile'])
+  File "/root/resume/src/crender.py", line 631, in render_html_head
+    all_skills = self.mc.skills_for_add_query()
+  File "/root/resume/src/controllers/mastercontroller.py", line 176, in skills_for_add_query
+    all_skills = retrieve_all_skills(self.dbm)
+  File "/root/resume/src/models/skills.py", line 159, in retrieve_all_skills
+    result = dbm.cur.fetchall()
+sqlite3.ProgrammingError: Recursive use of cursors not allowed.
+138.68.13.81 - - [04/Jul/2022 00:47:33] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+138.68.13.81 - - [04/Jul/2022 00:47:33] "[35m[1mGET /home HTTP/1.1[0m" 500 -
+Traceback (most recent call last):
+  File "/root/resume/venv/lib/python3.10/site-packages/flask/app.py", line 2095, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/root/resume/venv/lib/python3.10/site-packages/flask/app.py", line 2080, in wsgi_app
+    response = self.handle_exception(e)
+  File "/root/resume/venv/lib/python3.10/site-packages/flask/app.py", line 2077, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/root/resume/venv/lib/python3.10/site-packages/flask/app.py", line 1525, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/root/resume/venv/lib/python3.10/site-packages/flask/app.py", line 1523, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/root/resume/venv/lib/python3.10/site-packages/flask/app.py", line 1509, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**req.view_args)
+  File "/root/resume/src/app.py", line 85, in home
+    html = cr.render_html_head('/home', session['mobile'])
+  File "/root/resume/src/crender.py", line 643, in render_html_head
+    all_orgs = self.mc.orgs_for_add_query()
+  File "/root/resume/src/controllers/mastercontroller.py", line 127, in orgs_for_add_query
+    all_orgs = retrieve_all_orgs(self.dbm)
+  File "/root/resume/src/models/orgs.py", line 193, in retrieve_all_orgs
+    result = dbm.cur.fetchall()
+sqlite3.ProgrammingError: Recursive use of cursors not allowed.
+138.68.13.81 - - [04/Jul/2022 00:47:34] "[35m[1mGET /home HTTP/1.1[0m" 500 -
+Traceback (most recent call last):
+  File "/root/resume/venv/lib/python3.10/site-packages/flask/app.py", line 2095, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/root/resume/venv/lib/python3.10/site-packages/flask/app.py", line 2080, in wsgi_app
+    response = self.handle_exception(e)
+  File "/root/resume/venv/lib/python3.10/site-packages/flask/app.py", line 2077, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/root/resume/venv/lib/python3.10/site-packages/flask/app.py", line 1525, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/root/resume/venv/lib/python3.10/site-packages/flask/app.py", line 1523, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/root/resume/venv/lib/python3.10/site-packages/flask/app.py", line 1509, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**req.view_args)
+  File "/root/resume/src/app.py", line 85, in home
+    html = cr.render_html_head('/home', session['mobile'])
+  File "/root/resume/src/crender.py", line 643, in render_html_head
+    all_orgs = self.mc.orgs_for_add_query()
+  File "/root/resume/src/controllers/mastercontroller.py", line 127, in orgs_for_add_query
+    all_orgs = retrieve_all_orgs(self.dbm)
+  File "/root/resume/src/models/orgs.py", line 193, in retrieve_all_orgs
+    result = dbm.cur.fetchall()
+sqlite3.ProgrammingError: Recursive use of cursors not allowed.
+138.68.13.81 - - [04/Jul/2022 00:47:34] "[35m[1mGET /home HTTP/1.1[0m" 500 -
+Traceback (most recent call last):
+  File "/root/resume/venv/lib/python3.10/site-packages/flask/app.py", line 2095, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/root/resume/venv/lib/python3.10/site-packages/flask/app.py", line 2080, in wsgi_app
+    response = self.handle_exception(e)
+  File "/root/resume/venv/lib/python3.10/site-packages/flask/app.py", line 2077, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/root/resume/venv/lib/python3.10/site-packages/flask/app.py", line 1525, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/root/resume/venv/lib/python3.10/site-packages/flask/app.py", line 1523, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/root/resume/venv/lib/python3.10/site-packages/flask/app.py", line 1509, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**req.view_args)
+  File "/root/resume/src/app.py", line 89, in home
+    html += cr.home_home_htmlify(contact, edus, jobs, session)
+  File "/root/resume/src/crender.py", line 88, in home_home_htmlify
+    html += self.jobrenderer.render_home_tile(j, False, auth)
+  File "/root/resume/src/views/jobsrender.py", line 124, in render_home_tile
+    if len(j.skills(self.dbm)) > 0:
+  File "/root/resume/src/models/jobs.py", line 135, in skills
+    result = dbm.cur.fetchall()
+sqlite3.ProgrammingError: Recursive use of cursors not allowed.
+138.68.13.81 - - [04/Jul/2022 00:47:34] "GET /home HTTP/1.1" 200 -
+138.68.13.81 - - [04/Jul/2022 00:47:34] "GET /static/Addr.png HTTP/1.1" 200 -
+138.68.13.81 - - [04/Jul/2022 00:47:35] "GET /home HTTP/1.1" 200 -
+68.51.230.242 - - [04/Jul/2022 00:47:36] "GET /skills/27872d2f-753e4100-ab6bfedb-b6bb1a7b HTTP/1.1" 200 -
+68.51.230.242 - - [04/Jul/2022 00:47:36] "[36mGET /static/js/lib.js HTTP/1.1[0m" 304 -
+68.51.230.242 - - [04/Jul/2022 00:47:36] "[36mGET /static/css/lib.css HTTP/1.1[0m" 304 -
+68.51.230.242 - - [04/Jul/2022 00:47:37] "[36mGET /static/logo.png HTTP/1.1[0m" 304 -
+68.51.230.242 - - [04/Jul/2022 00:47:37] "[36mGET /static/add.png HTTP/1.1[0m" 304 -
+68.51.230.242 - - [04/Jul/2022 00:47:37] "[36mGET /static/edit.png HTTP/1.1[0m" 304 -
+68.51.230.242 - - [04/Jul/2022 00:47:37] "[36mGET /static/delete.png HTTP/1.1[0m" 304 -
+138.68.13.81 - - [04/Jul/2022 00:47:37] "[32mGET /skills HTTP/1.1[0m" 302 -
+138.68.13.81 - - [04/Jul/2022 00:47:37] "[32mGET /reauth?r=_skills HTTP/1.1[0m" 302 -
+138.68.13.81 - - [04/Jul/2022 00:47:38] "GET /skills HTTP/1.1" 200 -
+68.51.230.242 - - [04/Jul/2022 00:47:39] "GET /skills/b3e28f3f-07614de2-89fe833c-dc646115 HTTP/1.1" 200 -
+68.51.230.242 - - [04/Jul/2022 00:47:39] "[36mGET /static/js/lib.js HTTP/1.1[0m" 304 -
+68.51.230.242 - - [04/Jul/2022 00:47:39] "[36mGET /static/css/lib.css HTTP/1.1[0m" 304 -
+68.51.230.242 - - [04/Jul/2022 00:47:39] "[36mGET /static/logo.png HTTP/1.1[0m" 304 -
+68.51.230.242 - - [04/Jul/2022 00:47:39] "[36mGET /static/add.png HTTP/1.1[0m" 304 -
+68.51.230.242 - - [04/Jul/2022 00:47:39] "[36mGET /static/delete.png HTTP/1.1[0m" 304 -
+68.51.230.242 - - [04/Jul/2022 00:47:39] "[36mGET /static/edit.png HTTP/1.1[0m" 304 -
+138.68.13.81 - - [04/Jul/2022 00:47:41] "[31m[1mGET /login HTTP/1.1[0m" 405 -
+138.68.13.81 - - [04/Jul/2022 00:47:44] "GET /static/add.png HTTP/1.1" 200 -
+68.51.230.242 - - [04/Jul/2022 00:47:46] "GET /skills/67a64466-83bc4c25-b018ece9-bcfa544a HTTP/1.1" 200 -
+68.51.230.242 - - [04/Jul/2022 00:47:46] "[36mGET /static/js/lib.js HTTP/1.1[0m" 304 -
+68.51.230.242 - - [04/Jul/2022 00:47:46] "[36mGET /static/css/lib.css HTTP/1.1[0m" 304 -
+68.51.230.242 - - [04/Jul/2022 00:47:47] "[36mGET /static/logo.png HTTP/1.1[0m" 304 -
+68.51.230.242 - - [04/Jul/2022 00:47:47] "[36mGET /static/add.png HTTP/1.1[0m" 304 -
+68.51.230.242 - - [04/Jul/2022 00:47:47] "[36mGET /static/edit.png HTTP/1.1[0m" 304 -
+68.51.230.242 - - [04/Jul/2022 00:47:47] "[36mGET /static/delete.png HTTP/1.1[0m" 304 -
+138.68.13.81 - - [04/Jul/2022 00:47:47] "[32mGET /skills/949adf80-0977484e-821b4a8f-753148f7 HTTP/1.1[0m" 302 -
+138.68.13.81 - - [04/Jul/2022 00:47:47] "[32mGET /reauth?r=_skills_949adf80-0977484e-821b4a8f-753148f7 HTTP/1.1[0m" 302 -
+138.68.13.81 - - [04/Jul/2022 00:47:47] "GET /static/js/lib.js HTTP/1.1" 200 -
+138.68.13.81 - - [04/Jul/2022 00:47:48] "GET /skills/949adf80-0977484e-821b4a8f-753148f7 HTTP/1.1" 200 -
+68.51.230.242 - - [04/Jul/2022 00:49:16] "GET /skills/67a64466-83bc4c25-b018ece9-bcfa544a HTTP/1.1" 200 -
+68.51.230.242 - - [04/Jul/2022 00:49:16] "GET /static/js/lib.js HTTP/1.1" 200 -
+68.51.230.242 - - [04/Jul/2022 00:49:16] "[36mGET /static/css/lib.css HTTP/1.1[0m" 304 -
+68.51.230.242 - - [04/Jul/2022 00:49:16] "[36mGET /static/logo.png HTTP/1.1[0m" 304 -
+68.51.230.242 - - [04/Jul/2022 00:49:16] "[36mGET /static/edit.png HTTP/1.1[0m" 304 -
+68.51.230.242 - - [04/Jul/2022 00:49:16] "[36mGET /static/delete.png HTTP/1.1[0m" 304 -
+68.51.230.242 - - [04/Jul/2022 00:49:16] "[36mGET /static/add.png HTTP/1.1[0m" 304 -
+68.51.230.242 - - [04/Jul/2022 00:49:35] "[36mGET /static/css/lib.css HTTP/1.1[0m" 304 -
+68.51.230.242 - - [04/Jul/2022 00:49:50] "[32mGET / HTTP/1.1[0m" 302 -
+68.51.230.242 - - [04/Jul/2022 00:49:50] "[32mGET /reauth?r=_home HTTP/1.1[0m" 302 -
+68.51.230.242 - - [04/Jul/2022 00:49:50] "GET /home HTTP/1.1" 200 -
+68.51.230.242 - - [04/Jul/2022 00:49:51] "[36mGET /static/js/lib.js HTTP/1.1[0m" 304 -
+68.51.230.242 - - [04/Jul/2022 00:49:51] "[36mGET /static/logo.png HTTP/1.1[0m" 304 -
+68.51.230.242 - - [04/Jul/2022 00:49:51] "[36mGET /static/HeaderAnim.gif HTTP/1.1[0m" 304 -
+68.51.230.242 - - [04/Jul/2022 00:49:54] "GET /skills HTTP/1.1" 200 -
+68.51.230.242 - - [04/Jul/2022 00:49:54] "[36mGET /static/js/lib.js HTTP/1.1[0m" 304 -
+68.51.230.242 - - [04/Jul/2022 00:49:54] "[36mGET /static/logo.png HTTP/1.1[0m" 304 -
+68.51.230.242 - - [04/Jul/2022 00:49:57] "GET /skills/202f69c9-0fc84e53-a6b74a07-55e1e37a HTTP/1.1" 200 -
+68.51.230.242 - - [04/Jul/2022 00:49:57] "[36mGET /static/js/lib.js HTTP/1.1[0m" 304 -
+68.51.230.242 - - [04/Jul/2022 00:49:57] "[36mGET /static/logo.png HTTP/1.1[0m" 304 -
+68.51.230.242 - - [04/Jul/2022 00:50:02] "GET /skills/b7ba6d76-196d4bb5-814e45bd-7b217cfe HTTP/1.1" 200 -
+68.51.230.242 - - [04/Jul/2022 00:50:02] "[36mGET /static/js/lib.js HTTP/1.1[0m" 304 -
+68.51.230.242 - - [04/Jul/2022 00:50:03] "[36mGET /static/logo.png HTTP/1.1[0m" 304 -
+68.51.230.242 - - [04/Jul/2022 00:50:30] "GET /skills HTTP/1.1" 200 -
+68.51.230.242 - - [04/Jul/2022 00:50:30] "[36mGET /static/js/lib.js HTTP/1.1[0m" 304 -
+68.51.230.242 - - [04/Jul/2022 00:50:30] "[36mGET /static/logo.png HTTP/1.1[0m" 304 -
+68.51.230.242 - - [04/Jul/2022 00:50:34] "GET /skills/f8481972-a7e44ecf-9322a5ef-8ff66a1e HTTP/1.1" 200 -
+68.51.230.242 - - [04/Jul/2022 00:50:34] "[36mGET /static/js/lib.js HTTP/1.1[0m" 304 -
+68.51.230.242 - - [04/Jul/2022 00:50:34] "[36mGET /static/logo.png HTTP/1.1[0m" 304 -
+68.51.230.242 - - [04/Jul/2022 00:50:47] "GET /skills HTTP/1.1" 200 -
+68.51.230.242 - - [04/Jul/2022 00:50:47] "[36mGET /static/js/lib.js HTTP/1.1[0m" 304 -
+68.51.230.242 - - [04/Jul/2022 00:50:48] "[36mGET /static/logo.png HTTP/1.1[0m" 304 -
+68.51.230.242 - - [04/Jul/2022 00:50:50] "[32mGET / HTTP/1.1[0m" 302 -
+68.51.230.242 - - [04/Jul/2022 00:50:50] "[32mGET /reauth?r=_home HTTP/1.1[0m" 302 -
+68.51.230.242 - - [04/Jul/2022 00:50:50] "GET /home HTTP/1.1" 200 -
+68.51.230.242 - - [04/Jul/2022 00:50:50] "[36mGET /static/css/lib.css HTTP/1.1[0m" 304 -
+68.51.230.242 - - [04/Jul/2022 00:50:50] "[36mGET /static/js/lib.js HTTP/1.1[0m" 304 -
+68.51.230.242 - - [04/Jul/2022 00:50:51] "[36mGET /static/logo.png HTTP/1.1[0m" 304 -
+68.51.230.242 - - [04/Jul/2022 00:50:51] "[36mGET /static/delete.png HTTP/1.1[0m" 304 -
+68.51.230.242 - - [04/Jul/2022 00:50:51] "[36mGET /static/Phone.png HTTP/1.1[0m" 304 -
+68.51.230.242 - - [04/Jul/2022 00:50:51] "[36mGET /static/Addr.png HTTP/1.1[0m" 304 -
+68.51.230.242 - - [04/Jul/2022 00:50:51] "[36mGET /static/edit.png HTTP/1.1[0m" 304 -
+68.51.230.242 - - [04/Jul/2022 00:50:51] "[36mGET /static/Mail.png HTTP/1.1[0m" 304 -
+68.51.230.242 - - [04/Jul/2022 00:50:51] "[36mGET /static/HeaderAnim.gif HTTP/1.1[0m" 304 -
+68.51.230.242 - - [04/Jul/2022 00:50:51] "[36mGET /static/add.png HTTP/1.1[0m" 304 -
+68.51.230.242 - - [04/Jul/2022 00:50:55] "GET /skills HTTP/1.1" 200 -
+68.51.230.242 - - [04/Jul/2022 00:50:55] "[36mGET /static/js/lib.js HTTP/1.1[0m" 304 -
+68.51.230.242 - - [04/Jul/2022 00:50:55] "[36mGET /static/css/lib.css HTTP/1.1[0m" 304 -
+68.51.230.242 - - [04/Jul/2022 00:50:55] "[36mGET /static/logo.png HTTP/1.1[0m" 304 -
+68.51.230.242 - - [04/Jul/2022 00:50:55] "[36mGET /static/add.png HTTP/1.1[0m" 304 -
+68.51.230.242 - - [04/Jul/2022 00:51:00] "GET /skills/f8481972-a7e44ecf-9322a5ef-8ff66a1e HTTP/1.1" 200 -
+68.51.230.242 - - [04/Jul/2022 00:51:00] "[36mGET /static/js/lib.js HTTP/1.1[0m" 304 -
+68.51.230.242 - - [04/Jul/2022 00:51:00] "[36mGET /static/css/lib.css HTTP/1.1[0m" 304 -
+68.51.230.242 - - [04/Jul/2022 00:51:00] "[36mGET /static/logo.png HTTP/1.1[0m" 304 -
+68.51.230.242 - - [04/Jul/2022 00:51:00] "[36mGET /static/add.png HTTP/1.1[0m" 304 -
+68.51.230.242 - - [04/Jul/2022 00:51:00] "[36mGET /static/edit.png HTTP/1.1[0m" 304 -
+68.51.230.242 - - [04/Jul/2022 00:51:00] "[36mGET /static/delete.png HTTP/1.1[0m" 304 -
