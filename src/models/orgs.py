@@ -109,6 +109,71 @@ class Org:
 		if self.id == None and self.name == None and self.address == None and self.phone == None and self.desc_short == None and self.website == None and self.logo == None and self.image_head == None and self.created_by == None and self.modified_by == None:
 			return True
 		return False
+		
+	def dict (self):
+		obj = 	{
+					'id': self.id, 
+					'name': self.name, 
+					'address': {
+						'id': self.address.id,
+						'name': self.address.name,
+						'uri': self.address.uri,
+						'created_by': 	{
+											'id': self.address.created_by.id,
+											'username': self.address.created_by.username,
+											'password': 'redacted',
+											'salt': 'redacted',
+											'name': self.address.created_by.name, 
+											'group': 	{
+															'id': self.address.created_by.group.id,
+															'name': self.address.created_by.group.name,
+															'auth_key': 'redacted'
+														}
+										},
+						'modified_by': {
+											'id': self.address.modified_by.id,
+											'username': self.address.modified_by.username,
+											'password': 'redacted',
+											'salt': 'redacted',
+											'name': self.address.modified_by.name, 
+											'group': 	{
+															'id': self.address.modified_by.group.id,
+															'name': self.address.modified_by.group.name,
+															'auth_key': 'redacted'
+														}
+										}
+					},
+					'phone': self.phone,
+					'desc_short': self.desc_short,
+					'website': self.website,
+					'logo': 'redacted for bandwidth',
+					'image_head': 'redacted for bandwidth',
+					'created_by': 	{
+										'id': self.created_by.id,
+										'username': self.created_by.username,
+										'password': 'redacted',
+										'salt': 'redacted',
+										'name': self.created_by.name,
+										'group': 	{
+														'id': self.created_by.group.id,
+														'name': self.created_by.group.name,
+														'auth_key': 'redacted'
+													}
+									},
+					'modified_by':	{
+										'id': self.modified_by.id,
+										'username': self.modified_by.username,
+										'password': 'redacted',
+										'salt': 'redacted',
+										'name': self.modified_by.name,
+										'group': 	{
+														'id': self.modified_by.group.id,
+														'name': self.modified_by.group.name,
+														'auth_key': 'redacted'
+													}
+									}
+				}
+		return obj
 	
 	def debug (self):
 		obj = 	{
@@ -273,7 +338,7 @@ def retrieve_orgs (dbm, **kwargs):
 	return os
 	
 
-def retrieve_groups_custom (dbm, sql):
+def retrieve_orgs_custom (dbm, sql):
 	query = "SELECT * FROM Orgs " + sql
 	
 	os = []
@@ -293,6 +358,28 @@ def retrieve_groups_custom (dbm, sql):
 					mb = accounts.NoneAccount()
 					
 				o = Org(row[0], row[1], addr, row[2], row[3], row[4], row[5], row[6], row[7], cb, mb)
+				os.append(o)
+
+	return os
+	
+def retrieve_orgs_fcustom (dbm, query):
+	os = []
+	result = dbm.execute(query)
+	if result != None:
+		result = dbm.cur.fetchall()
+		if len(result) > 0:
+			for row in result:
+				addr = addresses.NoneAddress()
+				if not addr.retrieve(dbm, id=row[2]):
+					addr = addresses.NoneAddress()
+				cb = accounts.NoneAccount()
+				if not cb.retrieve(dbm, id=row[8]):
+					cb = accounts.NoneAccount()
+				mb = accounts.NoneAccount()
+				if not mb.retrieve(dbm, id=row[9]):
+					mb = accounts.NoneAccount()
+					
+				o = Org(row[0], row[1], addr, row[3], row[4], row[5], row[6], row[7], cb, mb)
 				os.append(o)
 
 	return os

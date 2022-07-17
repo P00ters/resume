@@ -12,9 +12,12 @@ from flask import Flask, session, render_template, request, redirect
 from dbm import DBM
 from crender import CRender
 
+from controllers.apicontroller import APIController
+
 app = Flask("myResume", static_url_path='/static')
 app.secret_key = os.urandom(24).hex()
 dbm = DBM('../dat/db.sqlite', True)
+api = APIController(dbm)
 cr = CRender(dbm)
 
 def get_sesh_key(gid):
@@ -978,6 +981,14 @@ def delete_skill():
 	html += cr.render_go_between('delete', 'skill', form_data, session)
 	return html
 		
+@app.route('/api/<string:method>/<string:model>', methods=['GET'])
+def api_get_handle(method, model):
+	return api.parse(method, model, request.args, "=")
+	
+@app.route('/api/get/search/<string:model>', methods=['GET'])
+def api_search_handle(model):
+	return api.parse('get', model, request.args, " LIKE ")
+			
 
 if __name__ == '__main__':
-	app.run(host='resume.tomesser.biz',port='80',debug=True)
+	app.run(host='127.0.0.1', port='80',debug=True)

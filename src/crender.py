@@ -32,7 +32,7 @@ from skillsrender import SkillRenderer
 from skills import retrieve_skills_custom, NoneSkill, Skill, retrieve_skills, retrieve_all_skills
 
 g_api = "AIzaSyAQmRwQrAmnbDOU_d0ILUMlT2l9OAldR00"
-
+URL = 'http://resume.tomesser.biz'
 
 class CRender:
 	def __init__ (self, dbm):
@@ -378,6 +378,7 @@ class CRender:
 						<script src="/static/js/lib.js"></script>
 						<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 						<link rel="stylesheet" href="/static/css/lib.css">
+						<link rel="shortcut icon" href="static/favicon.ico">
 					</head>
 					<body style="margin:0; max-width:100vw; overflow-x:hidden;">
 						<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true" style="position:fixed; top:20%; width:20%; left:40%;">
@@ -3084,96 +3085,282 @@ class CRender:
 									</div>
 								</div>
 							</div>
-							<div class="row">
-								<div class="col-sm-10 mx-auto">
-									<div class="card">
-										<div class="card-header">
-											<h5>Site Development Roadmap</h5>
+							<div id="accordion">
+								<div class="row">
+									<div class="col-sm-10 mx-auto">
+										<div class="card">
+											<div class="card-header" id="headingOne">
+											  <h5>
+												<button class="btn" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne" style="padding-top:15px;"><h5>
+												  Development Roadmap</h5>
+												</button>
+											  
+											</div>
+											 <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+												<div class="card-body">
+													<b>Note:</b> This site is still presently under development, but is in a suitable state to act as a digital copy of my resume.<br><br>
+													<div class="row" style="padding-left:15px;">
+														<p style="text-decoration:line-through;">Develop models for housing resume data in SQL.</p>
+														<div style="padding-left:10px;position:relative;top:3px;">
+															<span class="badge badge-pill badge-success">Completed</span>
+														</div>
+													</div>
+													<div class="row" style="padding-left:15px;">
+														<p style="text-decoration:line-through;">Develop method for insertion of pre-existing resume data into data store.</p>
+														<div style="padding-left:10px;position:relative;top:3px;">
+															<span class="badge badge-pill badge-success">Completed</span>
+														</div>
+													</div>
+													<div class="row" style="padding-left:15px;">
+														<p style="text-decoration:line-through;">Develop view controllers for the main resume data areas (single page resume, jobs, education, skills, organizations).</p>
+														<div style="padding-left:10px;position:relative;top:3px;">
+															<span class="badge badge-pill badge-success">Completed</span>
+														</div>
+													</div>
+													<div class="row" style="padding-left:15px;">
+														<p>Complete population of pre-existing resume data into data store for any missing data.</p>
+														<div style="padding-left:10px;position:relative;top:3px;">
+															<span class="badge badge-pill badge-info">In Progress</span>
+														</div>
+													</div>
+													<div class="row" style="padding-left:45px;">
+														<p style="text-decoration:line-through;">Add all hard skills.</p>
+														<div style="padding-left:10px;position:relative;top:3px;">
+															<span class="badge badge-pill badge-success">Completed</span>
+														</div>
+													</div>
+													<div class="row" style="padding-left:45px;">
+														<p style="text-decoration:line-through;">Add all soft skills.</p>
+														<div style="padding-left:10px;position:relative;top:3px;">
+															<span class="badge badge-pill badge-success">Completed</span>
+														</div>
+													</div>
+													<div class="row" style="padding-left:45px;">
+														<p>Add skill commentary.</p>
+														<div style="padding-left:10px;position:relative;top:3px;">
+															<span class="badge badge-pill badge-info">In Progress</span>
+														</div>
+													</div>
+													<div class="row" style="padding-left:45px;">
+														<p style="text-decoration:line-through;">Add long descriptions to education and work experience.</p>
+														<div style="padding-left:10px;position:relative;top:3px;">
+															<span class="badge badge-pill badge-success">Completed</span>
+														</div>
+													</div>
+													<div class="row" style="padding-left:15px;">
+														<p style="text-decoration:line-through;">Circle back on implementation of custom 404 pages and error handling on queries on non-existant data.</p>
+														<div style="padding-left:10px;position:relative;top:3px;">
+															<span class="badge badge-pill badge-success">Completed</span>
+														</div>
+													</div>
+													<div class="row" style="padding-left:15px;">
+														<p style="text-decoration:line-through;">Extend compatibility by implementing independent view controllers for mobile platforms.</p>
+														<div style="padding-left:10px;position:relative;top:3px;">
+															<span class="badge badge-pill badge-success">Completed</span>
+														</div>
+													</div>
+													<div class="row" style="padding-left:15px;">
+														<p style="text-decoration:line-through;">Implement controllers for data integrity - allow for reversion to actual resume data when present state is altered by a guest.</p>
+														<div style="padding-left:10px;position:relative;top:3px;">
+															<span class="badge badge-pill badge-success">Completed</span>
+														</div>
+													</div>
+													<div class="row" style="padding-left:15px;">
+														<p style="text-decoration:line-through;">Implement CRUD operations within the view portion of the application using existing authentication and access control structures.</p>
+														<div style="padding-left:10px;position:relative;top:3px;">
+															<span class="badge badge-pill badge-success">Completed</span>
+														</div>
+													</div>
+													<div class="row" style="padding-left:15px;">
+														<p style="text-decoration:line-through;">Extend the application into a full RESTful API to GET any resume data via JSON.</p>
+														<div style="padding-left:10px;position:relative;top:3px;">
+															<span class="badge badge-pill badge-success">Completed</span>
+														</div>
+													</div>
+													<div class="row" style="padding-left:45px;">
+														<p>Add api documentation.</p>
+														<div style="padding-left:10px;position:relative;top:3px;">
+															<span class="badge badge-pill badge-info">In Progress</span>
+														</div>
+													</div>
+													<div class="row" style="padding-left:15px;">
+														<p>Extend the application into a full RESTful API to perform any of the other CRUD operations on the resume data.</p>
+														<div style="padding-left:10px;position:relative;top:3px;">
+															<span class="badge badge-pill badge-info">In Progress</span>
+														</div>
+													</div>
+												</div>
+											</div>
 										</div>
-										<div class="card-body">
-											<b>Note:</b> This site is still presently under development, but is in a suitable state to act as a digital copy of my resume.<br><br>
-											<div class="row" style="padding-left:15px;">
-												<p style="text-decoration:line-through;">Develop models for housing resume data in SQL.</p>
-												<div style="padding-left:10px;position:relative;top:3px;">
-													<span class="badge badge-pill badge-success">Completed</span>
-												</div>
+										<div class="card">
+											<div class="card-header" id="headingTwo">
+											  <h5>
+												<button class="btn" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo" style="padding-top:15px;"><h5>
+												  API Use</h5>
+												</button>
+											  
 											</div>
-											<div class="row" style="padding-left:15px;">
-												<p style="text-decoration:line-through;">Develop method for insertion of pre-existing resume data into data store.</p>
-												<div style="padding-left:10px;position:relative;top:3px;">
-													<span class="badge badge-pill badge-success">Completed</span>
-												</div>
-											</div>
-											<div class="row" style="padding-left:15px;">
-												<p style="text-decoration:line-through;">Develop view controllers for the main resume data areas (single page resume, jobs, education, skills, organizations).</p>
-												<div style="padding-left:10px;position:relative;top:3px;">
-													<span class="badge badge-pill badge-success">Completed</span>
-												</div>
-											</div>
-											<div class="row" style="padding-left:15px;">
-												<p>Complete population of pre-existing resume data into data store for any missing data.</p>
-												<div style="padding-left:10px;position:relative;top:3px;">
-													<span class="badge badge-pill badge-info">In Progress</span>
-												</div>
-											</div>
-											<div class="row" style="padding-left:45px;">
-												<p style="text-decoration:line-through;">Add all hard skills.</p>
-												<div style="padding-left:10px;position:relative;top:3px;">
-													<span class="badge badge-pill badge-success">Completed</span>
-												</div>
-											</div>
-											<div class="row" style="padding-left:45px;">
-												<p style="text-decoration:line-through;">Add all soft skills.</p>
-												<div style="padding-left:10px;position:relative;top:3px;">
-													<span class="badge badge-pill badge-success">Completed</span>
-												</div>
-											</div>
-											<div class="row" style="padding-left:45px;">
-												<p>Add skill commentary.</p>
-												<div style="padding-left:10px;position:relative;top:3px;">
-													<span class="badge badge-pill badge-info">In Progress</span>
-												</div>
-											</div>
-											<div class="row" style="padding-left:45px;">
-												<p style="text-decoration:line-through;">Add long descriptions to education and work experience.</p>
-												<div style="padding-left:10px;position:relative;top:3px;">
-													<span class="badge badge-pill badge-success">Completed</span>
-												</div>
-											</div>
-											<div class="row" style="padding-left:15px;">
-												<p style="text-decoration:line-through;">Circle back on implementation of custom 404 pages and error handling on queries on non-existant data.</p>
-												<div style="padding-left:10px;position:relative;top:3px;">
-													<span class="badge badge-pill badge-success">Completed</span>
-												</div>
-											</div>
-											<div class="row" style="padding-left:15px;">
-												<p style="text-decoration:line-through;">Extend compatibility by implementing independent view controllers for mobile platforms.</p>
-												<div style="padding-left:10px;position:relative;top:3px;">
-													<span class="badge badge-pill badge-success">Completed</span>
-												</div>
-											</div>
-											<div class="row" style="padding-left:15px;">
-												<p style="text-decoration:line-through;">Implement controllers for data integrity - allow for reversion to actual resume data when present state is altered by a guest.</p>
-												<div style="padding-left:10px;position:relative;top:3px;">
-													<span class="badge badge-pill badge-success">Completed</span>
-												</div>
-											</div>
-											<div class="row" style="padding-left:15px;">
-												<p style="text-decoration:line-through;">Implement CRUD operations within the view portion of the application using existing authentication and access control structures.</p>
-												<div style="padding-left:10px;position:relative;top:3px;">
-													<span class="badge badge-pill badge-success">Completed</span>
-												</div>
-											</div>
-											<div class="row" style="padding-left:15px;">
-												<p>Extend the application into a full RESTful API to GET any resume data via JSON.</p>
-												<div style="padding-left:10px;position:relative;top:3px;">
-													<span class="badge badge-pill badge-info">In Progress</span>
-												</div>
-											</div>
-											<div class="row" style="padding-left:15px;">
-												<p>Extend the application into a full RESTful API to perform any of the other CRUD operations on the resume data.</p>
-												<div style="padding-left:10px;position:relative;top:3px;">
-													<span class="badge badge-pill badge-warning">Up Next</span>
+											 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+												<div class="card-body">
+													<div id="accordion2">
+														<div class="card">
+															<div class="card-header" id="h1">
+															  <h5>
+																<button class="btn" data-toggle="collapse" data-target="#c1" aria-expanded="true" aria-controls="c1" style="padding-top:15px;"><h6>
+																  Strict Get</h6>
+																</button>
+															  
+															</div>
+														</div>
+														<div class="card-body">
+															<div id="c1" class="collapse" aria-labelledby="h1" data-parent="#accordion2">
+																<div class="row">
+																	<div class="col-1">
+																		<b>Description</b>
+																	</div>
+																	<div class="col-5">
+																		Used to get any set of resume data matching specified parameters on a strict equality basis. 
+																	</div>
+																	<div class="col-1">
+																		<b>Endpoint</b>
+																	</div>
+																	<div class="col-5">
+																		http://resume.tomesser.biz/api/get/<i>{model}</i>
+																	</div>
+																</div><hr><br>
+																<div class="row">
+																	<div class="col-3">
+																		<b>Required Parameters</b>
+																	</div>
+																	<div class="col-5">
+																	
+																	</div>
+																</div><br>
+																<div class="row">
+																	<div class="col-1">
+																	</div>
+																	<div class="col-11">
+																		<div class="row">
+																			<table class="table">
+																			<thead>
+																			<tr>
+																			<th scope="col">Parameter</th>
+																			<th scope="col">Description</th>
+																			<th scope="col">Possible Values</th>
+																			<th scope="col">Example</th>
+																			</tr>
+																			</thead>
+																			<tbody>
+																			<tr>
+																			<td>model</td>
+																			<td>Specifies which data model to query in the get request.</td>
+																			<td><i>jobs, edus, orgs, addresses, skills</td>
+																			<td><i>To retrieve all jobs with no specified filtering criteria</i>:<br><a target="_blank" href="/api/get/jobs">''' + URL + '''/api/get/jobs</a>
+																			</tr>
+																			</tbody>
+																			</table>
+																		</div>
+																	</div>
+																</div><hr><br>
+																<div class="row">
+																	<div class="col-3">
+																		<b>Optional Paramters</b>
+																	</div>
+																</div><br>
+																<div class="row">
+																	<div class="col-1"></div>
+																	<div class="col-11">
+																		<div class="row">
+																			<table class="table">
+																			<thead>
+																			<tr>
+																			<th scope="col">Model Scope</th>
+																			<th scope="col">Parameter</th>
+																			<th scope="col">Description</th>
+																			<th scope="col">Example</th>
+																			</tr>
+																			</thead>
+																			<tbody>
+																			<tr>
+																			<th scope="row">All models</th>
+																			<td>id</td>
+																			<td>Specifies the id of the model object to retrieve in the request.</td>
+																			<td><i>To query the jobs models for an instance with an id of "68922a46-d53b49d7-b22ce9b4-d0f7b5fe"</i>:<br><a target="_blank" href="/api/get/jobs?id=68922a46-d53b49d7-b22ce9b4-d0f7b5fe">''' + URL + '''/api/get/jobs?id=68922a46-d53b49d7-b22ce9b4-d0f7b5fe</a></td>
+																			</tr>
+																			<tr>
+																			<th scope="row">addresses, skills, orgs</th>
+																			<td>name</td>
+																			<td>Specifies the name of the address, skill, or org to retrieve in the request.</td>
+																			<td><i>To query the skills models for an instance with the name of "Programming"</i>:<br><a target="_blank" href="/api/get/skills?name=Programming">'''+URL+'''/api/get/skills?name=Programming</td>
+																			</tr>
+																			<tr>
+																			<th scope="row">orgs, jobs, skills, edus</th>
+																			<td>desc_short</td>
+																			<td>Specifies the short description of the model object to retrieve in the request.</td>
+																			<td><i>To query an org with a short description of "Test"</i>:<br><a target="_blank" href="/api/get/orgs?desc_short=Test">'''+URL+'''/api/get/orgs?desc_short=Test</td>
+																			</tr>
+																			<tr>
+																			<th scope="row">jobs, skills, edus</th>
+																			<td>desc_long</td>
+																			<td>Specifies the long description of the model object to retrieve in the request.</td>
+																			<td><i>To query an edu with a short description of "Test"</i>:<br><a target="_blank" href="/api/get/edus?desc_long=Test">'''+URL+'''/api/get/edus?desc_long=Test</td>
+																			</tr>
+																			<tr>
+																			<th scope="row">jobs, orgs, edus</th>
+																			<td>aid</td>
+																			<td>Specifies the address id underlying an org. The org may be underlying a job or an edu.</td>
+																			<td><i>To query an job with an underlying org that has an underlying address id of "1"</i>:<br><a target="_blank" href="/api/get/jobs?aid=1">'''+URL+'''/api/get/jobs?aid=1</td>
+																			</tr>
+																			<tr>
+																			<th scope="row">jobs, orgs, edus</th>
+																			<td>aname</td>
+																			<td>Specifies the address id underlying an org. The org may be underlying a job or an edu.</td>
+																			<td><i>To query a job that has an underlying org with an underlying address name of "515 Eastern Ave, Allegan, MI 49010"</i>:<br><a target="_blank" href="/api/get/jobs?aname=515 Eastern Ave, Allegan, MI 49010">'''+URL+'''/api/get/jobs?aname=515%20Eastern%20Ave,%20Allegan,%20MI%2049010</td>
+																			</tr>
+																			<tr>
+																			<th scope="row">jobs, edus</th>
+																			<td>skill_ids</td>
+																			<td>Specifies a number of skill_ids that are underlying either a job or edu.</td>
+																			<td><i>To query an edu with underlying skill_ids of "f8481972-a7e44ecf-9322a5ef-8ff66a1e,df09ea12-80be422d-8701b975-240a3c7a,ebde125d-8c32410a-a7fea526-b4679de3"</i>:<br><a target="_blank" href="/api/get/edus?skill_ids=f8481972-a7e44ecf-9322a5ef-8ff66a1e,df09ea12-80be422d-8701b975-240a3c7a,ebde125d-8c32410a-a7fea526-b4679de3">'''+URL+'''/api/get/jobs?skill_ids=f8481972-a7e44ecf-9322a5ef-8ff66a1e,df09ea12-80be422d-8701b975-240a3c7a,ebde125d-8c32410a-a7fea526-b4679de3</td>
+																			</tr>
+																			<tr>
+																			<th scope="row">jobs, edus</th>
+																			<td>oid</td>
+																			<td>Specifies the org id of an org underlying a job or an edu.</td>
+																			<td><i>To query a job with an underlying org that has an id of "4bbf911f-cccb471e-9d683a4e-173cf89b"</i>:<br><a target="_blank" href="/api/get/jobs?oid=4bbf911f-cccb471e-9d683a4e-173cf89b">'''+URL+'''/api/get/jobs?oid=4bbf911f-cccb471e-9d683a4e-173cf89b</td>
+																			</tr>
+																			<tr>
+																			<th scope="row">jobs, edus</th>
+																			<td>oname</td>
+																			<td>Specifies the org name of an org underlying a job or an edu.</td>
+																			<td><i>To query an edu with an underlying org that has a name of "Western Michigan University"</i>:<br><a target="_blank" href="/api/get/edus?oname=Western%20Michigan%20University">'''+URL+'''/api/get/edus?oname=Western%20Michigan%20University</td>
+																			</tr>
+																			<tr>
+																			<th scope="row">jobs, edus</th>
+																			<td>ophone</td>
+																			<td>Specifies the org phone number of an org underlying a job or an edu. Phone numbers should have no formatting characters and be 10-digit numbers.</td>
+																			<td><i>To query an edu with an underlying org that has a phone number of of "5177968425"</i>:<br><a target="_blank" href="/api/get/edus?ophone=5177968425">'''+URL+'''/api/get/edus?ophone=5177968425</td>
+																			</tr>
+																			<tr>
+																			<th scope="row">jobs, edus</th>
+																			<td>odesc_short</td>
+																			<td>Specifies the short description of an org underlying a job or an edu.</td>
+																			<td><i>To query an edu with an underlying org that has a short description of "Test"</i>:<br><a target="_blank" href="/api/get/edus?odesc_short=Test">'''+URL+'''/api/get/edus?odesc_short=Test</td>
+																			</tr>
+																			<tr>
+																			<th scope="row">jobs, edus</th>
+																			<td>owebsite</td>
+																			<td>Specifies the org website of an org underlying a job or an edu.</td>
+																			<td><i>To query a job with an underlying org that has a website of "https://www.perrigo.com/"</i>:<br><a target="_blank" href="/api/get/jobs?owebsite=https://www.perrigo.com/">'''+URL+'''/api/get/jobs?owebsite=https://www.perrigo.com/</td>
+																			</tr>
+																			</tbody>
+																			</table>
+																		</div>
+																	</div>
+																</div><hr>
+															</div>
+														</div>
+													</div>
 												</div>
 											</div>
 										</div>
@@ -3320,15 +3507,23 @@ class CRender:
 											</div>
 											<div class="row" style="padding-left:15px;">
 												<div class="col-sm-2">
+													<span class="badge badge-pill badge-success">Completed</span>
+												</div>
+												<div class="col-sm-8">
+													<p style="text-decoration:line-through;">Extend the application into a full RESTful API to GET any resume data via JSON.</p>
+												</div>
+											</div>
+											<div class="row" style="padding-left:45px;">
+												<div class="col-sm-2">
 													<span class="badge badge-pill badge-info">In Progress</span>
 												</div>
 												<div class="col-sm-8">
-													<p>Extend the application into a full RESTful API to GET any resume data via JSON.</p>
+													<p>Add api documentation.</p>
 												</div>
 											</div>
 											<div class="row" style="padding-left:15px;">
 												<div class="col-sm-2">
-													<span class="badge badge-pill badge-warning">Up Next</span>
+													<span class="badge badge-pill badge-info">In Progress</span>
 												</div>
 												<div class="col-sm-8">
 													<p>Extend the application into a full RESTful API to perform any of the other CRUD operations on the resume data.</p>

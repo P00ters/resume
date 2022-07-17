@@ -146,6 +146,104 @@ class Job:
 			return True
 		return False
 		
+	def dict (self):
+		obj =	{
+					'id': self.id,
+					'title': self.title,
+					'present': self.present,
+					'date_start': self.date_start,
+					'date_stop': self.date_stop,
+					'desc_short': self.desc_short,
+					'desc_long': self.desc_long,
+					'skill_ids': self.skill_ids,
+					'created_by': 	{
+										'id': self.created_by.id,
+										'username': self.created_by.username,
+										'password': 'redacted',
+										'salt': 'redacted',
+										'name': self.created_by.name,
+										'group': 	{
+														'id': self.created_by.group.id,
+														'name': self.created_by.group.name,
+														'auth_key': 'redacted'
+													}
+									},
+					'modified_by':	{
+										'id': self.modified_by.id,
+										'username': self.modified_by.username,
+										'password': 'redacted',
+										'salt': 'redacted',
+										'name': self.modified_by.name,
+										'group': 	{
+														'id': self.modified_by.group.id,
+														'name': self.modified_by.group.name,
+														'auth_key': 'redacted'
+													}
+									},
+					'org': {
+								'id': self.org.id,
+								'name': self.org.name,
+								'address': {
+												'id': self.org.address.id,
+												'name': self.org.address.name,
+												'uri': self.org.address.uri,
+												'created_by': 	{
+																	'id': self.org.address.created_by.id,
+																	'username': self.org.address.created_by.username,
+																	'password': 'redacted',
+																	'salt': 'redacted',
+																	'name': self.org.address.created_by.name,
+																	'group': 	{
+																					'id': self.org.address.created_by.group.id,
+																					'name': self.org.address.created_by.group.name,
+																					'auth_key': 'redacted'
+																				}
+																},
+												'modified_by': {
+																	'id': self.org.address.modified_by.id,
+																	'username': self.org.address.modified_by.username,
+																	'password': 'redacted',
+																	'salt': 'redacted',
+																	'name': self.org.address.modified_by.name,
+																	'group': 	{
+																					'id': self.org.address.modified_by.group.id,
+																					'name': self.org.address.modified_by.group.name,
+																					'auth_key': 'redacted'
+																				}
+																}
+											},
+								'phone': self.org.phone,
+								'desc_short': self.org.desc_short,
+								'website': self.org.website,
+								'created_by': 	{
+													'id': self.org.created_by.id,
+													'username': self.org.created_by.username,
+													'password': 'redacted',
+													'salt': 'redacted',
+													'name': self.org.created_by.name,
+													'group': 	{
+																	'id': self.org.created_by.group.id,
+																	'name': self.org.created_by.group.name,
+																	'auth_key': 'redacted'
+																}
+												},
+								'modified_by': 	{
+													'id': self.org.modified_by.id,
+													'username': self.org.modified_by.username,
+													'password': 'redacted',
+													'salt': 'redacted',
+													'name': self.org.modified_by.name,
+													'group': 	{
+																	'id': self.org.modified_by.group.id,
+																	'name': self.org.modified_by.group.name,
+																	'auth_key': 'redacted'
+																}
+												}
+							}
+				}
+		
+		return obj
+		
 	def debug (self):
 		obj =	{
 					'id': self.id,
@@ -362,6 +460,27 @@ def retrieve_jobs_custom (dbm, sql):
 	
 	return js
 	
+def retrieve_jobs_fcustom (dbm, query):
+	js = []
+	result = dbm.execute(query)
+	if result != None:
+		result = dbm.cur.fetchall()
+		if len(result) > 0:
+			for row in result:
+				o = orgs.NoneOrg()
+				if not o.retrieve(dbm, id=row[8]):
+					o = orgs.NoneOrg()
+				cb = accounts.NoneAccount()
+				if not cb.retrieve(dbm, id=row[9]):
+					cb = accounts.NoneAccount()
+				mb = accounts.NoneAccount()
+				if not mb.retrieve(dbm, id=row[10]):
+					mb = accounts.NoneAccount()
+					
+				j = Job(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], o, cb, mb)
+				js.append(j)
+	
+	return js
 	
 def jobs_date_sort (job_list):
 	n = len(job_list)

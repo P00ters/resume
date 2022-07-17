@@ -116,6 +116,39 @@ class Address:
 				}
 		print(str(obj))
 		
+	def dict (self):
+		obj = 	{
+					'id': self.id, 
+					'name': self.name,
+					'uri': self.uri,
+					'created_by': 	{
+										'id': self.created_by.id,
+										'username': self.created_by.username,
+										'password': 'redacted',
+										'salt': 'redacted',
+										'name': self.created_by.name,
+										'group': 	{
+														'id': self.created_by.group.id,
+														'name': self.created_by.group.name,
+														'auth_key': 'redacted'
+													}
+									},
+					'modified_by':	{
+										'id': self.modified_by.id,
+										'username': self.modified_by.username,
+										'password': 'redacted',
+										'salt': 'redacted',
+										'name': self.modified_by.name,
+										'group': 	{
+														'id': self.modified_by.group.id,
+														'name': self.modified_by.group.name,
+														'auth_key': 'redacted'
+													}
+									}
+		
+				}
+		return obj
+		
 
 def NoneAddress ():
 	return Address(None, None, None, None, None)
@@ -190,6 +223,24 @@ def retrieve_addresses (dbm, **kwargs):
 def retrieve_addresses_custom (dbm, sql):
 	query = "SELECT * FROM Addresses " + sql
 	
+	addrs = []
+	result = dbm.execute(query)
+	if result != None:
+		result = dbm.cur.fetchall()
+		if len(result) > 0:
+			for row in result:
+				cb = accounts.NoneAccount()
+				if not cb.retrieve(dbm, id=row[3]):
+					cb = accounts.NoneAccount()
+				mb = accounts.NoneAccount()
+				if not mb.retrieve(dbm, id=row[4]):
+					mb = accounts.NoneAccount()
+				a = Address(row[0], row[1], row[2], cb, mb)
+				addrs.append(a)
+	
+	return addrs
+	
+def retrieve_addresses_fcustom (dbm, query):
 	addrs = []
 	result = dbm.execute(query)
 	if result != None:

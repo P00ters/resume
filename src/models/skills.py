@@ -108,6 +108,43 @@ class Skill:
 			return True
 		return False
 		
+	def dict (self):
+		obj = 	{ 
+					'id': self.id, 
+					'name': self.name, 
+					'exposure': self.exposure, 
+					'soft_or_hard': self.soft_or_hard, 
+					'reference': self.reference, 
+					'category': self.category, 
+					'desc_short': self.desc_short, 
+					'desc_long': self.desc_long, 
+					'created_by': 	{
+										'id': self.created_by.id,
+										'username': self.created_by.username,
+										'password': 'redacted',
+										'salt': 'redacted',
+										'name': self.created_by.name,
+										'group':	{
+														'id': self.created_by.group.id,
+														'name': self.created_by.group.name,
+														'auth_key': 'redacted'
+													}
+									},
+					'modified_by': 	{
+										'id': self.modified_by.id,
+										'username': self.modified_by.username,
+										'password': 'redacted',
+										'salt': 'redacted',
+										'name': self.modified_by.name,
+										'group':	{
+														'id': self.modified_by.group.id,
+														'name': self.modified_by.group.name,
+														'auth_key': 'redacted'
+													}
+									}
+				}
+		return obj
+		
 	def debug (self):
 		obj = 	{ 
 					'id': self.id, 
@@ -239,6 +276,25 @@ def retrieve_skills (dbm, **kwargs):
 def retrieve_skills_custom (dbm, sql):
 	query = "SELECT * FROM Skills " + sql
 	
+	ss = [] 
+	result = dbm.execute(query)
+	if result != None:
+		result = dbm.cur.fetchall()
+		if len(result) > 0:
+			for row in result:
+				cb = accounts.NoneAccount()
+				if not cb.retrieve(dbm, id=row[9]):
+					cb = accounts.NoneAccount()
+				mb = accounts.NoneAccount()
+				if not mb.retrieve(dbm, id=row[10]):
+					mb = accounts.NoneAccount()
+			
+				s = Skill(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], cb, mb)
+				ss.append(s)
+	
+	return ss
+	
+def retrieve_skills_fcustom (dbm, query):
 	ss = [] 
 	result = dbm.execute(query)
 	if result != None:
