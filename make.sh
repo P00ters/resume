@@ -6,4 +6,5 @@ chmod +x venv/bin/activate
 source venv/bin/activate
 python3 -m pip install flask
 python -m pip install Flask-Mobility
+python -m pip install -U flask_cors
 deactivate

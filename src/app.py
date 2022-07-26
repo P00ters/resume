@@ -1,3 +1,24 @@
+"""
+	This module is the main flask module containing mostly routing directives for
+	the application as well as a few pieces related to session and authentication
+	control. Most of the functionality in the app for each of the routes is contained
+	outside the scope of this module. The module can be called directly to start
+	the flask app.
+
+	Example:
+		$ python app.py
+
+	Attributes:
+		app (Flask): Module level flask instance that all of the routes derive on.
+		dbm (DBM): Main sqlite database connection manager instance that is passed
+			to other modules that need to access data. Other modules may duplicate
+			the database object when the purpose is for reading data that may be
+			done asyncronously, such as with the api routes and functions.
+		cr (CRender): Modules level rendering instance that contains much of the
+			logic for laying out common html views for the app. Module contains all
+			html rendering logic less the views wrapping individual model items.
+"""
+
 import os
 import base64
 import binascii
@@ -9,12 +30,17 @@ import datetime
 from urllib.parse import urlencode
 
 from flask import Flask, session, render_template, request, redirect
+from flask_cors import CORS, cross_origin
 from dbm import DBM
 from crender import CRender
+import json
 
 from controllers.apicontroller import APIController
 
 app = Flask("myResume", static_url_path='/static')
+CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
+
 app.secret_key = os.urandom(24).hex()
 dbm = DBM('../dat/db.sqlite', True)
 api = APIController(dbm)
@@ -36,10 +62,26 @@ def get_sesh_key(gid):
 
 @app.route('/')
 def authenticate():
+	"""Root route function for the app.
+
+	The root route authenticates the user session if not done before redirecting
+	to the /home route.
+	"""
 	return redirect('/reauth?r=_home')
 
 @app.route('/reauth', methods=['GET'])
 def reauthenticate():
+	"""Main authenication route and functionality.
+
+	Authenticates a user session as a guest session if not previously done and
+	establishes session data. Redirects the route back to either home or a custom
+	route as specified by with the argument 'r', with '/' being replaced by '_' for
+	the value of the argument.
+
+	Route Args:
+		r: The route to redirect after performing the guest authentication if necessary.
+			The '/' characters in the route should be replaced by '_' characters.
+	"""
 	if (session.get('username') == None):
 		session['username'] = 'guest'
 		session['name'] = 'Guest'
@@ -78,6 +120,10 @@ def reauthenticate():
 
 @app.route('/home')
 def home():
+	"""Home page route and functionality.
+
+	Constructs and returns the home page view using the CRender rendering functionality.
+	"""
 	if session.get('username') == None:
 		return redirect('/reauth?r=_home')
 
@@ -97,6 +143,15 @@ def home():
 
 @app.route('/jobs/<string:job_id>')
 def job_by_id(job_id):
+	"""Individual job view for a single instance of a job experience.
+
+	Constructs and returns the html view for a single instance of a job experience
+	based on the specified job id passed via the URL. If the specified job does
+	not exist, an error page will be returned.
+
+	Route Args:
+		job_id: The id for the job to render and return the view for.
+	"""
 	if session.get('username') == None:
 		return redirect('/reauth?r=_jobs_' + job_id)
 
@@ -114,6 +169,15 @@ def job_by_id(job_id):
 
 @app.route('/edus/<string:edu_id>')
 def edu_by_id(edu_id):
+	"""Individual education view for a single instance of an education experience.
+
+	Constructs and returns the html view for a single instance of an education experience
+	based on the specified job id passed via the URL. If the specified education does
+	not exist, an error page will be returned.
+
+	Route Args:
+		edu_id: The id for the education to render and return the view for.
+	"""
 	if session.get('username') == None:
 		return redirect('/reauth?r=_edus_' + edu_id)
 
@@ -131,6 +195,15 @@ def edu_by_id(edu_id):
 
 @app.route('/orgs/<string:org_id>')
 def org_by_id(org_id):
+	"""Individual organization view for a single instance of an organization.
+
+	Constructs and returns the html view for a single instance of an organization
+	based on the specified job id passed via the URL. If the specified organization does
+	not exist, an error page will be returned.
+
+	Route Args:
+		org_id: The id for the organization to render and return the view for.
+	"""
 	if session.get('username') == None:
 		return redirect('/reauth?r=_orgs_' + org_id)
 
@@ -150,6 +223,15 @@ def org_by_id(org_id):
 
 @app.route('/skills/<string:skill_id>')
 def skill_by_id(skill_id):
+	"""Individual skill view for a single instance of a skill.
+
+	Constructs and returns the html view for a single instance of a skill
+	based on the specified job id passed via the URL. If the specified skill does
+	not exist, an error page will be returned.
+
+	Route Args:
+		skill_id: The id for the skill to render and return the view for.
+	"""
 	if session.get('username') == None:
 		return redirect('/reauth?r=_skills_' + skill_id)
 
@@ -166,6 +248,11 @@ def skill_by_id(skill_id):
 
 @app.route('/jobs')
 def jobs_general():
+	"""General view for multiple jobs.
+
+	Presently, this route just redirects back to the most recently entered individual
+	job instance, instead of rendering its own multi-job view.
+	"""
 	if session.get('username') == None:
 		return redirect('/reauth?r=_jobs')
 
@@ -178,6 +265,11 @@ def jobs_general():
 
 @app.route('/edus')
 def edus_general():
+	"""General view for multiple edus.
+
+	Presently, this route just redirects back to the most recently entered individual
+	edu instance, instead of rendering its own multi-edu view.
+	"""
 	if session.get('username') == None:
 		return redirect('/reauth?r=_edus')
 
@@ -190,6 +282,11 @@ def edus_general():
 
 @app.route('/orgs')
 def orgs_general():
+	"""General view for multiple orgs.
+
+	Presently, this route just redirects back to the most recently entered individual
+	org instance, instead of rendering its own multi-org view.
+	"""
 	if session.get('username') == None:
 		return redirect('/reauth?r=_orgs')
 
@@ -202,6 +299,11 @@ def orgs_general():
 
 @app.route('/skills')
 def skills_general():
+	"""General view for multiple skills.
+
+	Constructs and returns a view showing all skills contained in the database.
+	Separates them into category across technical vs. soft skill.
+	"""
 	if session.get('username') == None:
 		return redirect('/reauth?r=_skills')
 
@@ -216,6 +318,10 @@ def skills_general():
 
 @app.route('/about')
 def about():
+	"""General view for an about page.
+
+	Constructs and returns a view showing some about info for the app.
+	"""
 	if session.get('username') == None:
 		return redirect('/reauth?r=_about')
 
@@ -230,6 +336,15 @@ def about():
 
 @app.route('/err', methods=['GET'])
 def err ():
+	"""General view for an error page.
+
+	Constructs and returns an error page, generally for use when a route that does
+	not exist is attempted to be accessed. Return a custom result based on the model
+	type attempting to be accessed when applicable.
+
+	Route Args:
+		resource: The resource that was attempted to be accessed when applicable.
+	"""
 	resource = request.args.get('resource')
 
 	html = cr.render_html_head('/err?resource=' + resource, session['mobile'])
@@ -239,6 +354,18 @@ def err ():
 
 @app.route('/login', methods=['POST'])
 def login():
+	"""Does authentication beyond the basic guest level authentication and session establishment.
+
+	Performs authentication function when user attempts to authenticate beyond the basic
+	guest authentication session that is established for them. Will redirect and return
+	the prior page that was present before the authentication attempt occurred.
+
+	POST Args:
+		username: The username to authenticate with.
+		raw: The raw password to authenticate with.
+		r: The previous page/route where the authentication attempt occurred. Will return
+			back to this route upon completing authentication.
+	"""
 	username = request.form['username']
 	raw = request.form['password']
 	r = request.form['redirect']
@@ -273,6 +400,15 @@ def login():
 
 @app.route('/logout', methods=['GET'])
 def logout():
+	"""Wipes the present authentication session.
+
+	Logs the user out of any authentication session and restablishes the session
+	as a guest authentication session. Redirects back to previous route/page after.
+
+	Route Args:
+		r: The previous route/page to redirect back to after logout. Route value should
+			have '/' characters replaced with '_' characters.
+	"""
 	r = request.args.get('r')
 	r = r.replace('_', '/')
 
@@ -305,6 +441,16 @@ def logout():
 
 @app.route('/restore', methods=['GET'])
 def restore ():
+	"""Does a restore on site data.
+
+	Restores site data to an admin created/modified only state, eliminating any
+	changes made under the member/contributor account/group levels. Redirects back
+	to the prior page after performing the operation.
+
+	Route Args:
+		r: The previous route/page to redirect back to after logout. Route value should
+			have '/' characters replaced with '_' characters.
+	"""
 	r = request.args.get('r')
 	if r == None:
 		r = '_home'
@@ -316,6 +462,11 @@ def restore ():
 
 @app.route('/create/job', methods=['POST'])
 def create_job():
+	"""Route for creating a new job within the app.
+
+	Parses and creates a new job instance and saves to the database from form
+	data passed by site forms in the app.
+	"""
 	skills = ""
 	form_data = {}
 
@@ -444,6 +595,11 @@ def create_job():
 
 @app.route('/create/edu', methods=['POST'])
 def create_edu():
+	"""Route for creating a new edu within the app.
+
+	Parses and creates a new edu instance and saves to the database from form
+	data passed by site forms in the app.
+	"""
 	skills = ""
 	form_data = {}
 	print(str(request.form))
@@ -567,6 +723,11 @@ def create_edu():
 
 @app.route('/create/org', methods=['POST'])
 def create_org():
+	"""Route for creating a new org within the app.
+
+	Parses and creates a new org instance and saves to the database from form
+	data passed by site forms in the app.
+	"""
 	if request.form['org_add_address_i'] == "True":
 		aid = dbm.genid()
 		aname = request.form['a_o_new_address']
@@ -575,17 +736,17 @@ def create_org():
 		aid = request.form['a_o_address_selector']
 		aname = None
 		new_addr = False
-		
+
 	if request.form['a_o_icon'] != None and request.form['a_o_icon'] != "":
 		logo = bytes(request.form['a_o_icon_val'], 'utf-8')
 	else:
 		logo = dbm.imgtobin('static/placeholder-logo.png')
-		
+
 	if request.form['a_o_header'] != None and request.form['a_o_header'] != "":
 		image_head = bytes(request.form['a_o_header_val'], 'utf-8')
 	else:
 		image_head = dbm.imgtobin('static/placeholder-header.png')
-		
+
 	form_data =	{
 					'id': dbm.genid(),
 					'name': request.form['a_o_name'],
@@ -598,16 +759,21 @@ def create_org():
 					'aid': aid,
 					'aname': aname
 				}
-				
+
 	html = ''
 	html += cr.render_html_head('/org', session['mobile'])
 	html += cr.render_header(session['name'], '/create/org', '/create/org/' + form_data['id'], session)
 	html += cr.render_go_between('add', 'org', form_data, session)
-	
+
 	return html
 
 @app.route('/create/skill', methods=['POST'])
 def create_skill():
+	"""Route for creating a new skill within the app.
+
+	Parses and creates a new skill instance and saves to the database from form
+	data passed by site forms in the app.
+	"""
 	if request.form['s_a_icon'] != None and request.form['s_a_icon'] != "":
 		logo = bytes(request.form['s_a_icon_val'], 'utf-8')
 	else:
@@ -616,7 +782,7 @@ def create_skill():
 		soh = False
 	else:
 		soh = True
-	
+
 	form_data = {
 					'id': dbm.genid(),
 					'name': request.form['s_a_name'],
@@ -628,16 +794,21 @@ def create_skill():
 					'desc_short': request.form['s_a_desc_short'],
 					'desc_long': request.form['s_a_desc_long']
 				}
-				
+
 	html = ''
 	html += cr.render_html_head('/skills', session['mobile'])
 	html += cr.render_header(session['name'], '/create/skill', '/create/skill/' + form_data['id'], session)
 	html += cr.render_go_between('add', 'skill', form_data, session)
-	
+
 	return html
 
 @app.route('/update/edu', methods=['POST'])
 def update_edu():
+	"""Route for updating an edu within the app.
+
+	Parses and updates an edu instance and saves to the database from form
+	data passed by site forms in the app.
+	"""
 	skills = ""
 	form_data = {}
 
@@ -646,9 +817,9 @@ def update_edu():
 		if s[0] == 'e_e_skill_selector':
 			for a in s[1]:
 				skills += str(a) + ','
-	
+
 	o = request.form['e_e_org_selector']
-	
+
 	form_data = {
 					'id' : request.form['e_e_id'],
 					'degree' : request.form['e_e_degree'],
@@ -659,37 +830,42 @@ def update_edu():
 					'org' : o,
 					'skill_ids' : skills
 				}
-	
+
 	html = ''
 	html += cr.render_html_head('/edu', session['mobile'])
 	html += cr.render_header(session['name'], '/update/edu', '/update/edu/' + form_data['id'], session)
 	html += cr.render_go_between('update', 'edu', form_data, session)
-	
+
 	return html
-	
+
 @app.route('/update/job', methods=['POST'])
 def update_job():
+	"""Route for updating a job within the app.
+
+	Parses and updates a job instance and saves to the database from form
+	data passed by site forms in the app.
+	"""
 	skills = ""
 	form_data = {}
-	
+
 	d = list(request.form.lists())
 	for s in d:
 		if s[0] == 'e_j_skill_selector':
 			for a in s[1]:
 				skills += str(a) + ','
-	
+
 	o = request.form['e_j_org_selector']
-	
+
 	if request.form['e_j_date_stop'] == "" or request.form['e_j_date_stop'] == None:
 		date_stop = None
 	else:
 		date_stop = ['e_j_date_stop']
-		
+
 	if 'e_j_present' in request.form:
 		present = 1
 	else:
 		present = 0
-	
+
 	form_data = {
 					'id': request.form['e_j_id'],
 					'title': request.form['e_j_title'],
@@ -701,26 +877,31 @@ def update_job():
 					'org': o,
 					'skill_ids': skills
 				}
-	
+
 	html = ''
 	html += cr.render_html_head('/job', session['mobile'])
 	html += cr.render_header(session['name'], '/update/job', '/update/job' + form_data['id'], session)
 	html += cr.render_go_between('update', 'job', form_data, session)
-	
+
 	return html
 
 @app.route('/update/contact', methods=['POST'])
 def update_contact():
+	"""Route for updating a contact within the app.
+
+	Parses and updates a contact instance and saves to the database from form
+	data passed by site forms in the app.
+	"""
 	if request.form['contact_add_address_i'] == "True":
 		new_address = True
 	else:
 		new_address = False
-		
+
 	if new_address:
 		address = request.form['e_c_new_address']
 	else:
 		address = request.form['e_c_address_selector']
-		
+
 	form_data =	{
 					'id': request.form['e_c_id'],
 					'name': request.form['e_c_name'],
@@ -731,16 +912,21 @@ def update_contact():
 					'new_address': new_address,
 					'address': address
 				}
-				
+
 	html = ''
 	html += cr.render_html_head('/contact', session['mobile'])
 	html += cr.render_header(session['name'], '/update/contact', '/update/contact' + form_data['id'], session)
 	html += cr.render_go_between('update', 'contact', form_data, session)
-	
+
 	return html
 
 @app.route('/update/org', methods=['POST'])
 def update_org():
+	"""Route for updating an org within the app.
+
+	Parses and updates an org instance and saves to the database from form
+	data passed by site forms in the app.
+	"""
 	if request.form['org_edit_address_i'] == "True":
 		aid = dbm.genid()
 		aname = request.form['e_oo_new_address']
@@ -749,24 +935,24 @@ def update_org():
 		aid = request.form['e_oo_address_selector']
 		aname = None
 		new_addr = False
-		
+
 	if request.form['e_oo_icon'] == "Current" or request.form['e_oo_icon'] == "":
 		new_icon = False
 		icon = None
 	else:
 		new_icon = True
 		icon = bytes(request.form['e_oo_icon_val'], 'utf-8')
-		
+
 	if request.form['e_oo_header'] == "Current" or request.form['e_oo_header'] == "":
 		new_header = False
 		header = None
 	else:
 		new_header = True
 		header = bytes(request.form['e_oo_header_val'], 'utf-8')
-		
-	
+
+
 	form_data = {
-					'id': request.form['e_oo_id'], 
+					'id': request.form['e_oo_id'],
 					'name': request.form['e_oo_name'],
 					'phone': request.form['e_oo_phone'],
 					'desc_short': request.form['e_oo_desc_short'],
@@ -779,23 +965,28 @@ def update_org():
 					'aid': aid,
 					'aname': aname,
 				}
-	
+
 	html = ''
 	html += cr.render_html_head('/orgs', session['mobile'])
 	html += cr.render_header(session['name'], '/update/org', '/update/org' + form_data['id'], session)
 	html += cr.render_go_between('update', 'org', form_data, session)
-	
+
 	return html
 
 @app.route('/update/skill', methods=['POST'])
 def update_skill():
+	"""Route for updating a skill within the app.
+
+	Parses and updates a skill instance and saves to the database from form
+	data passed by site forms in the app.
+	"""
 	if request.form['s_e_icon_val'] == '':
 		update_icon = False
 		icon = None
 	else:
 		update_icon = True
 		icon = bytes(request.form['s_e_icon_val'], 'utf-8')
-		
+
 	form_data = {
 					'id': request.form['s_e_id'],
 					'name': request.form['s_e_name'],
@@ -808,16 +999,21 @@ def update_skill():
 					'desc_short': request.form['s_e_desc_short'],
 					'desc_long': request.form['s_e_desc_long']
 				}
-				
+
 	html = ''
 	html += cr.render_html_head('/skills', session['mobile'])
 	html += cr.render_header(session['name'], '/update/skill', '/update/skill/' + form_data['id'], session)
 	html += cr.render_go_between('update', 'skill', form_data, session)
-	
+
 	return html
 
 @app.route('/delete/edu', methods=['POST'])
 def delete_edu():
+	"""Route for deleting an edu within the app.
+
+	Parses and deletes an edu instance and saves to the database from form
+	data passed by site forms in the app.
+	"""
 	del_org = False
 	del_addr = False
 	l = list(request.form.lists())
@@ -828,7 +1024,7 @@ def delete_edu():
 		if (item[0] == 'd_e_del_addr'):
 			if str(item[1][0]) == 'true':
 				del_addr = True
-				
+
 	eid = request.form['d_e_id']
 	if del_org:
 		oid = request.form['d_e_oid']
@@ -838,7 +1034,7 @@ def delete_edu():
 		aid = request.form['d_e_aid']
 	else:
 		aid = None
-		
+
 	form_data =	{
 					'eid': eid,
 					'del_org': del_org,
@@ -846,7 +1042,7 @@ def delete_edu():
 					'del_addr': del_addr,
 					'aid': aid
 				}
-	
+
 	html = ''
 	html += cr.render_html_head('/edu', session['mobile'])
 	html += cr.render_header(session['name'], '/delete/edu', '/delete/edu' + form_data['eid'], session)
@@ -855,6 +1051,11 @@ def delete_edu():
 
 @app.route('/delete/job', methods=['POST'])
 def delete_job():
+	"""Route for deleting a job within the app.
+
+	Parses and deletes a job instance and saves to the database from form
+	data passed by site forms in the app.
+	"""
 	del_org = False
 	del_addr = False
 	l = list(request.form.lists())
@@ -865,7 +1066,7 @@ def delete_job():
 		if (item[0] == 'd_j_del_addr'):
 			if str(item[1][0]) == 'true':
 				del_addr = True
-				
+
 	jid = request.form['d_j_id']
 	if del_org:
 		oid = request.form['d_j_oid']
@@ -875,7 +1076,7 @@ def delete_job():
 		aid = request.form['d_j_aid']
 	else:
 		aid = None
-		
+
 	form_data =	{
 					'jid': jid,
 					'del_org': del_org,
@@ -883,7 +1084,7 @@ def delete_job():
 					'del_addr': del_addr,
 					'aid': aid
 				}
-				
+
 	html = ''
 	html += cr.render_html_head('/job', session['mobile'])
 	html += cr.render_header(session['name'], '/delete/job', '/delete/job' + form_data['jid'], session)
@@ -892,6 +1093,11 @@ def delete_job():
 
 @app.route('/delete/org', methods=['POST'])
 def delete_org():
+	"""Route for deleting an org within the app.
+
+	Parses and deletes an org instance and saves to the database from form
+	data passed by site forms in the app.
+	"""
 	print(str(request.form))
 	if 'd_o_numjobs' in request.form:
 		num_org_jobadj = int(request.form['d_o_numjobs'])
@@ -907,7 +1113,7 @@ def delete_org():
 		id = request.form['d_o_jid' + str(i)]
 		new_org = request.form['d_o_j_selector' + str(i)]
 		job_adj.append([id, new_org])
-	
+
 	edu_adj = []
 	for i in range(num_org_eduadj):
 		id = request.form['d_o_eid' + str(i)]
@@ -920,13 +1126,13 @@ def delete_org():
 		if (item[0] == 'd_j_del_addr'):
 			if str(item[1][0]) == 'true':
 				del_addr = True
-				
+
 	oid = request.form['d_o_id']
 	if del_addr:
 		aid = request.form['d_o_aid']
 	else:
 		aid = None
-	
+
 	form_data =	{
 					'oid': oid,
 					'del_addr': del_addr,
@@ -936,7 +1142,7 @@ def delete_org():
 					'num_edus': num_org_eduadj,
 					'edu_adj': edu_adj
 				}
-	
+
 	html = ''
 	html += cr.render_html_head('/org', session['mobile'])
 	html += cr.render_header(session['name'], '/delete/org', '/delete/org' + form_data['oid'], session)
@@ -945,10 +1151,15 @@ def delete_org():
 
 @app.route('/delete/skill', methods=['POST'])
 def delete_skill():
+	"""Route for deleting a skill within the app.
+
+	Parses and deletes a skill instance and saves to the database from form
+	data passed by site forms in the app.
+	"""
 	print(str(request.form))
-	
+
 	sid = request.form['s_d_id']
-	
+
 	if int(request.form['num_j']) > 0:
 		del_jobs = True
 		jobs = []
@@ -957,7 +1168,7 @@ def delete_skill():
 	else:
 		del_jobs = False
 		jobs = []
-		
+
 	if int(request.form['num_e']) > 0:
 		del_edus = True
 		edus = []
@@ -966,7 +1177,7 @@ def delete_skill():
 	else:
 		del_edus = False
 		edus = []
-		
+
 	form_data = {
 					"id": sid,
 					"del_jobs": del_jobs,
@@ -974,21 +1185,77 @@ def delete_skill():
 					"del_edus": del_edus,
 					"edus": edus
 				}
-				
+
 	html = ''
 	html += cr.render_html_head('/skills', session['mobile'])
 	html += cr.render_header(session['name'], '/delete/skill', '/delete/skill' + form_data['id'], session)
 	html += cr.render_go_between('delete', 'skill', form_data, session)
 	return html
-		
+
 @app.route('/api/<string:method>/<string:model>', methods=['GET'])
 def api_get_handle(method, model):
+	"""Route for handling api get requests.
+
+	Old route for handling api get requests. To be deprecated in favor of
+	the v2 api routing.
+	"""
 	return api.parse(method, model, request.args, "=")
-	
+
 @app.route('/api/get/search/<string:model>', methods=['GET'])
 def api_search_handle(model):
+	"""Route for handling api get requests.
+
+	Old route for handling api get requests. To be deprecated in favor of
+	the v2 api routing.
+	"""
 	return api.parse('get', model, request.args, " LIKE ")
-			
+
+@app.route('/api/v2/<string:method>/<string:model>', methods=['GET', 'POST', 'PUT'])
+def api_v2_handle(method, model):
+	"""Route for handling non-REST api requests and requests returning multiple instances.
+	"""
+
+	if request.method == 'POST':
+		return api.v2(method, model, request.form, "=")
+	elif request.method == 'PUT':
+		if 'id' in request.args and 'auth_key' in request.args:
+			return api.v2(method, model, request.form, "=")
+		else:
+			return {}, 404
+	else:
+		if method.lower() == 'get':
+			item = api.v2(method, model, request.args, "=")
+			if len(item) >= 1:
+				return json.dumps(item)
+			else:
+				return {}, 404
+		else:
+			return api.v2(method, model, request.args, " LIKE ")
+
+@app.route('/api/v2/get/<string:model>/<string:id>', methods=['GET'])
+def api_v2_rget(model, id):
+	"""Route for handling REST-adhering api GET requests.
+	"""
+	item = api.v2('get', model, {'id': id}, '=')
+	if len(item) == 1:
+		return item[0]
+	else:
+		return {}, 404
+
+@app.route('/api/v2/put/<string:model>/<string:id>', methods=['PUT'])
+def api_v2_rput(model, id):
+	"""Route for handling REST-adhering api PUT requests.
+	"""
+	if 'signer' not in request.json:
+		return {}, 400
+	else:
+		args = {}
+		for key in request.json:
+			args[key] = request.json[key]
+		args['id'] = id
+		return api.v2('put', model, args, '=')
 
 if __name__ == '__main__':
-	app.run(host='127.0.0.1', port='80',debug=True)
+	"""When called from CLI, start the flask app
+	"""
+	app.run(host='resume.tomesser.biz', port='80',debug=True)

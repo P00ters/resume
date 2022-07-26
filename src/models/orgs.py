@@ -15,27 +15,27 @@ class Org:
 		self.image_head = image_head
 		self.created_by = created_by
 		self.modified_by = modified_by
-		
+
 	def create( self, dbm):
 		query = '''INSERT INTO Orgs
 					('id', 'name', 'address', 'phone', 'desc_short', 'website', 'logo', 'image_head', 'created_by', 'modified_by')
 					VALUES
 					(?, ?, ?, ?, ?, ?, ?, ?, ?, ?);'''
-		
+
 		dbm.execute_d(query, (self.id, self.name, self.address.id, self.phone, self.desc_short, self.website, self.logo, self.image_head, self.created_by.id, self.modified_by.id))
-		
+
 	def update (self, dbm):
 		query = '''UPDATE Orgs
 					SET id=?, name=?, address=?, phone=?, desc_short=?, website=?, logo=?, image_head=?, created_by=?, modified_by=?
 					WHERE id=?;'''
-					
+
 		dbm.execute_d(query, (self.id, self.name, self.address.id, self.phone, self.desc_short, self.website, self.logo, self.image_head, self.created_by.id, self.modified_by.id, self.id))
-		
+
 	def delete (self, dbm):
 		query = 'DELETE FROM Orgs WHERE id="' + self.id + '";'
-		
+
 		dbm.execute(query)
-		
+
 	def retrieve (self, dbm, **kwargs):
 		id = kwargs.get('id', None)
 		name = kwargs.get('name', None)
@@ -47,7 +47,7 @@ class Org:
 		image_head = kwargs.get('image_head', None)
 		created_by = kwargs.get('created_by', None)
 		modified_by = kwargs.get('modified_by', None)
-		
+
 		query = "SELECT Orgs.id, Orgs.name, Addresses.id, Addresses.name, Addresses.uri, Addresses.created_by, Addresses.modified_by, Orgs.phone, Orgs.desc_short, Orgs.website, Orgs.logo, Orgs.image_head, Orgs.created_by, Orgs.modified_by FROM Orgs, Addresses WHERE Orgs.address=Addresses.id AND "
 		if id != None or name != None or address != None or phone != None or desc_short != None or website != None or logo != None or image_head != None or created_by != None or modified_by != None:
 			if id != None:
@@ -70,12 +70,12 @@ class Org:
 				query += 'Orgs.created_by="' + created_by + '" AND '
 			if modified_by != None:
 				query += 'Orgs.modified_by="' + modified_by + '";'
-				
-				
+
+
 			if query[-4:] == 'AND ':
 				query = query[:-4]
 				query += ';'
-				
+
 			result = dbm.execute(query)
 			if result != None:
 				result = dbm.cur.fetchall()
@@ -96,24 +96,24 @@ class Org:
 					mb = accounts.NoneAccount()
 					if not mb.retrieve(dbm, id=result[0][13]):
 						mb = accounts.NoneAccount()
-					
-					
+
+
 					self.created_by = cb
 					self.modified_by = mb
 					self.address = adr
 					return True
-					
+
 			return False
-			
+
 	def is_empty (self):
 		if self.id == None and self.name == None and self.address == None and self.phone == None and self.desc_short == None and self.website == None and self.logo == None and self.image_head == None and self.created_by == None and self.modified_by == None:
 			return True
 		return False
-		
+
 	def dict (self):
 		obj = 	{
-					'id': self.id, 
-					'name': self.name, 
+					'id': self.id,
+					'name': self.name,
 					'address': {
 						'id': self.address.id,
 						'name': self.address.name,
@@ -123,7 +123,7 @@ class Org:
 											'username': self.address.created_by.username,
 											'password': 'redacted',
 											'salt': 'redacted',
-											'name': self.address.created_by.name, 
+											'name': self.address.created_by.name,
 											'group': 	{
 															'id': self.address.created_by.group.id,
 															'name': self.address.created_by.group.name,
@@ -135,7 +135,7 @@ class Org:
 											'username': self.address.modified_by.username,
 											'password': 'redacted',
 											'salt': 'redacted',
-											'name': self.address.modified_by.name, 
+											'name': self.address.modified_by.name,
 											'group': 	{
 															'id': self.address.modified_by.group.id,
 															'name': self.address.modified_by.group.name,
@@ -146,8 +146,8 @@ class Org:
 					'phone': self.phone,
 					'desc_short': self.desc_short,
 					'website': self.website,
-					'logo': 'redacted for bandwidth',
-					'image_head': 'redacted for bandwidth',
+					'logo': "data:image/png;base64," + self.logo.decode('utf-8'),
+					'image_head': "data:image/png;base64," + self.image_head.decode('utf-8'),
 					'created_by': 	{
 										'id': self.created_by.id,
 										'username': self.created_by.username,
@@ -174,11 +174,11 @@ class Org:
 									}
 				}
 		return obj
-	
+
 	def debug (self):
 		obj = 	{
-					'id': self.id, 
-					'name': self.name, 
+					'id': self.id,
+					'name': self.name,
 					'address': {
 						'id': self.address.id,
 						'name': self.address.name,
@@ -188,7 +188,7 @@ class Org:
 											'username': self.address.created_by.username,
 											'password': self.address.created_by.password,
 											'salt': self.address.created_by.salt,
-											'name': self.address.created_by.name, 
+											'name': self.address.created_by.name,
 											'group': 	{
 															'id': self.address.created_by.group.id,
 															'name': self.address.created_by.group.name,
@@ -200,7 +200,7 @@ class Org:
 											'username': self.address.modified_by.username,
 											'password': self.address.modified_by.password,
 											'salt': self.address.modified_by.salt,
-											'name': self.address.modified_by.name, 
+											'name': self.address.modified_by.name,
 											'group': 	{
 															'id': self.address.modified_by.group.id,
 															'name': self.address.modified_by.group.name,
@@ -239,19 +239,19 @@ class Org:
 									}
 				}
 		print(str(obj))
-			
-			
+
+
 def NoneOrg ():
 	return Org(None, None, None, None, None, None, None, None, None, None)
-	
+
 def retrieve_all_orgs (dbm):
-	query = '''SELECT 	Orgs.id, Orgs.name, 
+	query = '''SELECT 	Orgs.id, Orgs.name,
 						Addresses.id,
 						Orgs.phone, Orgs.desc_short, Orgs.website, Orgs.logo, Orgs.image_head, Orgs.created_by,
 						Orgs.modified_by
 				FROM	Orgs, Addresses
 				WHERE	Orgs.address=Addresses.id;'''
-				
+
 	all_orgs = []
 	result = dbm.execute(query)
 	if result != None:
@@ -267,12 +267,12 @@ def retrieve_all_orgs (dbm):
 				mb = accounts.NoneAccount()
 				if not mb.retrieve(dbm, id=row[9]):
 					mb = accounts.NoneAccount()
-					
+
 				o = Org(row[0], row[1], addr, row[3], row[4], row[5], row[6], row[7], cb, mb)
 				all_orgs.append(o)
-					
+
 	return all_orgs
-	
+
 def retrieve_orgs (dbm, **kwargs):
 	id = kwargs.get('id', None)
 	name = kwargs.get('name', None)
@@ -284,9 +284,9 @@ def retrieve_orgs (dbm, **kwargs):
 	image_head = kwargs.get('image_head', None)
 	created_by = kwargs.get('created_by', None)
 	modified_by = kwargs.get('modified_by', None)
-	
+
 	query = "SELECT * FROM Orgs"
-	
+
 	if id != None or name != None or address != None or phone != None or desc_short != None or website != None or logo != None or image_head != None or created_by != None or modified_by != None:
 		query += ' WHERE '
 		if id != None:
@@ -311,11 +311,11 @@ def retrieve_orgs (dbm, **kwargs):
 			query += 'modified_by="' + modified_by + '";'
 	else:
 		query += ';'
-		
+
 	if query[-4:] == 'AND ':
 		query = query[:-4]
-		query += ';'	
-		
+		query += ';'
+
 	os = []
 	result = dbm.execute(query)
 	if result != None:
@@ -331,16 +331,16 @@ def retrieve_orgs (dbm, **kwargs):
 				mb = accounts.NoneAccount()
 				if not mb.retrieve(dbm, id=row[9]):
 					mb = accounts.NoneAccount()
-					
+
 				o = Org(row[0], row[1], addr, row[3], row[4], row[5], row[6], row[7], cb, mb)
 				os.append(o)
-				
+
 	return os
-	
+
 
 def retrieve_orgs_custom (dbm, sql):
 	query = "SELECT * FROM Orgs " + sql
-	
+
 	os = []
 	result = dbm.execute(query)
 	if result != None:
@@ -356,12 +356,12 @@ def retrieve_orgs_custom (dbm, sql):
 				mb = accounts.NoneAccount()
 				if not mb.retrieve(dbm, id=row[9]):
 					mb = accounts.NoneAccount()
-					
+
 				o = Org(row[0], row[1], addr, row[2], row[3], row[4], row[5], row[6], row[7], cb, mb)
 				os.append(o)
 
 	return os
-	
+
 def retrieve_orgs_fcustom (dbm, query):
 	os = []
 	result = dbm.execute(query)
@@ -378,11 +378,8 @@ def retrieve_orgs_fcustom (dbm, query):
 				mb = accounts.NoneAccount()
 				if not mb.retrieve(dbm, id=row[9]):
 					mb = accounts.NoneAccount()
-					
+
 				o = Org(row[0], row[1], addr, row[3], row[4], row[5], row[6], row[7], cb, mb)
 				os.append(o)
 
 	return os
-				
-				
-		
