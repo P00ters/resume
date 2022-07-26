@@ -334,6 +334,10 @@ def about():
 
 	return html
 
+@app.route('/<string:path>')
+def unknown(path):
+	return redirect('/err?resource=unknown')
+
 @app.route('/err', methods=['GET'])
 def err ():
 	"""General view for an error page.

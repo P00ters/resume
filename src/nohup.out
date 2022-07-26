@@ -16270,3 +16270,294 @@ unrecognized token: "96d44c2d"
  * Restarting with stat
  * Debugger is active!
  * Debugger PIN: 735-004-258
+68.51.230.242 - - [26/Jul/2022 18:48:38] "[32mGET /home HTTP/1.1[0m" 302 -
+68.51.230.242 - - [26/Jul/2022 18:48:38] "[32mGET /reauth?r=_home HTTP/1.1[0m" 302 -
+68.51.230.242 - - [26/Jul/2022 18:48:39] "GET /home HTTP/1.1" 200 -
+68.51.230.242 - - [26/Jul/2022 18:48:40] "[36mGET /static/js/lib.js HTTP/1.1[0m" 304 -
+68.51.230.242 - - [26/Jul/2022 18:48:40] "[36mGET /static/css/lib.css HTTP/1.1[0m" 304 -
+68.51.230.242 - - [26/Jul/2022 18:48:40] "[36mGET /static/logo.png HTTP/1.1[0m" 304 -
+68.51.230.242 - - [26/Jul/2022 18:48:40] "[36mGET /static/Phone.png HTTP/1.1[0m" 304 -
+68.51.230.242 - - [26/Jul/2022 18:48:40] "[36mGET /static/Addr.png HTTP/1.1[0m" 304 -
+68.51.230.242 - - [26/Jul/2022 18:48:40] "[36mGET /static/Mail.png HTTP/1.1[0m" 304 -
+68.51.230.242 - - [26/Jul/2022 18:48:40] "[36mGET /static/HeaderAnim.gif HTTP/1.1[0m" 304 -
+68.51.230.242 - - [26/Jul/2022 18:48:40] "[36mGET /static/favicon.ico HTTP/1.1[0m" 304 -
+68.51.230.242 - - [26/Jul/2022 18:54:21] "GET /home HTTP/1.1" 200 -
+68.51.230.242 - - [26/Jul/2022 18:54:22] "[36mGET /static/js/lib.js HTTP/1.1[0m" 304 -
+68.51.230.242 - - [26/Jul/2022 18:54:22] "[36mGET /static/css/lib.css HTTP/1.1[0m" 304 -
+68.51.230.242 - - [26/Jul/2022 18:54:22] "[36mGET /static/logo.png HTTP/1.1[0m" 304 -
+68.51.230.242 - - [26/Jul/2022 18:54:22] "[36mGET /static/Addr.png HTTP/1.1[0m" 304 -
+68.51.230.242 - - [26/Jul/2022 18:54:22] "[36mGET /static/Phone.png HTTP/1.1[0m" 304 -
+68.51.230.242 - - [26/Jul/2022 18:54:22] "[36mGET /static/Mail.png HTTP/1.1[0m" 304 -
+68.51.230.242 - - [26/Jul/2022 18:54:22] "[36mGET /static/HeaderAnim.gif HTTP/1.1[0m" 304 -
+68.51.230.242 - - [26/Jul/2022 18:54:22] "[36mGET /static/favicon.ico HTTP/1.1[0m" 304 -
+143.92.35.7 - - [26/Jul/2022 19:04:38] "[33mGET /map/baidumap.xml HTTP/1.1[0m" 404 -
+68.51.230.242 - - [26/Jul/2022 19:05:00] "[33mGET /route HTTP/1.1[0m" 404 -
+68.51.230.242 - - [26/Jul/2022 19:05:02] "GET /home HTTP/1.1" 200 -
+ * Detected change in '/root/resume/src/app.py', reloading
+Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.5060.114 Safari/537.36 Edg/103.0.1264.49
+unrecognized token: "96d44c2d"
+unrecognized token: "96d44c2d"
+unrecognized token: "96d44c2d"
+unrecognized token: "96d44c2d"
+unrecognized token: "96d44c2d"
+unrecognized token: "96d44c2d"
+unrecognized token: "96d44c2d"
+unrecognized token: "96d44c2d"
+unrecognized token: "96d44c2d"
+unrecognized token: "96d44c2d"
+unrecognized token: "96d44c2d"
+unrecognized token: "96d44c2d"
+unrecognized token: "96d44c2d"
+unrecognized token: "96d44c2d"
+unrecognized token: "96d44c2d"
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 735-004-258
+68.51.230.242 - - [26/Jul/2022 19:08:07] "[35m[1mGET /route HTTP/1.1[0m" 500 -
+Traceback (most recent call last):
+  File "/root/resume/venv/lib/python3.10/site-packages/flask/app.py", line 2091, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/root/resume/venv/lib/python3.10/site-packages/flask/app.py", line 2076, in wsgi_app
+    response = self.handle_exception(e)
+  File "/root/resume/venv/lib/python3.10/site-packages/flask_cors/extension.py", line 165, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+  File "/root/resume/venv/lib/python3.10/site-packages/flask/app.py", line 2073, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/root/resume/venv/lib/python3.10/site-packages/flask/app.py", line 1519, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/root/resume/venv/lib/python3.10/site-packages/flask_cors/extension.py", line 165, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+  File "/root/resume/venv/lib/python3.10/site-packages/flask/app.py", line 1517, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/root/resume/venv/lib/python3.10/site-packages/flask/app.py", line 1503, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**req.view_args)
+TypeError: unknown() got an unexpected keyword argument 'path'
+68.51.230.242 - - [26/Jul/2022 19:08:07] "GET /route?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+68.51.230.242 - - [26/Jul/2022 19:08:07] "GET /route?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+68.51.230.242 - - [26/Jul/2022 19:08:07] "GET /route?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+68.51.230.242 - - [26/Jul/2022 19:08:07] "[36mGET /route?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 304 -
+ * Detected change in '/root/resume/src/app.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 735-004-258
+68.51.230.242 - - [26/Jul/2022 19:08:21] "[35m[1mGET /route HTTP/1.1[0m" 500 -
+Traceback (most recent call last):
+  File "/root/resume/venv/lib/python3.10/site-packages/flask/app.py", line 2091, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/root/resume/venv/lib/python3.10/site-packages/flask/app.py", line 2076, in wsgi_app
+    response = self.handle_exception(e)
+  File "/root/resume/venv/lib/python3.10/site-packages/flask_cors/extension.py", line 165, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+  File "/root/resume/venv/lib/python3.10/site-packages/flask/app.py", line 2073, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/root/resume/venv/lib/python3.10/site-packages/flask/app.py", line 1519, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/root/resume/venv/lib/python3.10/site-packages/flask_cors/extension.py", line 165, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+  File "/root/resume/venv/lib/python3.10/site-packages/flask/app.py", line 1517, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/root/resume/venv/lib/python3.10/site-packages/flask/app.py", line 1503, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**req.view_args)
+TypeError: unknown() got an unexpected keyword argument 'path'
+68.51.230.242 - - [26/Jul/2022 19:08:22] "[36mGET /route?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 304 -
+68.51.230.242 - - [26/Jul/2022 19:08:22] "[36mGET /route?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 304 -
+68.51.230.242 - - [26/Jul/2022 19:08:22] "[36mGET /route?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 304 -
+68.51.230.242 - - [26/Jul/2022 19:08:22] "[36mGET /route?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 304 -
+68.51.230.242 - - [26/Jul/2022 19:08:23] "[35m[1mGET /route HTTP/1.1[0m" 500 -
+Traceback (most recent call last):
+  File "/root/resume/venv/lib/python3.10/site-packages/flask/app.py", line 2091, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/root/resume/venv/lib/python3.10/site-packages/flask/app.py", line 2076, in wsgi_app
+    response = self.handle_exception(e)
+  File "/root/resume/venv/lib/python3.10/site-packages/flask_cors/extension.py", line 165, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+  File "/root/resume/venv/lib/python3.10/site-packages/flask/app.py", line 2073, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/root/resume/venv/lib/python3.10/site-packages/flask/app.py", line 1519, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/root/resume/venv/lib/python3.10/site-packages/flask_cors/extension.py", line 165, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+  File "/root/resume/venv/lib/python3.10/site-packages/flask/app.py", line 1517, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/root/resume/venv/lib/python3.10/site-packages/flask/app.py", line 1503, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**req.view_args)
+TypeError: unknown() got an unexpected keyword argument 'path'
+68.51.230.242 - - [26/Jul/2022 19:08:23] "[36mGET /route?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 304 -
+68.51.230.242 - - [26/Jul/2022 19:08:23] "[36mGET /route?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 304 -
+68.51.230.242 - - [26/Jul/2022 19:08:23] "[36mGET /route?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 304 -
+68.51.230.242 - - [26/Jul/2022 19:08:23] "[36mGET /route?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 304 -
+68.51.230.242 - - [26/Jul/2022 19:08:24] "[32mGET /home HTTP/1.1[0m" 302 -
+68.51.230.242 - - [26/Jul/2022 19:08:24] "[32mGET /reauth?r=_home HTTP/1.1[0m" 302 -
+68.51.230.242 - - [26/Jul/2022 19:08:25] "[32mGET /reauth?r=_home HTTP/1.1[0m" 302 -
+68.51.230.242 - - [26/Jul/2022 19:08:25] "[32mGET /reauth?r=_home HTTP/1.1[0m" 302 -
+68.51.230.242 - - [26/Jul/2022 19:08:26] "[32mGET /reauth?r=_home HTTP/1.1[0m" 302 -
+68.51.230.242 - - [26/Jul/2022 19:08:26] "GET /home HTTP/1.1" 200 -
+68.51.230.242 - - [26/Jul/2022 19:08:26] "[36mGET /static/css/lib.css HTTP/1.1[0m" 304 -
+68.51.230.242 - - [26/Jul/2022 19:08:26] "[36mGET /static/js/lib.js HTTP/1.1[0m" 304 -
+68.51.230.242 - - [26/Jul/2022 19:08:27] "[36mGET /static/logo.png HTTP/1.1[0m" 304 -
+68.51.230.242 - - [26/Jul/2022 19:08:27] "[36mGET /static/Addr.png HTTP/1.1[0m" 304 -
+68.51.230.242 - - [26/Jul/2022 19:08:27] "[36mGET /static/Mail.png HTTP/1.1[0m" 304 -
+68.51.230.242 - - [26/Jul/2022 19:08:27] "[36mGET /static/Phone.png HTTP/1.1[0m" 304 -
+68.51.230.242 - - [26/Jul/2022 19:08:27] "[36mGET /static/HeaderAnim.gif HTTP/1.1[0m" 304 -
+68.51.230.242 - - [26/Jul/2022 19:08:27] "[36mGET /static/favicon.ico HTTP/1.1[0m" 304 -
+68.51.230.242 - - [26/Jul/2022 19:08:30] "[35m[1mGET /route HTTP/1.1[0m" 500 -
+Traceback (most recent call last):
+  File "/root/resume/venv/lib/python3.10/site-packages/flask/app.py", line 2091, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/root/resume/venv/lib/python3.10/site-packages/flask/app.py", line 2076, in wsgi_app
+    response = self.handle_exception(e)
+  File "/root/resume/venv/lib/python3.10/site-packages/flask_cors/extension.py", line 165, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+  File "/root/resume/venv/lib/python3.10/site-packages/flask/app.py", line 2073, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/root/resume/venv/lib/python3.10/site-packages/flask/app.py", line 1519, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/root/resume/venv/lib/python3.10/site-packages/flask_cors/extension.py", line 165, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+  File "/root/resume/venv/lib/python3.10/site-packages/flask/app.py", line 1517, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/root/resume/venv/lib/python3.10/site-packages/flask/app.py", line 1503, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**req.view_args)
+TypeError: unknown() got an unexpected keyword argument 'path'
+68.51.230.242 - - [26/Jul/2022 19:08:30] "[36mGET /route?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 304 -
+68.51.230.242 - - [26/Jul/2022 19:08:30] "[36mGET /route?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 304 -
+68.51.230.242 - - [26/Jul/2022 19:08:30] "[36mGET /route?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 304 -
+ * Detected change in '/root/resume/src/app.py', reloading
+Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.5060.114 Safari/537.36 Edg/103.0.1264.49
+Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.5060.114 Safari/537.36 Edg/103.0.1264.49
+Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.5060.114 Safari/537.36 Edg/103.0.1264.49
+Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.5060.114 Safari/537.36 Edg/103.0.1264.49
+unrecognized token: "96d44c2d"
+unrecognized token: "96d44c2d"
+unrecognized token: "96d44c2d"
+unrecognized token: "96d44c2d"
+unrecognized token: "96d44c2d"
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 735-004-258
+68.51.230.242 - - [26/Jul/2022 19:08:41] "[32mGET /route HTTP/1.1[0m" 302 -
+68.51.230.242 - - [26/Jul/2022 19:08:41] "[35m[1mGET /err?resource=unknown HTTP/1.1[0m" 500 -
+Traceback (most recent call last):
+  File "/root/resume/venv/lib/python3.10/site-packages/flask/app.py", line 2091, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/root/resume/venv/lib/python3.10/site-packages/flask/app.py", line 2076, in wsgi_app
+    response = self.handle_exception(e)
+  File "/root/resume/venv/lib/python3.10/site-packages/flask_cors/extension.py", line 165, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+  File "/root/resume/venv/lib/python3.10/site-packages/flask/app.py", line 2073, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/root/resume/venv/lib/python3.10/site-packages/flask/app.py", line 1519, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/root/resume/venv/lib/python3.10/site-packages/flask_cors/extension.py", line 165, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+  File "/root/resume/venv/lib/python3.10/site-packages/flask/app.py", line 1517, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/root/resume/venv/lib/python3.10/site-packages/flask/app.py", line 1503, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**req.view_args)
+  File "/root/resume/src/app.py", line 354, in err
+    html = cr.render_html_head('/err?resource=' + resource, session['mobile'])
+  File "/root/resume/venv/lib/python3.10/site-packages/flask/sessions.py", line 79, in __getitem__
+    return super().__getitem__(key)
+KeyError: 'mobile'
+68.51.230.242 - - [26/Jul/2022 19:08:41] "GET /err?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+68.51.230.242 - - [26/Jul/2022 19:08:41] "GET /err?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+68.51.230.242 - - [26/Jul/2022 19:08:41] "GET /err?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+68.51.230.242 - - [26/Jul/2022 19:08:41] "[36mGET /err?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 304 -
+68.51.230.242 - - [26/Jul/2022 19:08:44] "[35m[1mGET /err?resource=unknown HTTP/1.1[0m" 500 -
+Traceback (most recent call last):
+  File "/root/resume/venv/lib/python3.10/site-packages/flask/app.py", line 2091, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/root/resume/venv/lib/python3.10/site-packages/flask/app.py", line 2076, in wsgi_app
+    response = self.handle_exception(e)
+  File "/root/resume/venv/lib/python3.10/site-packages/flask_cors/extension.py", line 165, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+  File "/root/resume/venv/lib/python3.10/site-packages/flask/app.py", line 2073, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/root/resume/venv/lib/python3.10/site-packages/flask/app.py", line 1519, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/root/resume/venv/lib/python3.10/site-packages/flask_cors/extension.py", line 165, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+  File "/root/resume/venv/lib/python3.10/site-packages/flask/app.py", line 1517, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/root/resume/venv/lib/python3.10/site-packages/flask/app.py", line 1503, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**req.view_args)
+  File "/root/resume/src/app.py", line 354, in err
+    html = cr.render_html_head('/err?resource=' + resource, session['mobile'])
+  File "/root/resume/venv/lib/python3.10/site-packages/flask/sessions.py", line 79, in __getitem__
+    return super().__getitem__(key)
+KeyError: 'mobile'
+68.51.230.242 - - [26/Jul/2022 19:08:44] "[36mGET /err?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 304 -
+68.51.230.242 - - [26/Jul/2022 19:08:44] "[36mGET /err?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 304 -
+68.51.230.242 - - [26/Jul/2022 19:08:44] "[36mGET /err?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 304 -
+68.51.230.242 - - [26/Jul/2022 19:08:44] "[36mGET /err?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 304 -
+68.51.230.242 - - [26/Jul/2022 19:08:45] "[32mGET /home HTTP/1.1[0m" 302 -
+68.51.230.242 - - [26/Jul/2022 19:08:45] "[32mGET /reauth?r=_home HTTP/1.1[0m" 302 -
+68.51.230.242 - - [26/Jul/2022 19:08:45] "[32mGET /reauth?r=_home HTTP/1.1[0m" 302 -
+68.51.230.242 - - [26/Jul/2022 19:08:46] "[32mGET /reauth?r=_home HTTP/1.1[0m" 302 -
+68.51.230.242 - - [26/Jul/2022 19:08:47] "GET /home HTTP/1.1" 200 -
+68.51.230.242 - - [26/Jul/2022 19:08:47] "[36mGET /static/css/lib.css HTTP/1.1[0m" 304 -
+68.51.230.242 - - [26/Jul/2022 19:08:47] "[36mGET /static/js/lib.js HTTP/1.1[0m" 304 -
+68.51.230.242 - - [26/Jul/2022 19:08:47] "[36mGET /static/logo.png HTTP/1.1[0m" 304 -
+68.51.230.242 - - [26/Jul/2022 19:08:47] "[36mGET /static/Phone.png HTTP/1.1[0m" 304 -
+68.51.230.242 - - [26/Jul/2022 19:08:47] "[36mGET /static/Mail.png HTTP/1.1[0m" 304 -
+68.51.230.242 - - [26/Jul/2022 19:08:47] "[36mGET /static/Addr.png HTTP/1.1[0m" 304 -
+68.51.230.242 - - [26/Jul/2022 19:08:47] "[36mGET /static/HeaderAnim.gif HTTP/1.1[0m" 304 -
+68.51.230.242 - - [26/Jul/2022 19:08:48] "[36mGET /static/favicon.ico HTTP/1.1[0m" 304 -
+68.51.230.242 - - [26/Jul/2022 19:08:50] "[32mGET /route HTTP/1.1[0m" 302 -
+68.51.230.242 - - [26/Jul/2022 19:08:50] "GET /err?resource=unknown HTTP/1.1" 200 -
+68.51.230.242 - - [26/Jul/2022 19:08:51] "[36mGET /static/css/lib.css HTTP/1.1[0m" 304 -
+68.51.230.242 - - [26/Jul/2022 19:08:51] "[36mGET /static/js/lib.js HTTP/1.1[0m" 304 -
+68.51.230.242 - - [26/Jul/2022 19:08:51] "[36mGET /static/logo.png HTTP/1.1[0m" 304 -
+68.51.230.242 - - [26/Jul/2022 19:08:56] "GET /jobs/f1a474d6-9af9465f-82a57cee-47707938 HTTP/1.1" 200 -
+68.51.230.242 - - [26/Jul/2022 19:08:56] "[36mGET /static/js/lib.js HTTP/1.1[0m" 304 -
+68.51.230.242 - - [26/Jul/2022 19:08:56] "[36mGET /static/css/lib.css HTTP/1.1[0m" 304 -
+68.51.230.242 - - [26/Jul/2022 19:08:56] "[36mGET /static/logo.png HTTP/1.1[0m" 304 -
+68.51.230.242 - - [26/Jul/2022 19:08:57] "[36mGET /static/l-arr.png HTTP/1.1[0m" 304 -
+68.51.230.242 - - [26/Jul/2022 19:08:57] "[36mGET /static/r-arr.png HTTP/1.1[0m" 304 -
+68.51.230.242 - - [26/Jul/2022 19:08:58] "[32mGET /edus HTTP/1.1[0m" 302 -
+68.51.230.242 - - [26/Jul/2022 19:08:58] "GET /edus/ba8d9ba9-a76947d0-bf5817c3-83dadaf2 HTTP/1.1" 200 -
+68.51.230.242 - - [26/Jul/2022 19:08:58] "[36mGET /static/js/lib.js HTTP/1.1[0m" 304 -
+68.51.230.242 - - [26/Jul/2022 19:08:58] "[36mGET /static/css/lib.css HTTP/1.1[0m" 304 -
+68.51.230.242 - - [26/Jul/2022 19:08:59] "[36mGET /static/logo.png HTTP/1.1[0m" 304 -
+68.51.230.242 - - [26/Jul/2022 19:09:00] "[36mGET /static/r-arr.png HTTP/1.1[0m" 304 -
+68.51.230.242 - - [26/Jul/2022 19:09:00] "[36mGET /static/l-arr.png HTTP/1.1[0m" 304 -
+68.51.230.242 - - [26/Jul/2022 19:09:02] "GET /skills HTTP/1.1" 200 -
+68.51.230.242 - - [26/Jul/2022 19:09:02] "[36mGET /static/js/lib.js HTTP/1.1[0m" 304 -
+68.51.230.242 - - [26/Jul/2022 19:09:02] "[36mGET /static/css/lib.css HTTP/1.1[0m" 304 -
+68.51.230.242 - - [26/Jul/2022 19:09:02] "[36mGET /static/logo.png HTTP/1.1[0m" 304 -
+68.51.230.242 - - [26/Jul/2022 19:09:06] "GET /skills/202f69c9-0fc84e53-a6b74a07-55e1e37a HTTP/1.1" 200 -
+68.51.230.242 - - [26/Jul/2022 19:09:06] "[36mGET /static/js/lib.js HTTP/1.1[0m" 304 -
+68.51.230.242 - - [26/Jul/2022 19:09:06] "[36mGET /static/css/lib.css HTTP/1.1[0m" 304 -
+68.51.230.242 - - [26/Jul/2022 19:09:06] "[36mGET /static/logo.png HTTP/1.1[0m" 304 -
+68.51.230.242 - - [26/Jul/2022 19:09:07] "GET /about HTTP/1.1" 200 -
+68.51.230.242 - - [26/Jul/2022 19:09:07] "[36mGET /static/js/lib.js HTTP/1.1[0m" 304 -
+68.51.230.242 - - [26/Jul/2022 19:09:07] "[36mGET /static/css/lib.css HTTP/1.1[0m" 304 -
+68.51.230.242 - - [26/Jul/2022 19:09:07] "[36mGET /static/logo.png HTTP/1.1[0m" 304 -
+68.51.230.242 - - [26/Jul/2022 19:09:10] "[32mGET /test HTTP/1.1[0m" 302 -
+68.51.230.242 - - [26/Jul/2022 19:09:11] "GET /err?resource=unknown HTTP/1.1" 200 -
+68.51.230.242 - - [26/Jul/2022 19:09:11] "[36mGET /static/css/lib.css HTTP/1.1[0m" 304 -
+68.51.230.242 - - [26/Jul/2022 19:09:11] "[36mGET /static/js/lib.js HTTP/1.1[0m" 304 -
+68.51.230.242 - - [26/Jul/2022 19:09:11] "[36mGET /static/logo.png HTTP/1.1[0m" 304 -
+68.51.230.242 - - [26/Jul/2022 19:09:23] "GET /home HTTP/1.1" 200 -
+68.51.230.242 - - [26/Jul/2022 19:09:23] "[36mGET /static/js/lib.js HTTP/1.1[0m" 304 -
+68.51.230.242 - - [26/Jul/2022 19:09:23] "[36mGET /static/css/lib.css HTTP/1.1[0m" 304 -
+68.51.230.242 - - [26/Jul/2022 19:09:23] "[36mGET /static/logo.png HTTP/1.1[0m" 304 -
+68.51.230.242 - - [26/Jul/2022 19:09:23] "[36mGET /static/Addr.png HTTP/1.1[0m" 304 -
+68.51.230.242 - - [26/Jul/2022 19:09:23] "[36mGET /static/Phone.png HTTP/1.1[0m" 304 -
+68.51.230.242 - - [26/Jul/2022 19:09:23] "[36mGET /static/Mail.png HTTP/1.1[0m" 304 -
+68.51.230.242 - - [26/Jul/2022 19:09:23] "[36mGET /static/HeaderAnim.gif HTTP/1.1[0m" 304 -
+68.51.230.242 - - [26/Jul/2022 19:09:29] "[32mGET /test HTTP/1.1[0m" 302 -
+68.51.230.242 - - [26/Jul/2022 19:09:29] "GET /err?resource=unknown HTTP/1.1" 200 -
+68.51.230.242 - - [26/Jul/2022 19:09:29] "[36mGET /static/css/lib.css HTTP/1.1[0m" 304 -
+68.51.230.242 - - [26/Jul/2022 19:09:29] "[36mGET /static/js/lib.js HTTP/1.1[0m" 304 -
+68.51.230.242 - - [26/Jul/2022 19:09:29] "[36mGET /static/logo.png HTTP/1.1[0m" 304 -
+68.51.230.242 - - [26/Jul/2022 19:09:35] "[32mGET / HTTP/1.1[0m" 302 -
+68.51.230.242 - - [26/Jul/2022 19:09:36] "[32mGET /reauth?r=_home HTTP/1.1[0m" 302 -
+68.51.230.242 - - [26/Jul/2022 19:09:36] "GET /home HTTP/1.1" 200 -
+68.51.230.242 - - [26/Jul/2022 19:09:36] "[36mGET /static/css/lib.css HTTP/1.1[0m" 304 -
+68.51.230.242 - - [26/Jul/2022 19:09:36] "[36mGET /static/js/lib.js HTTP/1.1[0m" 304 -
+68.51.230.242 - - [26/Jul/2022 19:09:36] "[36mGET /static/logo.png HTTP/1.1[0m" 304 -
+68.51.230.242 - - [26/Jul/2022 19:09:36] "[36mGET /static/Addr.png HTTP/1.1[0m" 304 -
+68.51.230.242 - - [26/Jul/2022 19:09:36] "[36mGET /static/HeaderAnim.gif HTTP/1.1[0m" 304 -
+68.51.230.242 - - [26/Jul/2022 19:09:36] "[36mGET /static/Mail.png HTTP/1.1[0m" 304 -
+68.51.230.242 - - [26/Jul/2022 19:09:36] "[36mGET /static/Phone.png HTTP/1.1[0m" 304 -
